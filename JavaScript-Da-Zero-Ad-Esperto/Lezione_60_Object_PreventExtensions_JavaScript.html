@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object.preventExtensions() in JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .keyword {
+            color: #ff79c6;
+        }
+        
+        .function {
+            color: #50fa7b;
+        }
+        
+        .string {
+            color: #f1fa8c;
+        }
+        
+        .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        
+        .operator {
+            color: #ff79c6;
+        }
+        
+        .output {
+            background-color: #1e1e1e;
+            color: #4ec9b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 4px solid #4ec9b0;
+        }
+        
+        .inline-code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.95em;
+        }
+        
+        .important {
+            background-color: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .important strong {
+            color: #0c5460;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .tip-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Object.preventExtensions() in JavaScript</h1>
+            <p class="subtitle">Controllare l'Estensibilità degli Oggetti e le sue Implicazioni</p>
+        </header>
+
+        <section>
+            <h2>Introduzione: Controllo dell'Estensibilità</h2>
+            <p>
+                JavaScript offre diversi meccanismi per controllare la mutabilità e l'estensibilità degli oggetti.
+                Uno dei metodi fondamentali per questo scopo è <span class="inline-code">Object.preventExtensions()</span>,
+                che permette di <strong>impedire l'aggiunta di nuove proprietà</strong> a un oggetto esistente, pur
+                mantenendo la possibilità di modificare o eliminare le proprietà già presenti.
+            </p>
+
+            <p>
+                Questo metodo rappresenta il primo livello di "congelamento" di un oggetto in JavaScript, posizionandosi
+                tra un oggetto completamente mutabile e uno completamente immutabile (come quello ottenuto con
+                <span class="inline-code">Object.freeze()</span>).
+            </p>
+
+            <div class="tip-box">
+                <h4>🎯 Scopo di preventExtensions()</h4>
+                <p>
+                    <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">Object.preventExtensions()</span>
+                    serve a <strong>proteggere la struttura</strong> di un oggetto, impedendo l'aggiunta accidentale
+                    o intenzionale di nuove proprietà, mantenendo però la possibilità di modificare quelle esistenti.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Sintassi e Utilizzo Base</h2>
+            
+            <h3>Sintassi</h3>
+
+            <div class="code-block"><pre><span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);</pre>
+            </div>
+
+            <p>
+                <strong>Parametro</strong>: <span class="inline-code">obj</span> - L'oggetto su cui si vuole
+                impedire l'aggiunta di nuove proprietà.
+            </p>
+
+            <p>
+                <strong>Valore di ritorno</strong>: L'oggetto che è stato reso non estensibile.
+            </p>
+
+            <h3>Esempio Base</h3>
+
+            <p>
+                Creiamo un oggetto semplice con una proprietà e applichiamo
+                <span class="inline-code">preventExtensions()</span>:
+            </p>
+
+            <div class="code-block"><pre><span class="comment">// Definiamo un oggetto con una proprietà</span>
+<span class="keyword">let</span> obj = {
+    p1: <span class="string">10</span>
+};
+
+<span class="comment">// Rendiamo l'oggetto non estensibile</span>
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);</pre>
+            </div>
+
+            <p>
+                Una volta invocato <span class="inline-code">Object.preventExtensions(obj)</span>, l'oggetto
+                <span class="inline-code">obj</span> diventa <strong>non estensibile</strong>, il che significa
+                che non è più possibile aggiungere nuove proprietà.
+            </p>
+        </section>
+
+        <section>
+            <h2>Tentativo di Aggiunta Nuove Proprietà</h2>
+            
+            <p>
+                Dopo aver reso un oggetto non estensibile, qualsiasi tentativo di aggiungere una nuova proprietà
+                <strong>fallirà silenziosamente</strong> in modalità non-strict, o <strong>genererà un errore</strong>
+                in strict mode.
+            </p>
+
+            <h3>Comportamento in Modalità Non-Strict</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> obj = {
+    p1: <span class="string">10</span>
+};
+
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);
+
+<span class="comment">// Tentativo di aggiungere una nuova proprietà</span>
+obj.p2 = <span class="string">20</span>;
+
+<span class="comment">// Verifica</span>
+<span class="function">console</span>.<span class="function">log</span>(obj.p2);</pre>
+            </div>
+
+            <div class="output">undefined</div>
+
+            <div class="important">
+                <strong>Comportamento Osservato:</strong> La proprietà <span class="inline-code">p2</span>
+                <strong>non viene aggiunta</strong> all'oggetto. L'assegnazione <span class="inline-code">obj.p2 = 20</span>
+                viene ignorata silenziosamente, e l'accesso a <span class="inline-code">obj.p2</span> restituisce
+                <span class="inline-code">undefined</span>.
+            </div>
+
+            <h3>Comportamento in Strict Mode</h3>
+
+            <div class="code-block"><pre><span class="string">"use strict"</span>;
+
+<span class="keyword">let</span> obj = {
+    p1: <span class="string">10</span>
+};
+
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);
+
+<span class="comment">// Questo genera un errore!</span>
+obj.p2 = <span class="string">20</span>; <span class="comment">// TypeError: Cannot add property p2</span></pre>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ In Strict Mode:</strong> Il tentativo di aggiungere una proprietà a un oggetto
+                non estensibile genera un <span class="inline-code">TypeError</span>, rendendo l'errore
+                più evidente e facilitando il debugging.
+            </div>
+        </section>
+
+        <section>
+            <h2>Modifica delle Proprietà Esistenti</h2>
+            
+            <p>
+                Un aspetto fondamentale di <span class="inline-code">Object.preventExtensions()</span> è che
+                <strong>non impedisce la modifica</strong> dei valori delle proprietà già esistenti.
+            </p>
+
+            <h3>Riassegnamento di Valori</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> obj = {
+    p1: <span class="string">10</span>
+};
+
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);
+
+<span class="comment">// Possiamo modificare le proprietà esistenti</span>
+obj.p1 = <span class="string">200</span>;
+
+<span class="comment">// Verifica</span>
+<span class="function">console</span>.<span class="function">log</span>(obj.p2);</pre>
+            </div>
+
+            <div class="output">200</div>
+
+            <div class="important">
+                <strong>Punto Chiave:</strong> <span class="inline-code">preventExtensions()</span> impedisce
+                solo l'<strong>aggiunta di nuove proprietà</strong>, non la <strong>modifica dei valori</strong>
+                delle proprietà già presenti. Questo è un comportamento intenzionale che permette di proteggere
+                la struttura dell'oggetto mantenendo la flessibilità sui dati.
+            </div>
+        </section>
+
+        <section>
+            <h2>Oggetti Annidati e Estensibilità</h2>
+            
+            <p>
+                Un aspetto cruciale da comprendere è che <span class="inline-code">Object.preventExtensions()</span>
+                <strong>non è ricorsivo</strong>. Opera solo sul livello superiore dell'oggetto, lasciando gli
+                oggetti annidati completamente mutabili.
+            </p>
+
+            <h3>Esempio con Oggetti Annidati</h3>
+
+            <div class="code-block"><pre><span class="comment">// Definiamo un oggetto con una proprietà che contiene un altro oggetto</span>
+<span class="keyword">let</span> user = {
+    info: {
+        nome: <span class="string">'Anna'</span>,
+        anni: <span class="string">25</span>
+    }
+};
+
+<span class="comment">// Rendiamo user non estensibile</span>
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(user);</pre>
+            </div>
+
+            <h3>Tentativo di Aggiungere Proprietà a user (Fallisce)</h3>
+
+            <div class="code-block"><pre><span class="comment">// âŒ Non possiamo aggiungere proprietà a user</span>
+user.cognome = <span class="string">'Rossi'</span>;
+<span class="function">console</span>.<span class="function">log</span>(user.cognome);</pre>
+            </div>
+
+            <div class="output">undefined</div>
+
+            <p>
+                Come previsto, non possiamo aggiungere <span class="inline-code">cognome</span> a
+                <span class="inline-code">user</span> perché abbiamo applicato <span class="inline-code">preventExtensions()</span>
+                su di esso.
+            </p>
+
+            <h3>Aggiunta Proprietà a user.info (Succede!)</h3>
+
+            <div class="code-block"><pre><span class="comment">// âœ… Possiamo aggiungere proprietà a user.info!</span>
+user.info.lavoro = <span class="string">'Ballerina'</span>;
+<span class="function">console</span>.<span class="function">log</span>(user.info.lavoro);</pre>
+            </div>
+
+            <div class="output">Ballerina</div>
+
+            <div class="important">
+                <strong>Comportamento Non Ricorsivo:</strong> Anche se <span class="inline-code">user</span>
+                è non estensibile, l'oggetto <span class="inline-code">user.info</span> <strong>rimane completamente
+                estensibile</strong>. Possiamo aggiungere, modificare ed eliminare proprietà da
+                <span class="inline-code">user.info</span> senza alcuna restrizione.
+            </div>
+
+            <h3>Visualizzazione della Struttura</h3>
+
+            <div class="code-block"><pre><span class="comment">// Struttura dopo le operazioni</span>
+<span class="function">console</span>.<span class="function">log</span>(user);
+
+<span class="comment">// Output:</span>
+<span class="comment">// {</span>
+<span class="comment">//   info: {</span>
+<span class="comment">//     nome: 'Anna',</span>
+<span class="comment">//     anni: 25,</span>
+<span class="comment">//     lavoro: 'Ballerina'  â† Aggiunta con successo!</span>
+<span class="comment">//   }</span>
+<span class="comment">// }</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Eliminazione di Proprietà</h2>
+            
+            <p>
+                Un altro aspetto importante di <span class="inline-code">Object.preventExtensions()</span> è che
+                <strong>non impedisce l'eliminazione</strong> di proprietà esistenti tramite l'operatore
+                <span class="inline-code">delete</span>.
+            </p>
+
+            <h3>Esempio di Eliminazione</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> user = {
+    info: {
+        nome: <span class="string">'Anna'</span>,
+        anni: <span class="string">25</span>
+    }
+};
+
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(user);
+
+<span class="comment">// Possiamo eliminare proprietà esistenti</span>
+<span class="keyword">delete</span> user.info;
+
+<span class="comment">// Verifica</span>
+<span class="function">console</span>.<span class="function">log</span>(user.info);</pre>
+            </div>
+
+            <div class="output">undefined</div>
+
+            <div class="important">
+                <strong>Eliminazione Permessa:</strong> Anche su un oggetto non estensibile, possiamo
+                <strong>eliminare proprietà esistenti</strong>. Nel nostro esempio, abbiamo eliminato completamente
+                la proprietà <span class="inline-code">info</span> dall'oggetto <span class="inline-code">user</span>.
+            </div>
+
+            <h3>Riepilogo delle Operazioni Permesse</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> obj = { a: <span class="string">1</span>, b: <span class="string">2</span> };
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);
+
+<span class="comment">// âœ… Modifica proprietà esistente</span>
+obj.a = <span class="string">100</span>;
+
+<span class="comment">// âœ… Elimina proprietà esistente</span>
+<span class="keyword">delete</span> obj.b;
+
+<span class="comment">// âŒ Aggiunta nuova proprietà (fallisce)</span>
+obj.c = <span class="string">3</span>; <span class="comment">// undefined</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Verifica dello Stato di Estensibilità</h2>
+            
+            <p>
+                JavaScript fornisce il metodo <span class="inline-code">Object.isExtensible()</span> per
+                verificare se un oggetto è ancora estensibile o meno.
+            </p>
+
+            <h3>Sintassi</h3>
+
+            <div class="code-block"><pre><span class="keyword">Object</span>.<span class="function">isExtensible</span>(obj);</pre>
+            </div>
+
+            <p>
+                <strong>Valore di ritorno</strong>: <span class="inline-code">true</span> se l'oggetto è estensibile,
+                <span class="inline-code">false</span> altrimenti.
+            </p>
+
+            <h3>Esempio Pratico</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> obj1 = { a: <span class="string">1</span> };
+<span class="keyword">let</span> obj2 = { b: <span class="string">2</span> };
+
+<span class="comment">// Verifica prima di preventExtensions</span>
+<span class="function">console</span>.<span class="function">log</span>(<span class="keyword">Object</span>.<span class="function">isExtensible</span>(obj1)); <span class="comment">// true</span>
+<span class="function">console</span>.<span class="function">log</span>(<span class="keyword">Object</span>.<span class="function">isExtensible</span>(obj2)); <span class="comment">// true</span>
+
+<span class="comment">// Applichiamo preventExtensions solo a obj1</span>
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj1);
+
+<span class="comment">// Verifica dopo preventExtensions</span>
+<span class="function">console</span>.<span class="function">log</span>(<span class="keyword">Object</span>.<span class="function">isExtensible</span>(obj1)); <span class="comment">// false</span>
+<span class="function">console</span>.<span class="function">log</span>(<span class="keyword">Object</span>.<span class="function">isExtensible</span>(obj2)); <span class="comment">// true (ancora estensibile)</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Confronto con Altri Metodi di "Congelamento"</h2>
+            
+            <p>
+                JavaScript offre tre livelli progressivi di immutabilità per gli oggetti. È importante
+                comprendere le differenze tra questi metodi:
+            </p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Metodo</th>
+                        <th>Aggiunta Proprietà</th>
+                        <th>Modifica Proprietà</th>
+                        <th>Eliminazione Proprietà</th>
+                        <th>Configurazione</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Object.preventExtensions()</strong></td>
+                        <td>❌ No</td>
+                        <td>✅ Sì</td>
+                        <td>✅ Sì</td>
+                        <td>✅ Sì</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Object.seal()</strong></td>
+                        <td>❌ No</td>
+                        <td>✅ Sì</td>
+                        <td>❌ No</td>
+                        <td>❌ No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Object.freeze()</strong></td>
+                        <td>❌ No</td>
+                        <td>❌ No</td>
+                        <td>❌ No</td>
+                        <td>❌ No</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Descrizione dei Metodi</h3>
+
+            <div class="tip-box">
+                <h4>Object.preventExtensions()</h4>
+                <p>
+                    <strong>Livello Base</strong>: Impedisce solo l'aggiunta di nuove proprietà.
+                    Permette modifiche, eliminazioni e riconfigurazioni delle proprietà esistenti.
+                </p>
+            </div>
+
+            <div class="tip-box">
+                <h4>Object.seal()</h4>
+                <p>
+                    <strong>Livello Intermedio</strong>: Oltre a impedire l'aggiunta di nuove proprietà,
+                    impedisce anche l'eliminazione e la riconfigurazione di quelle esistenti.
+                    Permette solo la modifica dei valori.
+                </p>
+            </div>
+
+            <div class="tip-box">
+                <h4>Object.freeze()</h4>
+                <p>
+                    <strong>Livello Massimo</strong>: Rende l'oggetto completamente immutabile.
+                    Non è possibile aggiungere, modificare, eliminare o riconfigurare alcuna proprietà.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Casi d'Uso Pratici</h2>
+            
+            <h3>1. Protezione di Configurazioni</h3>
+
+            <div class="code-block"><pre><span class="comment">// Configurazione di un'applicazione</span>
+<span class="keyword">const</span> config = {
+    apiUrl: <span class="string">'https://api.example.com'</span>,
+    timeout: <span class="string">5000</span>,
+    retries: <span class="string">3</span>
+};
+
+<span class="comment">// Preveniamo l'aggiunta accidentale di nuove configurazioni</span>
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(config);
+
+<span class="comment">// Possiamo ancora modificare i valori esistenti</span>
+config.timeout = <span class="string">10000</span>; <span class="comment">// âœ… OK</span>
+
+<span class="comment">// Ma non aggiungere nuove configurazioni</span>
+config.newSetting = <span class="string">true</span>; <span class="comment">// âŒ Ignorato</span></pre>
+            </div>
+
+            <h3>2. API Pubbliche Stabili</h3>
+
+            <div class="code-block"><pre><span class="comment">// Libreria con API pubblica</span>
+<span class="keyword">const</span> MyLibrary = {
+    version: <span class="string">'1.0.0'</span>,
+    <span class="function">init</span>: <span class="keyword">function</span>() { <span class="comment">/* ... */</span> },
+    <span class="function">destroy</span>: <span class="keyword">function</span>() { <span class="comment">/* ... */</span> }
+};
+
+<span class="comment">// Preveniamo l'aggiunta di nuovi metodi pubblici</span>
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(MyLibrary);
+
+<span class="comment">// Gli utenti non possono estendere l'API</span>
+MyLibrary.newMethod = <span class="keyword">function</span>() {}; <span class="comment">// âŒ Ignorato</span></pre>
+            </div>
+
+            <h3>3. Modelli di Dati con Schema Fisso</h3>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">createUser</span>(name, email) {
+    <span class="keyword">const</span> user = {
+        name: name,
+        email: email,
+        createdAt: <span class="keyword">new</span> <span class="function">Date</span>()
+    };
+    
+    <span class="comment">// Schema fisso: solo queste tre proprietà</span>
+    <span class="keyword">return</span> <span class="keyword">Object</span>.<span class="function">preventExtensions</span>(user);
+}
+
+<span class="keyword">const</span> user = <span class="function">createUser</span>(<span class="string">'Mario'</span>, <span class="string">'mario@email.com'</span>);
+
+<span class="comment">// Possiamo modificare i dati esistenti</span>
+user.name = <span class="string">'Luigi'</span>; <span class="comment">// âœ… OK</span>
+
+<span class="comment">// Ma non aggiungere nuovi campi</span>
+user.age = <span class="string">30</span>; <span class="comment">// âŒ Ignorato</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Limitazioni e Considerazioni</h2>
+            
+            <h3>1. Non è Ricorsivo</h3>
+
+            <div class="warning">
+                <strong>⚠️ Attenzione:</strong> <span class="inline-code">Object.preventExtensions()</span>
+                opera solo sul livello superiore dell'oggetto. Gli oggetti annidati rimangono completamente mutabili.
+            </div>
+
+            <div class="code-block"><pre><span class="keyword">const</span> obj = {
+    config: {
+        debug: <span class="string">true</span>
+    }
+};
+
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);
+
+<span class="comment">// âŒ Non possiamo aggiungere a obj</span>
+obj.newProp = <span class="string">'test'</span>; <span class="comment">// Ignorato</span>
+
+<span class="comment">// âœ… Ma possiamo aggiungere a obj.config!</span>
+obj.config.verbose = <span class="string">true</span>; <span class="comment">// Funziona!</span></pre>
+            </div>
+
+            <p>
+                <strong>Soluzione</strong>: Se serve protezione ricorsiva, applicare
+                <span class="inline-code">preventExtensions()</span> a tutti i livelli:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">deepPreventExtensions</span>(obj) {
+    <span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);
+    
+    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> obj[key] === <span class="string">'object'</span> && obj[key] !== <span class="keyword">null</span>) {
+            <span class="function">deepPreventExtensions</span>(obj[key]);
+        }
+    }
+    
+    <span class="keyword">return</span> obj;
+}</pre>
+            </div>
+
+            <h3>2. Prestazioni</h3>
+
+            <div class="important">
+                <strong>Impatto sulle Prestazioni:</strong> L'uso di <span class="inline-code">Object.preventExtensions()</span>
+                può avere un leggero impatto sulle prestazioni perché il motore JavaScript deve controllare
+                l'estensibilità prima di ogni tentativo di aggiunta di proprietà.
+            </div>
+
+            <h3>3. Irreversibilità</h3>
+
+            <div class="warning">
+                <strong>⚠️ Operazione Irreversibile:</strong> Una volta applicato
+                <span class="inline-code">Object.preventExtensions()</span>, <strong>non è possibile
+                rendere nuovamente estensibile l'oggetto</strong>. La decisione è permanente.
+            </div>
+
+            <div class="code-block"><pre><span class="keyword">const</span> obj = { a: <span class="string">1</span> };
+<span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);
+
+<span class="comment">// Non esiste Object.makeExtensible()!</span>
+<span class="comment">// Non c'è modo di annullare questa operazione</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Best Practices</h2>
+            
+            <h3>✅ Quando Usare preventExtensions()</h3>
+
+            <ol>
+                <li><strong>Schema di Oggetti Fisso</strong>: Quando vuoi garantire che un oggetto mantenga
+                    una struttura predefinita di proprietà</li>
+                
+                <li><strong>API Pubbliche</strong>: Per prevenire l'estensione accidentale di interfacce pubbliche</li>
+                
+                <li><strong>Configurazioni</strong>: Per proteggere oggetti di configurazione da aggiunte non previste</li>
+                
+                <li><strong>Documentazione Implicita</strong>: Per comunicare agli sviluppatori quali sono
+                    le proprietà "ufficiali" di un oggetto</li>
+            </ol>
+
+            <h3>❌ Quando NON Usare preventExtensions()</h3>
+
+            <ol>
+                <li><strong>Oggetti Dinamici</strong>: Se l'oggetto deve essere esteso in base al runtime</li>
+                
+                <li><strong>Performance Critiche</strong>: In sezioni di codice dove le prestazioni sono critiche</li>
+                
+                <li><strong>Protezione Completa</strong>: Se serve immutabilità completa, usa
+                    <span class="inline-code">Object.freeze()</span></li>
+                
+                <li><strong>Oggetti Temporanei</strong>: Su oggetti di breve durata che non richiedono protezione</li>
+            </ol>
+
+            <h3>💡 Suggerimenti Pratici</h3>
+
+            <div class="code-block"><pre><span class="comment">// 1. Usa in combinazione con TypeScript/JSDoc per documentazione</span>
+<span class="comment">/**</span>
+<span class="comment"> * @typedef {Object} Config</span>
+<span class="comment"> * @property {string} apiUrl</span>
+<span class="comment"> * @property {number} timeout</span>
+<span class="comment"> */</span>
+
+<span class="comment">// 2. Considera l'uso in factory functions</span>
+<span class="keyword">function</span> <span class="function">createFixedSchema</span>(data) {
+    <span class="keyword">const</span> obj = { ...data };
+    <span class="keyword">return</span> <span class="keyword">Object</span>.<span class="function">preventExtensions</span>(obj);
+}
+
+<span class="comment">// 3. Usa in strict mode per errori espliciti</span>
+<span class="string">"use strict"</span>;
+<span class="comment">// Ora i tentativi di estensione generano TypeError</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Esercizi Pratici</h2>
+            
+            <h3>Esercizio 1: Sistema di Permessi</h3>
+
+            <div class="code-block"><pre><span class="comment">// Crea un sistema di permessi con schema fisso</span>
+<span class="keyword">function</span> <span class="function">createPermissions</span>(canRead, canWrite, canDelete) {
+    <span class="comment">// TODO: Crea oggetto con le tre proprietà</span>
+    <span class="comment">// TODO: Rendi l'oggetto non estensibile</span>
+    <span class="comment">// TODO: Ritorna l'oggetto</span>
+}
+
+<span class="keyword">const</span> permissions = <span class="function">createPermissions</span>(<span class="keyword">true</span>, <span class="keyword">true</span>, <span class="keyword">false</span>);
+<span class="comment">// Deve permettere: permissions.canRead = false;</span>
+<span class="comment">// Deve ignorare: permissions.canExecute = true;</span></pre>
+            </div>
+
+            <h3>Esercizio 2: Protezione Configurazione</h3>
+
+            <div class="code-block"><pre><span class="comment">// Proteggi una configurazione ma permetti modifiche ai valori</span>
+<span class="keyword">const</span> dbConfig = {
+    host: <span class="string">'localhost'</span>,
+    port: <span class="string">5432</span>,
+    database: <span class="string">'mydb'</span>
+};
+
+<span class="comment">// TODO: Applica preventExtensions</span>
+
+<span class="comment">// Verifica che funzioni:</span>
+dbConfig.port = <span class="string">3306</span>; <span class="comment">// Deve funzionare</span>
+dbConfig.password = <span class="string">'secret'</span>; <span class="comment">// Deve essere ignorato</span></pre>
+            </div>
+
+            <h3>Esercizio 3: Protezione Ricorsiva</h3>
+
+            <div class="code-block"><pre><span class="comment">// Implementa una funzione che applica preventExtensions ricorsivamente</span>
+<span class="keyword">function</span> <span class="function">deepFreeze</span>(obj) {
+    <span class="comment">// TODO: Implementa la logica ricorsiva</span>
+}
+
+<span class="keyword">const</span> nested = {
+    a: <span class="string">1</span>,
+    b: {
+        c: <span class="string">2</span>,
+        d: {
+            e: <span class="string">3</span>
+        }
+    }
+};
+
+<span class="function">deepFreeze</span>(nested);
+<span class="comment">// nested.b.d.newProp = 4; deve essere ignorato a tutti i livelli</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Riepilogo e Punti Chiave</h2>
+            
+            <div class="important">
+                <strong>🎯 Punti Fondamentali:</strong>
+                <ol>
+                    <li><span class="inline-code">Object.preventExtensions()</span> <strong>impedisce l'aggiunta</strong>
+                        di nuove proprietà a un oggetto</li>
+                    
+                    <li><strong>Permette</strong> la modifica dei valori delle proprietà esistenti</li>
+                    
+                    <li><strong>Permette</strong> l'eliminazione di proprietà esistenti</li>
+                    
+                    <li><strong>Non è ricorsivo</strong>: opera solo sul livello superiore</li>
+                    
+                    <li>L'operazione è <strong>irreversibile</strong></li>
+                    
+                    <li>In strict mode, i tentativi di estensione generano <span class="inline-code">TypeError</span></li>
+                    
+                    <li>Usa <span class="inline-code">Object.isExtensible()</span> per verificare lo stato</li>
+                </ol>
+            </div>
+
+            <h3>Gerarchia di Immutabilità</h3>
+
+            <div class="code-block"><pre><span class="comment">// Livello 1: Estensibile (default)</span>
+<span class="keyword">const</span> obj1 = { a: <span class="string">1</span> };
+<span class="comment">// + aggiunta, + modifica, + eliminazione, + configurazione</span>
+
+<span class="comment">// Livello 2: Non Estensibile</span>
+<span class="keyword">const</span> obj2 = <span class="keyword">Object</span>.<span class="function">preventExtensions</span>({ a: <span class="string">1</span> });
+<span class="comment">// - aggiunta, + modifica, + eliminazione, + configurazione</span>
+
+<span class="comment">// Livello 3: Sigillato</span>
+<span class="keyword">const</span> obj3 = <span class="keyword">Object</span>.<span class="function">seal</span>({ a: <span class="string">1</span> });
+<span class="comment">// - aggiunta, + modifica, - eliminazione, - configurazione</span>
+
+<span class="comment">// Livello 4: Congelato</span>
+<span class="keyword">const</span> obj4 = <span class="keyword">Object</span>.<span class="function">freeze</span>({ a: <span class="string">1</span> });
+<span class="comment">// - aggiunta, - modifica, - eliminazione, - configurazione</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Conclusioni</h2>
+            
+            <p>
+                <span class="inline-code">Object.preventExtensions()</span> rappresenta un potente strumento
+                per controllare la mutabilità degli oggetti in JavaScript. Offre un equilibrio tra flessibilità
+                e protezione, permettendo di modificare i dati esistenti ma impedendo l'aggiunta di nuove strutture.
+            </p>
+
+            <p>
+                La scelta tra <span class="inline-code">preventExtensions()</span>,
+                <span class="inline-code">seal()</span> e <span class="inline-code">freeze()</span>
+                dipende dalle specifiche esigenze del progetto:
+            </p>
+
+            <ul>
+                <li><strong>preventExtensions()</strong>: Quando serve solo protezione della struttura</li>
+                <li><strong>seal()</strong>: Quando serve anche impedire eliminazioni</li>
+                <li><strong>freeze()</strong>: Quando serve immutabilità completa</li>
+            </ul>
+
+            <p>
+                Comprendere questi meccanismi è essenziale per scrivere codice JavaScript robusto, manutenibile
+                e prevedibile, specialmente in applicazioni di grandi dimensioni dove la protezione degli oggetti
+                condivisi può prevenire bug difficili da tracciare.
+            </p>
+        </section>
+
+        <footer>
+            <p><strong>Lezione:</strong> Object.preventExtensions() in JavaScript</p>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Manuale creato il 26 Dicembre 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

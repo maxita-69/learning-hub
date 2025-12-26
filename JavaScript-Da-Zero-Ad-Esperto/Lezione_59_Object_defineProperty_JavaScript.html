@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object.defineProperty in JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .keyword {
+            color: #ff79c6;
+        }
+        
+        .function {
+            color: #50fa7b;
+        }
+        
+        .string {
+            color: #f1fa8c;
+        }
+        
+        .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        
+        .operator {
+            color: #ff79c6;
+        }
+        
+        .output {
+            background-color: #1e1e1e;
+            color: #4ec9b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 4px solid #4ec9b0;
+        }
+        
+        .inline-code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.95em;
+        }
+        
+        .important {
+            background-color: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .important strong {
+            color: #0c5460;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        .error-box {
+            background-color: #f8d7da;
+            border-left: 4px solid #721c24;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .error-box strong {
+            color: #721c24;
+        }
+        
+        .descriptor-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .descriptor-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Object.defineProperty in JavaScript</h1>
+            <p class="subtitle">Controllo Avanzato delle Proprietà degli Oggetti</p>
+        </header>
+
+        <section>
+            <h2>Introduzione</h2>
+            <p>
+                Il metodo <span class="inline-code">Object.defineProperty()</span> permette di 
+                <strong>definire una nuova proprietà di un oggetto</strong> specificandone nel dettaglio 
+                tutte le caratteristiche. A differenza della normale assegnazione di proprietà 
+                (<span class="inline-code">obj.prop = value</span>), questo metodo offre un 
+                <strong>controllo granulare</strong> su come la proprietà si comporta.
+            </p>
+            
+            <p>
+                Con <span class="inline-code">Object.defineProperty()</span> possiamo decidere:
+            </p>
+            <ul>
+                <li>Il valore della proprietà</li>
+                <li>Se la proprietà è enumerabile (visibile nei cicli)</li>
+                <li>Se la proprietà è scrivibile (modificabile)</li>
+                <li>Se la proprietà è configurabile (eliminabile/modificabile)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Sintassi di Base</h2>
+            
+            <div class="descriptor-box">
+                <h4>Sintassi Completa</h4>
+                <pre style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">Object.defineProperty(oggetto, nomeProprietà, descrittore)</pre>
+                <ul style="margin-top: 10px;">
+                    <li><strong>oggetto:</strong> L'oggetto su cui definire la proprietà</li>
+                    <li><strong>nomeProprietà:</strong> Il nome della nuova proprietà (stringa)</li>
+                    <li><strong>descrittore:</strong> Oggetto che descrive le caratteristiche della proprietà</li>
+                </ul>
+            </div>
+
+            <h3>Setup Iniziale</h3>
+
+            <p>Iniziamo con un oggetto semplice contenente una sola proprietà:</p>
+
+            <div class="code-block"><pre><span class="comment">// Oggetto iniziale con una proprietà</span>
+<span class="keyword">let</span> obj = {
+    p1: <span class="string">10</span>
+};</pre>
+            </div>
+
+            <p>
+                Vogliamo ora aggiungere una seconda proprietà <span class="inline-code">p2</span> 
+                utilizzando <span class="inline-code">Object.defineProperty()</span>, specificando 
+                esattamente come deve comportarsi.
+            </p>
+        </section>
+
+        <section>
+            <h2>I Descrittori di Proprietà</h2>
+            
+            <p>
+                Il terzo parametro di <span class="inline-code">Object.defineProperty()</span> è un 
+                <strong>oggetto descrittore</strong> che può contenere diverse proprietà per configurare 
+                il comportamento della nuova proprietà.
+            </p>
+
+            <h3>Descrittore: value</h3>
+
+            <p>
+                Specifica il <strong>valore</strong> che la proprietà deve avere.
+            </p>
+
+            <div class="code-block"><pre><span class="comment">// Definiamo le caratteristiche della nuova proprietà</span>
+<span class="keyword">let</span> caratteristiche = {
+    value: <span class="string">20</span>
+};</pre>
+            </div>
+
+            <h3>Descrittore: enumerable</h3>
+
+            <p>
+                Determina se la proprietà è <strong>enumerabile</strong>, cioè se appare quando 
+                iteriamo l'oggetto con cicli come <span class="inline-code">for...in</span> o 
+                metodi come <span class="inline-code">Object.keys()</span>.
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">let</span> caratteristiche = {
+    value: <span class="string">20</span>,
+    enumerable: <span class="keyword">false</span> <span class="comment">// La proprietà non sarà visibile nei cicli</span>
+};</pre>
+            </div>
+
+            <div class="important">
+                <strong>Valore di default:</strong> Se non specificato, <span class="inline-code">enumerable</span> 
+                è <span class="inline-code">false</span> per proprietà definite con 
+                <span class="inline-code">Object.defineProperty()</span>. Per proprietà create con 
+                assegnazione normale (<span class="inline-code">obj.prop = value</span>), invece, 
+                è <span class="inline-code">true</span>.
+            </div>
+        </section>
+
+        <section>
+            <h2>Esempio Completo: Enumerable</h2>
+            
+            <h3>Definizione della Proprietà</h3>
+
+            <div class="code-block"><pre><span class="comment">// Oggetto iniziale</span>
+<span class="keyword">let</span> obj = {
+    p1: <span class="string">10</span>
+};
+
+<span class="comment">// Caratteristiche della nuova proprietà</span>
+<span class="keyword">let</span> caratteristiche = {
+    value: <span class="string">20</span>,
+    enumerable: <span class="keyword">false</span>
+};
+
+<span class="comment">// Definiamo la nuova proprietà p2</span>
+<span class="function">Object</span>.<span class="function">defineProperty</span>(obj, <span class="string">'p2'</span>, caratteristiche);</pre>
+            </div>
+
+            <h3>Verifica: La Proprietà Esiste</h3>
+
+            <p>Verifichiamo che la proprietà <span class="inline-code">p2</span> sia stata aggiunta:</p>
+
+            <div class="code-block"><pre><span class="function">console</span>.<span class="function">log</span>(obj.p2);</pre>
+            </div>
+
+            <div class="output">Output: 20</div>
+
+            <p>
+                La proprietà <span class="inline-code">p2</span> esiste ed è accessibile, 
+                con il valore <span class="inline-code">20</span> come specificato.
+            </p>
+
+            <h3>Comportamento con for...in</h3>
+
+            <p>
+                Iteriamo l'oggetto con un ciclo <span class="inline-code">for...in</span> per vedere 
+                quali proprietà sono enumerabili:
+            </p>
+
+            <div class="code-block"><pre><span class="comment">// Iteriamo sulle proprietà enumerabili</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> prop <span class="keyword">in</span> obj) {
+    <span class="function">console</span>.<span class="function">log</span>(prop);
+}</pre>
+            </div>
+
+            <div class="output">Output: p1</div>
+
+            <p>
+                Come possiamo vedere, <strong>solo <span class="inline-code">p1</span> viene visualizzata</strong>. 
+                La proprietà <span class="inline-code">p2</span> non appare perché abbiamo impostato 
+                <span class="inline-code">enumerable: false</span>.
+            </p>
+
+            <h3>Rendere la Proprietà Enumerabile</h3>
+
+            <p>Se impostiamo <span class="inline-code">enumerable: true</span>:</p>
+
+            <div class="code-block"><pre><span class="comment">// Redefiniamo con enumerable: true</span>
+<span class="keyword">let</span> caratteristiche = {
+    value: <span class="string">20</span>,
+    enumerable: <span class="keyword">true</span> <span class="comment">// Ora la proprietà sarà visibile</span>
+};
+
+<span class="function">Object</span>.<span class="function">defineProperty</span>(obj, <span class="string">'p2'</span>, caratteristiche);
+
+<span class="comment">// Iteriamo di nuovo</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> prop <span class="keyword">in</span> obj) {
+    <span class="function">console</span>.<span class="function">log</span>(prop);
+}</pre>
+            </div>
+
+            <div class="output">Output:
+p1
+p2</div>
+
+            <p>
+                Ora <span class="inline-code">p2</span> viene elencata perché è diventata enumerabile.
+            </p>
+        </section>
+
+        <section>
+            <h2>Descrittore: writable</h2>
+            
+            <p>
+                Il descrittore <span class="inline-code">writable</span> determina se il valore della 
+                proprietà può essere <strong>modificato dopo la creazione</strong>. Impostando 
+                <span class="inline-code">writable: false</span>, rendiamo la proprietà 
+                <strong>read-only</strong> (sola lettura).
+            </p>
+
+            <div class="descriptor-box">
+                <h4>writable: false</h4>
+                <p>
+                    Quando una proprietà ha <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">writable: false</span>:
+                </p>
+                <ul style="margin-top: 10px;">
+                    <li>La proprietà <strong>non può essere modificata</strong></li>
+                    <li>Tentativi di assegnazione vengono ignorati silenziosamente (in modalità normale)</li>
+                    <li>In strict mode, sollevano un <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">TypeError</span></li>
+                </ul>
+            </div>
+
+            <h3>Esempio: Proprietà Non Scrivibile</h3>
+
+            <div class="code-block"><pre><span class="comment">// Oggetto iniziale</span>
+<span class="keyword">let</span> obj = {
+    p1: <span class="string">10</span>
+};
+
+<span class="comment">// Caratteristiche con writable: false</span>
+<span class="keyword">let</span> caratteristiche = {
+    value: <span class="string">20</span>,
+    enumerable: <span class="keyword">true</span>,
+    writable: <span class="keyword">false</span> <span class="comment">// Proprietà non modificabile</span>
+};
+
+<span class="function">Object</span>.<span class="function">defineProperty</span>(obj, <span class="string">'p2'</span>, caratteristiche);
+
+<span class="comment">// Verifichiamo il valore iniziale</span>
+<span class="function">console</span>.<span class="function">log</span>(obj.p2); <span class="comment">// 20</span></pre>
+            </div>
+
+            <div class="output">Output: 20</div>
+
+            <h3>Tentativo di Modifica</h3>
+
+            <p>Proviamo ad assegnare un nuovo valore a <span class="inline-code">p2</span>:</p>
+
+            <div class="code-block"><pre><span class="comment">// Tentativo di modificare la proprietà</span>
+obj.p2 = <span class="string">1000</span>;
+
+<span class="comment">// Verifichiamo se il valore è cambiato</span>
+<span class="function">console</span>.<span class="function">log</span>(obj.p2);</pre>
+            </div>
+
+            <div class="output">Output: 20</div>
+
+            <p>
+                Il valore di <span class="inline-code">p2</span> <strong>non è cambiato</strong>! 
+                Rimane <span class="inline-code">20</span> nonostante il tentativo di assegnazione. 
+                L'assegnazione <span class="inline-code">obj.p2 = 1000</span> è stata semplicemente 
+                ignorata perché la proprietà ha <span class="inline-code">writable: false</span>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Strict Mode e TypeError</h2>
+            
+            <p>
+                In <strong>modalità strict</strong>, JavaScript adotta regole più rigorose e solleva 
+                errori per operazioni che in modalità normale vengono silenziosamente ignorate.
+            </p>
+
+            <h3>Abilitare Strict Mode</h3>
+
+            <p>
+                Per abilitare la modalità strict, aggiungiamo <span class="inline-code">"use strict"</span> 
+                all'inizio del nostro script:
+            </p>
+
+            <div class="code-block"><pre><span class="string">"use strict"</span>;
+
+<span class="keyword">let</span> obj = {
+    p1: <span class="string">10</span>
+};
+
+<span class="keyword">let</span> caratteristiche = {
+    value: <span class="string">20</span>,
+    enumerable: <span class="keyword">true</span>,
+    writable: <span class="keyword">false</span>
+};
+
+<span class="function">Object</span>.<span class="function">defineProperty</span>(obj, <span class="string">'p2'</span>, caratteristiche);
+
+<span class="comment">// Primo console.log</span>
+<span class="function">console</span>.<span class="function">log</span>(obj.p2); <span class="comment">// 20</span>
+
+<span class="comment">// Tentativo di modifica</span>
+obj.p2 = <span class="string">1000</span>; <span class="comment">// â  Questo solleva un TypeError!</span>
+
+<span class="comment">// Questo codice non verrà mai eseguito</span>
+<span class="function">console</span>.<span class="function">log</span>(obj.p2);</pre>
+            </div>
+
+            <div class="error-box">
+                <strong>â  TypeError:</strong> Cannot assign to read only property 'p2' of object '#&lt;Object&gt;'
+            </div>
+
+            <p>
+                In strict mode, il tentativo di modificare una proprietà con 
+                <span class="inline-code">writable: false</span> <strong>solleva un errore di tipo 
+                TypeError</strong> e l'esecuzione del programma JavaScript si interrompe.
+            </p>
+
+            <div class="warning">
+                <strong>⚠️ Importante:</strong> Il secondo <span class="inline-code">console.log()</span> 
+                non viene mai eseguito perché l'errore interrompe l'esecuzione del codice alla riga precedente.
+            </div>
+
+            <h3>Differenze tra Modalità Normale e Strict</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Comportamento</th>
+                        <th>Modalità Normale</th>
+                        <th>Strict Mode</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Modifica proprietà non scrivibile</strong></td>
+                        <td>Ignorata silenziosamente</td>
+                        <td>Solleva TypeError</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Esecuzione del codice</strong></td>
+                        <td>Continua normalmente</td>
+                        <td>Si interrompe all'errore</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Debugging</strong></td>
+                        <td>Difficile individuare errori</td>
+                        <td>Errori espliciti e chiari</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sicurezza del codice</strong></td>
+                        <td>Minore (errori nascosti)</td>
+                        <td>Maggiore (errori evidenti)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Altri Descrittori</h2>
+            
+            <p>
+                Oltre a <span class="inline-code">value</span>, <span class="inline-code">enumerable</span> 
+                e <span class="inline-code">writable</span>, esiste un quarto descrittore importante:
+            </p>
+
+            <h3>Descrittore: configurable</h3>
+
+            <div class="descriptor-box">
+                <h4>configurable</h4>
+                <p>Determina se la proprietà può essere:</p>
+                <ul style="margin-top: 10px;">
+                    <li>Eliminata dall'oggetto con <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">delete</span></li>
+                    <li>Modificata nei suoi descrittori (eccetto <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">writable</span> che può passare da true a false)</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Default:</strong> false (quando si usa Object.defineProperty)</p>
+            </div>
+
+            <h3>Esempio: Proprietà Non Configurabile</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> obj = { p1: <span class="string">10</span> };
+
+<span class="function">Object</span>.<span class="function">defineProperty</span>(obj, <span class="string">'p2'</span>, {
+    value: <span class="string">20</span>,
+    enumerable: <span class="keyword">true</span>,
+    writable: <span class="keyword">true</span>,
+    configurable: <span class="keyword">false</span> <span class="comment">// Proprietà non configurabile</span>
+});
+
+<span class="comment">// Tentativo di eliminare la proprietà</span>
+<span class="keyword">delete</span> obj.p2;
+
+<span class="function">console</span>.<span class="function">log</span>(obj.p2); <span class="comment">// 20 - La proprietà non è stata eliminata</span></pre>
+            </div>
+
+            <div class="warning">
+                <strong>In strict mode:</strong> Tentare di eliminare una proprietà con 
+                <span class="inline-code">configurable: false</span> solleva un TypeError.
+            </div>
+        </section>
+
+        <section>
+            <h2>Riepilogo dei Descrittori</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Descrittore</th>
+                        <th>Cosa Controlla</th>
+                        <th>Default (defineProperty)</th>
+                        <th>Default (assegnazione normale)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>value</strong></td>
+                        <td>Il valore della proprietà</td>
+                        <td>undefined</td>
+                        <td>Il valore assegnato</td>
+                    </tr>
+                    <tr>
+                        <td><strong>writable</strong></td>
+                        <td>Se il valore può essere modificato</td>
+                        <td>false</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td><strong>enumerable</strong></td>
+                        <td>Se appare nei cicli (for...in, Object.keys)</td>
+                        <td>false</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td><strong>configurable</strong></td>
+                        <td>Se può essere eliminata o riconfigurata</td>
+                        <td>false</td>
+                        <td>true</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="important">
+                <strong>Nota importante:</strong> I valori di default sono <strong>molto diversi</strong> 
+                tra proprietà create con <span class="inline-code">Object.defineProperty()</span> 
+                (più restrittive, tutti false) e proprietà create con assegnazione normale 
+                (più permissive, tutti true).
+            </div>
+        </section>
+
+        <section>
+            <h2>Casi d'Uso Pratici</h2>
+            
+            <h3>1. Costanti Vere (Read-Only)</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> config = {};
+
+<span class="function">Object</span>.<span class="function">defineProperty</span>(config, <span class="string">'API_KEY'</span>, {
+    value: <span class="string">'abc123xyz'</span>,
+    writable: <span class="keyword">false</span>,
+    configurable: <span class="keyword">false</span>
+});
+
+<span class="comment">// La chiave API non può essere modificata o eliminata</span>
+config.API_KEY = <span class="string">'hacked'</span>; <span class="comment">// Ignorato o TypeError in strict mode</span>
+<span class="function">console</span>.<span class="function">log</span>(config.API_KEY); <span class="comment">// 'abc123xyz'</span></pre>
+            </div>
+
+            <h3>2. Proprietà Nascoste (Non Enumerabili)</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> user = {
+    name: <span class="string">"Mario"</span>,
+    email: <span class="string">"mario@example.com"</span>
+};
+
+<span class="comment">// Aggiungiamo un ID interno non visibile nei cicli</span>
+<span class="function">Object</span>.<span class="function">defineProperty</span>(user, <span class="string">'_id'</span>, {
+    value: <span class="string">12345</span>,
+    enumerable: <span class="keyword">false</span> <span class="comment">// Non apparirà in for...in o Object.keys()</span>
+});
+
+<span class="function">console</span>.<span class="function">log</span>(<span class="function">Object</span>.<span class="function">keys</span>(user)); <span class="comment">// ['name', 'email']</span>
+<span class="function">console</span>.<span class="function">log</span>(user._id); <span class="comment">// 12345 - accessibile ma non enumerabile</span></pre>
+            </div>
+
+            <h3>3. Metadati degli Oggetti</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> product = {
+    name: <span class="string">"Laptop"</span>,
+    price: <span class="string">999</span>
+};
+
+<span class="comment">// Aggiungiamo timestamp di creazione (read-only e nascosto)</span>
+<span class="function">Object</span>.<span class="function">defineProperty</span>(product, <span class="string">'createdAt'</span>, {
+    value: <span class="keyword">new</span> <span class="function">Date</span>(),
+    writable: <span class="keyword">false</span>,
+    enumerable: <span class="keyword">false</span>,
+    configurable: <span class="keyword">false</span>
+});
+
+<span class="comment">// Il timestamp non può essere modificato o eliminato</span></pre>
+            </div>
+
+            <h3>4. Getter e Setter (Proprietà Calcolate)</h3>
+
+            <p>
+                <span class="inline-code">Object.defineProperty()</span> supporta anche 
+                <strong>getter</strong> e <strong>setter</strong>, proprietà di accesso invece 
+                che proprietà di dati:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> person = {
+    firstName: <span class="string">"Mario"</span>,
+    lastName: <span class="string">"Rossi"</span>
+};
+
+<span class="function">Object</span>.<span class="function">defineProperty</span>(person, <span class="string">'fullName'</span>, {
+    <span class="function">get</span>: <span class="keyword">function</span>() {
+        <span class="keyword">return</span> <span class="string">`${<span class="keyword">this</span>.firstName} ${<span class="keyword">this</span>.lastName}`</span>;
+    },
+    <span class="function">set</span>: <span class="keyword">function</span>(name) {
+        <span class="keyword">const</span> parts = name.<span class="function">split</span>(<span class="string">' '</span>);
+        <span class="keyword">this</span>.firstName = parts[<span class="string">0</span>];
+        <span class="keyword">this</span>.lastName = parts[<span class="string">1</span>];
+    },
+    enumerable: <span class="keyword">true</span>
+});
+
+<span class="function">console</span>.<span class="function">log</span>(person.fullName); <span class="comment">// "Mario Rossi"</span>
+person.fullName = <span class="string">"Luigi Verdi"</span>;
+<span class="function">console</span>.<span class="function">log</span>(person.firstName); <span class="comment">// "Luigi"</span>
+<span class="function">console</span>.<span class="function">log</span>(person.lastName);  <span class="comment">// "Verdi"</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Best Practices</h2>
+            
+            <h3>1. Usa Sempre Strict Mode</h3>
+            <p>
+                Abilita <span class="inline-code">"use strict"</span> per individuare errori 
+                più facilmente durante lo sviluppo.
+            </p>
+
+            <h3>2. Documenta le Proprietà Speciali</h3>
+            <p>
+                Quando usi <span class="inline-code">Object.defineProperty()</span> per creare 
+                proprietà con comportamenti non standard, documenta chiaramente il perché.
+            </p>
+
+            <h3>3. Considera le Alternative</h3>
+            <p>
+                Per casi semplici, considera se alternative moderne come:
+            </p>
+            <ul>
+                <li><span class="inline-code">Object.freeze()</span> - Rende l'intero oggetto immutabile</li>
+                <li><span class="inline-code">Object.seal()</span> - Impedisce l'aggiunta/rimozione di proprietà</li>
+                <li><span class="inline-code">Object.preventExtensions()</span> - Impedisce solo l'aggiunta di nuove proprietà</li>
+            </ul>
+
+            <h3>4. Attenzione con configurable: false</h3>
+            <p>
+                Una volta impostato <span class="inline-code">configurable: false</span>, 
+                <strong>non è più possibile tornare indietro</strong>. Usa con cautela.
+            </p>
+        </section>
+
+        <section>
+            <h2>Metodi Correlati</h2>
+            
+            <h3>Object.defineProperties()</h3>
+            <p>Definisce multiple proprietà in una volta sola:</p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> obj = {};
+
+<span class="function">Object</span>.<span class="function">defineProperties</span>(obj, {
+    <span class="string">'property1'</span>: {
+        value: <span class="string">10</span>,
+        writable: <span class="keyword">true</span>
+    },
+    <span class="string">'property2'</span>: {
+        value: <span class="string">20</span>,
+        writable: <span class="keyword">false</span>
+    }
+});</pre>
+            </div>
+
+            <h3>Object.getOwnPropertyDescriptor()</h3>
+            <p>Ottiene il descrittore di una proprietà esistente:</p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> descriptor = <span class="function">Object</span>.<span class="function">getOwnPropertyDescriptor</span>(obj, <span class="string">'p2'</span>);
+<span class="function">console</span>.<span class="function">log</span>(descriptor);
+<span class="comment">// { value: 20, writable: false, enumerable: true, configurable: false }</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Conclusioni</h2>
+            
+            <p>
+                <span class="inline-code">Object.defineProperty()</span> è uno strumento potente 
+                che offre controllo granulare sulle proprietà degli oggetti. I punti chiave da ricordare:
+            </p>
+
+            <ol>
+                <li>
+                    <strong>value:</strong> Imposta il valore della proprietà
+                </li>
+                <li>
+                    <strong>enumerable:</strong> Controlla se la proprietà appare nei cicli 
+                    (<span class="inline-code">false</span> per default con defineProperty)
+                </li>
+                <li>
+                    <strong>writable:</strong> Determina se il valore può essere modificato 
+                    (<span class="inline-code">false</span> = read-only)
+                </li>
+                <li>
+                    <strong>configurable:</strong> Controlla se la proprietà può essere eliminata 
+                    o riconfigurata
+                </li>
+                <li>
+                    <strong>Strict mode:</strong> Solleva TypeError invece di ignorare silenziosamente 
+                    le violazioni, facilitando il debugging
+                </li>
+            </ol>
+
+            <div class="important">
+                <strong>Quando usarlo:</strong> Usa <span class="inline-code">Object.defineProperty()</span> 
+                quando hai bisogno di controllo preciso sulle caratteristiche di una proprietà, 
+                come creare costanti vere, proprietà nascoste, o getter/setter personalizzati.
+            </div>
+        </section>
+
+        <footer>
+            <p><strong>Lezione:</strong> Object.defineProperty in JavaScript</p>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Manuale creato il 26 Dicembre 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

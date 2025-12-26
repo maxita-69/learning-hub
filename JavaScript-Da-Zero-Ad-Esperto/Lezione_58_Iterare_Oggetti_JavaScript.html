@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iterare un Oggetto in JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .keyword {
+            color: #ff79c6;
+        }
+        
+        .function {
+            color: #50fa7b;
+        }
+        
+        .string {
+            color: #f1fa8c;
+        }
+        
+        .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        
+        .operator {
+            color: #ff79c6;
+        }
+        
+        .output {
+            background-color: #1e1e1e;
+            color: #4ec9b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 4px solid #4ec9b0;
+        }
+        
+        .inline-code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.95em;
+        }
+        
+        .important {
+            background-color: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .important strong {
+            color: #0c5460;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        .method-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .method-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Iterare un Oggetto in JavaScript</h1>
+            <p class="subtitle">for...in, Object.keys(), Object.values() e Catena dei Prototipi</p>
+        </header>
+
+        <section>
+            <h2>Introduzione all'Iterazione degli Oggetti</h2>
+            <p>
+                In JavaScript, esistono <strong>diversi modi per iterare le proprietà di un oggetto</strong>. 
+                Ogni metodo ha caratteristiche specifiche e casi d'uso appropriati. In questa lezione 
+                esploreremo i principali approcci per accedere alle chiavi e ai valori delle proprietà 
+                di un oggetto.
+            </p>
+            
+            <p>
+                A differenza degli array che hanno un ordine definito e metodi specifici come 
+                <span class="inline-code">forEach()</span>, <span class="inline-code">map()</span>, 
+                etc., gli oggetti richiedono tecniche diverse per l'iterazione.
+            </p>
+        </section>
+
+        <section>
+            <h2>Setup dell'Esempio</h2>
+            
+            <p>
+                Per tutti gli esempi in questa lezione, utilizzeremo questo oggetto di base:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">let</span> obj = {
+    key1: <span class="string">"value1"</span>,
+    key2: <span class="string">"value2"</span>,
+    key3: <span class="string">"value3"</span>
+};</pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Metodo 1: Il Ciclo for...in</h2>
+            
+            <p>
+                Il ciclo <span class="inline-code">for...in</span> è il metodo più tradizionale per 
+                iterare le proprietà di un oggetto. Permette di <strong>accedere alle chiavi</strong> 
+                dell'oggetto una alla volta.
+            </p>
+
+            <div class="method-box">
+                <h4>Sintassi del for...in</h4>
+                <pre style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">for (let key in object) {
+    // codice da eseguire per ogni proprietà
+}</pre>
+                <p style="margin-top: 10px;">
+                    La variabile <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">key</span> 
+                    rappresenta il nome della proprietà corrente nell'iterazione.
+                </p>
+            </div>
+
+            <h3>Esempio 1: Accedere Solo alle Chiavi</h3>
+
+            <div class="code-block"><pre><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+    <span class="function">console</span>.<span class="function">log</span>(key);
+}</pre>
+            </div>
+
+            <div class="output">Output:
+key1
+key2
+key3</div>
+
+            <h3>Esempio 2: Accedere a Chiavi e Valori</h3>
+
+            <p>
+                Per accedere anche ai valori, utilizziamo la <strong>bracket notation</strong> con 
+                la variabile <span class="inline-code">key</span>:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+    <span class="function">console</span>.<span class="function">log</span>(key, obj[key]);
+}</pre>
+            </div>
+
+            <div class="output">Output:
+key1 value1
+key2 value2
+key3 value3</div>
+
+            <div class="important">
+                <strong>Perché usare obj[key] e non obj.key?</strong><br>
+                Quando usiamo <span class="inline-code">obj.key</span>, JavaScript cerca letteralmente 
+                una proprietà chiamata "key". Con <span class="inline-code">obj[key]</span>, invece, 
+                JavaScript valuta prima la variabile <span class="inline-code">key</span> e poi cerca 
+                la proprietà con quel nome (ad esempio "key1", "key2", etc.).
+            </div>
+        </section>
+
+        <section>
+            <h2>for...in e la Catena dei Prototipi</h2>
+            
+            <p>
+                Una caratteristica importante del ciclo <span class="inline-code">for...in</span> 
+                è che <strong>risale anche la catena dei prototipi</strong>, iterando non solo le 
+                proprietà proprie dell'oggetto ma anche quelle ereditate dal prototipo.
+            </p>
+
+            <h3>Esempio con Prototipo</h3>
+
+            <p>
+                Creiamo un oggetto padre e impostiamolo come prototipo di <span class="inline-code">obj</span>:
+            </p>
+
+            <div class="code-block"><pre><span class="comment">// Oggetto padre con una proprietà</span>
+<span class="keyword">let</span> obj_padre = {
+    key4: <span class="string">"value4"</span>
+};
+
+<span class="comment">// Oggetto figlio</span>
+<span class="keyword">let</span> obj = {
+    key1: <span class="string">"value1"</span>,
+    key2: <span class="string">"value2"</span>,
+    key3: <span class="string">"value3"</span>
+};
+
+<span class="comment">// Impostiamo obj_padre come prototipo di obj</span>
+<span class="function">Object</span>.<span class="function">setPrototypeOf</span>(obj, obj_padre);
+
+<span class="comment">// Iteriamo con for...in</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+    <span class="function">console</span>.<span class="function">log</span>(key, obj[key]);
+}</pre>
+            </div>
+
+            <div class="output">Output:
+key1 value1
+key2 value2
+key3 value3
+key4 value4</div>
+
+            <p>
+                Come possiamo vedere, <span class="inline-code">for...in</span> ha iterato anche 
+                <span class="inline-code">key4</span>, che è una proprietà di 
+                <span class="inline-code">obj_padre</span> (il prototipo), non di 
+                <span class="inline-code">obj</span> direttamente.
+            </p>
+
+            <h3>Filtrare le Proprietà Proprie: hasOwnProperty()</h3>
+
+            <p>
+                Se vogliamo iterare <strong>solo le proprietà proprie dell'oggetto</strong>, escludendo 
+                quelle ereditate dal prototipo, possiamo utilizzare il metodo 
+                <span class="inline-code">hasOwnProperty()</span>:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+    <span class="comment">// Verifichiamo se la proprietà appartiene direttamente all'oggetto</span>
+    <span class="keyword">if</span> (obj.<span class="function">hasOwnProperty</span>(key)) {
+        <span class="function">console</span>.<span class="function">log</span>(key, obj[key]);
+    }
+}</pre>
+            </div>
+
+            <div class="output">Output:
+key1 value1
+key2 value2
+key3 value3</div>
+
+            <p>
+                Ora <span class="inline-code">key4</span> non viene più visualizzata perché 
+                appartiene al prototipo, non direttamente a <span class="inline-code">obj</span>.
+            </p>
+
+            <div class="important">
+                <strong>Come funziona hasOwnProperty()?</strong><br>
+                Il metodo <span class="inline-code">hasOwnProperty(key)</span> restituisce 
+                <span class="inline-code">true</span> se la proprietà specificata esiste 
+                <strong>direttamente sull'oggetto</strong>, <span class="inline-code">false</span> 
+                se è ereditata dal prototipo o non esiste affatto.
+            </div>
+        </section>
+
+        <section>
+            <h2>Metodo 2: Object.keys()</h2>
+            
+            <p>
+                Il metodo <span class="inline-code">Object.keys()</span> restituisce un 
+                <strong>array contenente tutte le chiavi enumerabili proprie</strong> dell'oggetto 
+                (escludendo automaticamente le proprietà ereditate dal prototipo).
+            </p>
+
+            <div class="method-box">
+                <h4>Sintassi di Object.keys()</h4>
+                <pre style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">let keys = Object.keys(object);</pre>
+                <ul style="margin-top: 10px;">
+                    <li>Restituisce un array di stringhe (le chiavi)</li>
+                    <li>Include solo le proprietà proprie dell'oggetto</li>
+                    <li>Esclude le proprietà del prototipo</li>
+                </ul>
+            </div>
+
+            <h3>Esempio Base</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> items = <span class="function">Object</span>.<span class="function">keys</span>(obj);
+<span class="function">console</span>.<span class="function">log</span>(items);</pre>
+            </div>
+
+            <div class="output">Output:
+["key1", "key2", "key3"]</div>
+
+            <p>
+                Il risultato è un array contenente solo le chiavi di <span class="inline-code">obj</span>. 
+                Notare che <span class="inline-code">key4</span> (dal prototipo) non è inclusa.
+            </p>
+
+            <h3>Iterare con for...of</h3>
+
+            <p>
+                Dato che <span class="inline-code">Object.keys()</span> restituisce un array, 
+                possiamo utilizzare un ciclo <span class="inline-code">for...of</span> per iterarlo:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">let</span> items = <span class="function">Object</span>.<span class="function">keys</span>(obj);
+
+<span class="comment">// Iteriamo l'array delle chiavi</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> items) {
+    <span class="function">console</span>.<span class="function">log</span>(item);
+}</pre>
+            </div>
+
+            <div class="output">Output:
+key1
+key2
+key3</div>
+
+            <h3>Accedere a Chiavi e Valori</h3>
+
+            <p>
+                Per visualizzare anche i valori, usiamo le chiavi per accedere all'oggetto:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">let</span> items = <span class="function">Object</span>.<span class="function">keys</span>(obj);
+
+<span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> items) {
+    <span class="function">console</span>.<span class="function">log</span>(item, obj[item]);
+}</pre>
+            </div>
+
+            <div class="output">Output:
+key1 value1
+key2 value2
+key3 value3</div>
+        </section>
+
+        <section>
+            <h2>Metodo 3: Object.getOwnPropertyNames()</h2>
+            
+            <p>
+                Il metodo <span class="inline-code">Object.getOwnPropertyNames()</span> è molto simile 
+                a <span class="inline-code">Object.keys()</span>, ma ha una differenza importante: 
+                <strong>include anche le proprietà non enumerabili</strong>.
+            </p>
+
+            <div class="method-box">
+                <h4>Object.keys() vs Object.getOwnPropertyNames()</h4>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Object.keys():</strong> Restituisce solo le proprietà enumerabili</li>
+                    <li><strong>Object.getOwnPropertyNames():</strong> Restituisce tutte le proprietà (enumerabili e non enumerabili)</li>
+                    <li>Entrambi escludono le proprietà del prototipo</li>
+                </ul>
+            </div>
+
+            <h3>Esempio</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> items = <span class="function">Object</span>.<span class="function">getOwnPropertyNames</span>(obj);
+
+<span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> items) {
+    <span class="function">console</span>.<span class="function">log</span>(item, obj[item]);
+}</pre>
+            </div>
+
+            <div class="output">Output:
+key1 value1
+key2 value2
+key3 value3</div>
+
+            <p>
+                Nel nostro esempio, il risultato è identico a <span class="inline-code">Object.keys()</span> 
+                perché tutte le proprietà di <span class="inline-code">obj</span> sono enumerabili. 
+                La differenza emerge quando si lavora con proprietà definite come non enumerabili tramite 
+                <span class="inline-code">Object.defineProperty()</span>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Metodo 4: Object.values()</h2>
+            
+            <p>
+                Se siamo interessati <strong>solo ai valori</strong> delle proprietà, senza le chiavi, 
+                possiamo utilizzare <span class="inline-code">Object.values()</span>.
+            </p>
+
+            <div class="method-box">
+                <h4>Sintassi di Object.values()</h4>
+                <pre style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">let values = Object.values(object);</pre>
+                <ul style="margin-top: 10px;">
+                    <li>Restituisce un array con i valori delle proprietà</li>
+                    <li>Include solo le proprietà proprie ed enumerabili</li>
+                    <li>L'ordine corrisponde a quello di Object.keys()</li>
+                </ul>
+            </div>
+
+            <h3>Esempio</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> items = <span class="function">Object</span>.<span class="function">values</span>(obj);
+<span class="function">console</span>.<span class="function">log</span>(items);</pre>
+            </div>
+
+            <div class="output">Output:
+["value1", "value2", "value3"]</div>
+
+            <p>
+                Come possiamo vedere, otteniamo un array contenente solo i valori, non le chiavi.
+            </p>
+
+            <h3>Iterare i Valori</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> items = <span class="function">Object</span>.<span class="function">values</span>(obj);
+
+<span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> items) {
+    <span class="function">console</span>.<span class="function">log</span>(item);
+}</pre>
+            </div>
+
+            <div class="output">Output:
+value1
+value2
+value3</div>
+
+            <p>
+                Questo approccio è particolarmente utile quando vogliamo elaborare solo i valori 
+                senza preoccuparci delle chiavi associate.
+            </p>
+        </section>
+
+        <section>
+            <h2>Confronto tra i Metodi</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Metodo</th>
+                        <th>Restituisce</th>
+                        <th>Proprietà Prototipo</th>
+                        <th>Proprietà Non Enumerabili</th>
+                        <th>Caso d'Uso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>for...in</strong></td>
+                        <td>Chiavi (dirette)</td>
+                        <td>✓ Incluse</td>
+                        <td>✗ Escluse</td>
+                        <td>Quando servono anche le proprietà ereditate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Object.keys()</strong></td>
+                        <td>Array di chiavi</td>
+                        <td>✗ Escluse</td>
+                        <td>✗ Escluse</td>
+                        <td>Iterare solo proprietà proprie ed enumerabili</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Object.getOwnPropertyNames()</strong></td>
+                        <td>Array di chiavi</td>
+                        <td>✗ Escluse</td>
+                        <td>✓ Incluse</td>
+                        <td>Quando servono anche proprietà non enumerabili</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Object.values()</strong></td>
+                        <td>Array di valori</td>
+                        <td>✗ Escluse</td>
+                        <td>✗ Escluse</td>
+                        <td>Quando servono solo i valori, non le chiavi</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Quale Metodo Scegliere?</h3>
+
+            <div class="method-box">
+                <h4>🎯 Linee Guida per la Scelta</h4>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Usa for...in con hasOwnProperty()</strong> quando devi iterare proprietà e hai bisogno di massima compatibilità</li>
+                    <li><strong>Usa Object.keys()</strong> per la maggior parte dei casi (è il più comune e leggibile)</li>
+                    <li><strong>Usa Object.getOwnPropertyNames()</strong> quando hai bisogno di proprietà non enumerabili</li>
+                    <li><strong>Usa Object.values()</strong> quando ti servono solo i valori senza le chiavi</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Esempi Pratici Completi</h2>
+            
+            <h3>Esempio 1: Contare le Proprietà</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> user = {
+    name: <span class="string">"Mario"</span>,
+    age: <span class="string">30</span>,
+    city: <span class="string">"Roma"</span>
+};
+
+<span class="comment">// Metodo 1: con for...in</span>
+<span class="keyword">let</span> count1 = <span class="string">0</span>;
+<span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> user) {
+    <span class="keyword">if</span> (user.<span class="function">hasOwnProperty</span>(key)) {
+        count1++;
+    }
+}
+<span class="function">console</span>.<span class="function">log</span>(<span class="string">"Numero proprietà (for...in):"</span>, count1);
+
+<span class="comment">// Metodo 2: con Object.keys()</span>
+<span class="keyword">let</span> count2 = <span class="function">Object</span>.<span class="function">keys</span>(user).<span class="function">length</span>;
+<span class="function">console</span>.<span class="function">log</span>(<span class="string">"Numero proprietà (Object.keys):"</span>, count2);</pre>
+            </div>
+
+            <div class="output">Output:
+Numero proprietà (for...in): 3
+Numero proprietà (Object.keys): 3</div>
+
+            <h3>Esempio 2: Trasformare Oggetto in Array di Coppie</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> product = {
+    name: <span class="string">"Laptop"</span>,
+    price: <span class="string">999</span>,
+    brand: <span class="string">"TechCorp"</span>
+};
+
+<span class="comment">// Creiamo un array di coppie [chiave, valore]</span>
+<span class="keyword">let</span> entries = [];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">of</span> <span class="function">Object</span>.<span class="function">keys</span>(product)) {
+    entries.<span class="function">push</span>([key, product[key]]);
+}
+
+<span class="function">console</span>.<span class="function">log</span>(entries);</pre>
+            </div>
+
+            <div class="output">Output:
+[
+  ["name", "Laptop"],
+  ["price", 999],
+  ["brand", "TechCorp"]
+]</div>
+
+            <div class="important">
+                <strong>💡 Nota:</strong> In JavaScript moderno esiste anche 
+                <span class="inline-code">Object.entries()</span> che fa esattamente questo, 
+                restituendo direttamente un array di coppie [chiave, valore].
+            </div>
+
+            <h3>Esempio 3: Filtrare Proprietà per Tipo di Valore</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> data = {
+    name: <span class="string">"Giovanni"</span>,
+    age: <span class="string">25</span>,
+    active: <span class="keyword">true</span>,
+    city: <span class="string">"Milano"</span>,
+    score: <span class="string">95</span>
+};
+
+<span class="comment">// Estrarre solo i valori numerici</span>
+<span class="keyword">let</span> numbers = [];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> data) {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> data[key] === <span class="string">'number'</span>) {
+        numbers.<span class="function">push</span>(data[key]);
+    }
+}
+
+<span class="function">console</span>.<span class="function">log</span>(<span class="string">"Valori numerici:"</span>, numbers);</pre>
+            </div>
+
+            <div class="output">Output:
+Valori numerici: [25, 95]</div>
+
+            <h3>Esempio 4: Sommare Tutti i Valori Numerici</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> sales = {
+    january: <span class="string">1500</span>,
+    february: <span class="string">2300</span>,
+    march: <span class="string">1800</span>
+};
+
+<span class="comment">// Sommare con Object.values()</span>
+<span class="keyword">let</span> total = <span class="function">Object</span>.<span class="function">values</span>(sales).<span class="function">reduce</span>((sum, value) => sum + value, <span class="string">0</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(<span class="string">"Totale vendite:"</span>, total);</pre>
+            </div>
+
+            <div class="output">Output:
+Totale vendite: 5600</div>
+        </section>
+
+        <section>
+            <h2>Best Practices</h2>
+            
+            <h3>1. Usa Object.keys() come Default</h3>
+            <p>
+                Per la maggior parte dei casi, <span class="inline-code">Object.keys()</span> è la 
+                scelta migliore perché:
+            </p>
+            <ul>
+                <li>È più moderno e leggibile</li>
+                <li>Esclude automaticamente le proprietà del prototipo</li>
+                <li>Restituisce un array facilmente manipolabile</li>
+            </ul>
+
+            <h3>2. Usa hasOwnProperty() con for...in</h3>
+            <p>
+                Se utilizzi <span class="inline-code">for...in</span>, aggiungi sempre il controllo 
+                con <span class="inline-code">hasOwnProperty()</span> per evitare di iterare 
+                proprietà ereditate:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+    <span class="keyword">if</span> (obj.<span class="function">hasOwnProperty</span>(key)) {
+        <span class="comment">// Usa la proprietà in sicurezza</span>
+    }
+}</pre>
+            </div>
+
+            <h3>3. Considera Object.entries() per Chiavi e Valori</h3>
+            <p>
+                Se hai bisogno sia di chiavi che di valori, considera 
+                <span class="inline-code">Object.entries()</span>:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">for</span> (<span class="keyword">let</span> [key, value] <span class="keyword">of</span> <span class="function">Object</span>.<span class="function">entries</span>(obj)) {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="string">`${key}: ${value}`</span>);
+}</pre>
+            </div>
+
+            <h3>4. Documenta l'Intento del Codice</h3>
+            <p>
+                Quando usi <span class="inline-code">Object.getOwnPropertyNames()</span> invece di 
+                <span class="inline-code">Object.keys()</span>, aggiungi un commento che spiega 
+                perché hai bisogno anche delle proprietà non enumerabili.
+            </p>
+        </section>
+
+        <section>
+            <h2>Errori Comuni da Evitare</h2>
+            
+            <h3>Errore 1: Usare Dot Notation con Variabile</h3>
+
+            <div class="code-block"><pre><span class="comment">// ❌ SBAGLIATO</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+    <span class="function">console</span>.<span class="function">log</span>(obj.key); <span class="comment">// Cerca letteralmente "key"</span>
+}
+
+<span class="comment">// ✅ CORRETTO</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+    <span class="function">console</span>.<span class="function">log</span>(obj[key]); <span class="comment">// Valuta la variabile key</span>
+}</pre>
+            </div>
+
+            <h3>Errore 2: Dimenticare hasOwnProperty() con for...in</h3>
+
+            <div class="code-block"><pre><span class="comment">// ❌ SBAGLIATO - include proprietà del prototipo</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+    <span class="function">console</span>.<span class="function">log</span>(key);
+}
+
+<span class="comment">// ✅ CORRETTO - solo proprietà proprie</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) {
+    <span class="keyword">if</span> (obj.<span class="function">hasOwnProperty</span>(key)) {
+        <span class="function">console</span>.<span class="function">log</span>(key);
+    }
+}</pre>
+            </div>
+
+            <h3>Errore 3: Confondere Object.keys() con Array.keys()</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> arr = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];
+
+<span class="comment">// Object.keys() su array restituisce gli indici</span>
+<span class="function">console</span>.<span class="function">log</span>(<span class="function">Object</span>.<span class="function">keys</span>(arr)); <span class="comment">// ["0", "1", "2"]</span>
+
+<span class="comment">// Array.keys() restituisce un iteratore</span>
+<span class="function">console</span>.<span class="function">log</span>([...arr.<span class="function">keys</span>()]); <span class="comment">// [0, 1, 2]</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Riepilogo</h2>
+            
+            <p>In questa lezione abbiamo esplorato i quattro principali metodi per iterare gli oggetti:</p>
+
+            <ol>
+                <li>
+                    <strong>for...in:</strong> Itera tutte le proprietà enumerabili, incluse quelle del 
+                    prototipo. Richiede <span class="inline-code">hasOwnProperty()</span> per filtrare.
+                </li>
+                <li>
+                    <strong>Object.keys():</strong> Restituisce un array delle chiavi proprie ed enumerabili. 
+                    È il metodo più utilizzato e raccomandato.
+                </li>
+                <li>
+                    <strong>Object.getOwnPropertyNames():</strong> Come Object.keys() ma include anche 
+                    proprietà non enumerabili.
+                </li>
+                <li>
+                    <strong>Object.values():</strong> Restituisce un array dei valori delle proprietà 
+                    proprie ed enumerabili.
+                </li>
+            </ol>
+
+            <div class="important">
+                <strong>Regola d'Oro:</strong> Per la maggior parte dei casi, usa 
+                <span class="inline-code">Object.keys()</span> o 
+                <span class="inline-code">Object.entries()</span>. Sono i metodi più moderni, 
+                leggibili e sicuri per iterare gli oggetti in JavaScript.
+            </div>
+        </section>
+
+        <footer>
+            <p><strong>Lezione:</strong> Iterare un Oggetto in JavaScript</p>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Manuale creato il 26 Dicembre 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
