@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binding Esplicito in JavaScript: call, apply e bind</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .keyword {
+            color: #ff79c6;
+        }
+        
+        .function {
+            color: #50fa7b;
+        }
+        
+        .string {
+            color: #f1fa8c;
+        }
+        
+        .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        
+        .operator {
+            color: #ff79c6;
+        }
+        
+        .output {
+            background-color: #1e1e1e;
+            color: #4ec9b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 4px solid #4ec9b0;
+        }
+        
+        .inline-code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.95em;
+        }
+        
+        .important {
+            background-color: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .important strong {
+            color: #0c5460;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        .concept-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .concept-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .method-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .method-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Binding Esplicito in JavaScript</h1>
+            <p class="subtitle">I Metodi call, apply e bind - Controllo del Contesto di Esecuzione</p>
+        </header>
+
+        <section>
+            <h2>Introduzione al Binding</h2>
+            <p>
+                In JavaScript, il <strong>binding</strong> rappresenta il meccanismo attraverso cui viene 
+                stabilito il riferimento al contesto di esecuzione di una funzione, ovvero il valore 
+                di <span class="inline-code">this</span> all'interno di quella funzione.
+            </p>
+            
+            <p>
+                Esistono diverse tipologie di binding che determinano a quale oggetto 
+                <span class="inline-code">this</span> farà riferimento durante l'esecuzione del codice.
+            </p>
+
+            <div class="concept-box">
+                <h4>Cos'è il Binding?</h4>
+                <p>
+                    Il <strong>binding</strong> è il processo che associa il valore di 
+                    <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">this</span> 
+                    ad un oggetto specifico durante l'esecuzione di una funzione. Questo riferimento 
+                    determina su quale oggetto la funzione opererà e a quali proprietà avrà accesso.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Binding Implicito</h2>
+            
+            <p>
+                Il <strong>binding implicito</strong> avviene automaticamente quando invochiamo un metodo 
+                utilizzando la sintassi <span class="inline-code">oggetto.metodo()</span>. In questo caso, 
+                JavaScript imposta automaticamente <span class="inline-code">this</span> come riferimento 
+                all'oggetto che precede il punto.
+            </p>
+
+            <h3>Esempio di Binding Implicito</h3>
+
+            <div class="code-block"><pre><span class="comment">// Definizione di una funzione</span>
+<span class="keyword">function</span> <span class="function">test</span>() {}
+
+<span class="comment">// Creazione di un oggetto con un metodo</span>
+<span class="keyword">let</span> obj = {
+    fn: test
+};
+
+<span class="comment">// BINDING IMPLICITO #1:</span>
+<span class="comment">// this all'interno di test sarà window (contesto globale)</span>
+window.<span class="function">test</span>();
+
+<span class="comment">// BINDING IMPLICITO #2:</span>
+<span class="comment">// this all'interno di test sarà obj</span>
+obj.<span class="function">fn</span>();</pre>
+            </div>
+
+            <div class="important">
+                <strong>Regola del binding implicito:</strong> Quando chiamiamo un metodo usando 
+                <span class="inline-code">oggetto.metodo()</span>, il valore di 
+                <span class="inline-code">this</span> all'interno del metodo diventa automaticamente 
+                un riferimento a quell'oggetto. Nel primo esempio, <span class="inline-code">this</span> 
+                è <span class="inline-code">window</span>; nel secondo, è <span class="inline-code">obj</span>.
+            </div>
+        </section>
+
+        <section>
+            <h2>Binding Esplicito: Panoramica</h2>
+            
+            <p>
+                A differenza del binding implicito che avviene automaticamente, il <strong>binding esplicito</strong> 
+                ci permette di specificare manualmente quale oggetto deve essere utilizzato come contesto 
+                di esecuzione (<span class="inline-code">this</span>) per una determinata funzione.
+            </p>
+
+            <p>
+                JavaScript fornisce tre metodi fondamentali per effettuare il binding esplicito:
+            </p>
+
+            <ul>
+                <li><span class="inline-code">call()</span> - Invoca la funzione con un contesto specifico e argomenti separati</li>
+                <li><span class="inline-code">apply()</span> - Invoca la funzione con un contesto specifico e argomenti in array</li>
+                <li><span class="inline-code">bind()</span> - Crea una nuova funzione con un contesto permanentemente legato</li>
+            </ul>
+
+            <div class="concept-box">
+                <h4>Perché Usare il Binding Esplicito?</h4>
+                <p>
+                    Il binding esplicito è essenziale quando vogliamo:
+                </p>
+                <ul>
+                    <li>Riutilizzare una funzione con oggetti diversi</li>
+                    <li>Controllare precisamente il contesto di esecuzione</li>
+                    <li>Evitare problemi con la perdita del riferimento a <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">this</span></li>
+                    <li>Implementare pattern avanzati come il method borrowing</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Setup dell'Esempio: Definizione degli Oggetti</h2>
+            
+            <p>
+                Per comprendere il funzionamento dei metodi di binding esplicito, utilizzeremo 
+                un esempio pratico con due oggetti e una funzione condivisa.
+            </p>
+
+            <h3>Creazione degli Oggetti</h3>
+
+            <div class="code-block"><pre><span class="comment">// Primo oggetto</span>
+<span class="keyword">let</span> obj1 = {
+    nome: <span class="string">"Gianluca"</span>
+};
+
+<span class="comment">// Secondo oggetto</span>
+<span class="keyword">let</span> obj2 = {
+    nome: <span class="string">"Luisa"</span>
+};</pre>
+            </div>
+
+            <h3>Definizione della Funzione</h3>
+
+            <p>
+                Definiamo una funzione <span class="inline-code">saluta</span> che accetta due parametri 
+                e utilizza <span class="inline-code">this.nome</span> per accedere alla proprietà 
+                dell'oggetto su cui verrà eseguita.
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">saluta</span>(indirizzo, lavoro) {
+    <span class="function">console</span>.<span class="function">log</span>(
+        <span class="string">`Ciao sono ${<span class="keyword">this</span>.nome}. Abito in ${indirizzo} e lavoro come ${lavoro}`</span>
+    );
+}</pre>
+            </div>
+
+            <h3>Invocazione dal Contesto Globale (Problema)</h3>
+
+            <p>
+                Se invochiamo la funzione <span class="inline-code">saluta</span> direttamente, 
+                senza specificare un contesto, otteniamo un risultato inatteso:
+            </p>
+
+            <div class="code-block"><pre><span class="comment">// Invocazione diretta (contesto globale)</span>
+<span class="function">saluta</span>(<span class="string">"via dei Greci, 6"</span>, <span class="string">"infermiere"</span>);</pre>
+            </div>
+
+            <div class="output">Output: "Ciao sono undefined. Abito in via dei Greci, 6 e lavoro come infermiere"</div>
+
+            <div class="warning">
+                <strong>⚠️ Perché <span class="inline-code">this.nome</span> è <span class="inline-code">undefined</span>?</strong><br>
+                Quando invochiamo <span class="inline-code">saluta()</span> direttamente, la funzione 
+                viene eseguita nel contesto globale. In questo contesto, <span class="inline-code">this</span> 
+                riferisce all'oggetto <span class="inline-code">window</span> (nel browser). 
+                Poiché <span class="inline-code">window</span> non ha una proprietà 
+                <span class="inline-code">nome</span>, otteniamo <span class="inline-code">undefined</span>.
+            </div>
+        </section>
+
+        <section>
+            <h2>Il Metodo call()</h2>
+            
+            <p>
+                Il metodo <span class="inline-code">call()</span> permette di invocare una funzione 
+                specificando esplicitamente quale oggetto deve essere usato come <span class="inline-code">this</span>. 
+                Gli argomenti della funzione vengono passati separatamente, uno dopo l'altro.
+            </p>
+
+            <div class="method-box">
+                <h4>Sintassi di call()</h4>
+                <pre style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">funzione.call(oggettoContesto, arg1, arg2, arg3, ...)</pre>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Primo parametro:</strong> l'oggetto che diventerà <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">this</span></li>
+                    <li><strong>Parametri successivi:</strong> gli argomenti della funzione, separati da virgola</li>
+                </ul>
+            </div>
+
+            <h3>Esempio con obj1</h3>
+
+            <div class="code-block"><pre><span class="comment">// Utilizziamo call per associare this a obj1</span>
+saluta.<span class="function">call</span>(obj1, <span class="string">"via dei Greci, 6"</span>, <span class="string">"infermiere"</span>);</pre>
+            </div>
+
+            <div class="output">Output: "Ciao sono Gianluca. Abito in via dei Greci, 6 e lavoro come infermiere"</div>
+
+            <div class="important">
+                <strong>Cosa è successo?</strong><br>
+                Con <span class="inline-code">call(obj1, ...)</span>, abbiamo esplicitamente detto 
+                a JavaScript: "Quando esegui la funzione <span class="inline-code">saluta</span>, 
+                fai in modo che <span class="inline-code">this</span> sia un riferimento a 
+                <span class="inline-code">obj1</span>". Di conseguenza, 
+                <span class="inline-code">this.nome</span> diventa <span class="inline-code">obj1.nome</span>, 
+                che vale <span class="inline-code">"Gianluca"</span>.
+            </div>
+
+            <h3>Esempio con obj2</h3>
+
+            <p>
+                Possiamo usare la stessa funzione con un oggetto diverso, semplicemente cambiando 
+                il primo parametro di <span class="inline-code">call()</span>:
+            </p>
+
+            <div class="code-block"><pre><span class="comment">// Utilizziamo call per associare this a obj2</span>
+saluta.<span class="function">call</span>(obj2, <span class="string">"via dei Greci, 6"</span>, <span class="string">"infermiere"</span>);</pre>
+            </div>
+
+            <div class="output">Output: "Ciao sono Luisa. Abito in via dei Greci, 6 e lavoro come infermiere"</div>
+
+            <h3>Caratteristiche di call()</h3>
+
+            <ul>
+                <li><strong>Invocazione immediata:</strong> La funzione viene eseguita subito</li>
+                <li><strong>Argomenti separati:</strong> Ogni argomento viene passato individualmente</li>
+                <li><strong>Flessibilità:</strong> Possiamo usare la stessa funzione con oggetti diversi</li>
+                <li><strong>Controllo totale:</strong> Decidiamo esattamente quale sarà il contesto</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Il Metodo apply()</h2>
+            
+            <p>
+                Il metodo <span class="inline-code">apply()</span> funziona esattamente come 
+                <span class="inline-code">call()</span>, con una differenza fondamentale: 
+                gli argomenti della funzione devono essere passati all'interno di un <strong>array</strong> 
+                invece che separatamente.
+            </p>
+
+            <div class="method-box">
+                <h4>Sintassi di apply()</h4>
+                <pre style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">funzione.apply(oggettoContesto, [arg1, arg2, arg3, ...])</pre>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Primo parametro:</strong> l'oggetto che diventerà <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">this</span></li>
+                    <li><strong>Secondo parametro:</strong> un array contenente tutti gli argomenti</li>
+                </ul>
+            </div>
+
+            <h3>Esempio Pratico</h3>
+
+            <div class="code-block"><pre><span class="comment">// Utilizziamo apply con gli argomenti in un array</span>
+saluta.<span class="function">apply</span>(obj1, [<span class="string">"via dei Greci, 6"</span>, <span class="string">"infermiere"</span>]);</pre>
+            </div>
+
+            <div class="output">Output: "Ciao sono Gianluca. Abito in via dei Greci, 6 e lavoro come infermiere"</div>
+
+            <h3>Quando Usare apply() invece di call()</h3>
+
+            <p>
+                <span class="inline-code">apply()</span> è particolarmente utile quando:
+            </p>
+
+            <ul>
+                <li>Gli argomenti sono già disponibili in forma di array</li>
+                <li>Non conosciamo in anticipo il numero di argomenti</li>
+                <li>Vogliamo passare dinamicamente argomenti da un'altra fonte</li>
+            </ul>
+
+            <h3>Esempio con Array Dinamico</h3>
+
+            <div class="code-block"><pre><span class="comment">// Argomenti memorizzati in un array</span>
+<span class="keyword">let</span> parametri = [<span class="string">"via dei Greci, 20"</span>, <span class="string">"web developer"</span>];
+
+<span class="comment">// Passaggio comodo con apply()</span>
+saluta.<span class="function">apply</span>(obj1, parametri);</pre>
+            </div>
+
+            <div class="output">Output: "Ciao sono Gianluca. Abito in via dei Greci, 20 e lavoro come web developer"</div>
+
+            <div class="important">
+                <strong>Nota ES6:</strong> Con l'introduzione dell'operatore spread (<span class="inline-code">...</span>) 
+                in ES6, molti casi d'uso di <span class="inline-code">apply()</span> possono essere sostituiti da 
+                <span class="inline-code">call()</span> combinato con lo spread operator:<br>
+                <span class="inline-code">saluta.call(obj1, ...parametri)</span>
+            </div>
+        </section>
+
+        <section>
+            <h2>Il Metodo bind()</h2>
+            
+            <p>
+                Il metodo <span class="inline-code">bind()</span> funziona in modo significativamente 
+                diverso da <span class="inline-code">call()</span> e <span class="inline-code">apply()</span>. 
+                Invece di invocare immediatamente la funzione, <span class="inline-code">bind()</span> 
+                crea e restituisce una <strong>nuova funzione</strong> con il contesto 
+                <span class="inline-code">this</span> permanentemente associato all'oggetto specificato.
+            </p>
+
+            <div class="method-box">
+                <h4>Sintassi di bind()</h4>
+                <pre style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">let nuovaFunzione = funzione.bind(oggettoContesto, arg1, arg2, ...)</pre>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Primo parametro:</strong> l'oggetto che diventerà <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">this</span></li>
+                    <li><strong>Parametri successivi:</strong> argomenti opzionali pre-impostati (currying)</li>
+                    <li><strong>Valore di ritorno:</strong> una nuova funzione con <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">this</span> legato</li>
+                </ul>
+            </div>
+
+            <h3>Esempio Base</h3>
+
+            <div class="code-block"><pre><span class="comment">// bind() non invoca la funzione, ma ne restituisce una nuova</span>
+<span class="keyword">let</span> rif = saluta.<span class="function">bind</span>(obj1);
+
+<span class="comment">// Verifichiamo cosa contiene rif</span>
+<span class="function">console</span>.<span class="function">log</span>(rif);
+<span class="comment">// Output: [Function: bound saluta]</span>
+
+<span class="comment">// Ora possiamo invocare la funzione attraverso rif</span>
+<span class="function">rif</span>(<span class="string">"via dei Greci, 20"</span>, <span class="string">"web developer"</span>);</pre>
+            </div>
+
+            <div class="output">Output: "Ciao sono Gianluca. Abito in via dei Greci, 20 e lavoro come web developer"</div>
+
+            <h3>Differenze Fondamentali</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Caratteristica</th>
+                        <th>call() / apply()</th>
+                        <th>bind()</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Esecuzione</strong></td>
+                        <td>Immediata</td>
+                        <td>Differita (quando vuoi tu)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Valore ritornato</strong></td>
+                        <td>Risultato della funzione</td>
+                        <td>Nuova funzione legata</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Riutilizzo</strong></td>
+                        <td>Uso singolo</td>
+                        <td>Multiplo (la funzione è riutilizzabile)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Binding this</strong></td>
+                        <td>Solo per quella chiamata</td>
+                        <td>Permanente nella nuova funzione</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Casi d'Uso Tipici di bind()</h3>
+
+            <h4>1. Event Handlers</h4>
+
+            <div class="code-block"><pre><span class="keyword">const</span> oggetto = {
+    nome: <span class="string">"MioOggetto"</span>,
+    <span class="function">gestisciClick</span>: <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>.nome);
+    }
+};
+
+<span class="comment">// Senza bind, this nell'handler sarebbe l'elemento DOM</span>
+button.<span class="function">addEventListener</span>(<span class="string">'click'</span>, oggetto.gestisciClick.<span class="function">bind</span>(oggetto));</pre>
+            </div>
+
+            <h4>2. Metodi da Passare come Callback</h4>
+
+            <div class="code-block"><pre><span class="keyword">const</span> timer = {
+    secondi: <span class="string">0</span>,
+    <span class="function">incrementa</span>: <span class="keyword">function</span>() {
+        <span class="keyword">this</span>.secondi++;
+        <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>.secondi);
+    }
+};
+
+<span class="comment">// bind() assicura che this sia sempre timer</span>
+<span class="function">setInterval</span>(timer.incrementa.<span class="function">bind</span>(timer), <span class="string">1000</span>);</pre>
+            </div>
+
+            <h4>3. Partial Application (Currying)</h4>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">moltiplica</span>(a, b) {
+    <span class="keyword">return</span> a * b;
+}
+
+<span class="comment">// Creiamo una funzione specializzata che moltiplica sempre per 2</span>
+<span class="keyword">const</span> raddoppia = moltiplica.<span class="function">bind</span>(<span class="keyword">null</span>, <span class="string">2</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(<span class="function">raddoppia</span>(<span class="string">5</span>));  <span class="comment">// 10</span>
+<span class="function">console</span>.<span class="function">log</span>(<span class="function">raddoppia</span>(<span class="string">10</span>)); <span class="comment">// 20</span></pre>
+            </div>
+
+            <div class="important">
+                <strong>Caratteristica importante di bind():</strong> Il binding creato con 
+                <span class="inline-code">bind()</span> è <strong>permanente e immutabile</strong>. 
+                Una volta che una funzione è stata legata a un contesto con <span class="inline-code">bind()</span>, 
+                non è possibile modificare quel legame, nemmeno con successive chiamate a 
+                <span class="inline-code">call()</span>, <span class="inline-code">apply()</span> 
+                o un altro <span class="inline-code">bind()</span>.
+            </div>
+        </section>
+
+        <section>
+            <h2>Confronto Completo tra call, apply e bind</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspetto</th>
+                        <th>call()</th>
+                        <th>apply()</th>
+                        <th>bind()</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Invocazione</strong></td>
+                        <td>Immediata</td>
+                        <td>Immediata</td>
+                        <td>Differita (manuale)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Argomenti</strong></td>
+                        <td>Lista separata</td>
+                        <td>Array unico</td>
+                        <td>Lista separata</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Return</strong></td>
+                        <td>Risultato funzione</td>
+                        <td>Risultato funzione</td>
+                        <td>Nuova funzione</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Binding this</strong></td>
+                        <td>Temporaneo</td>
+                        <td>Temporaneo</td>
+                        <td>Permanente</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Riutilizzo</strong></td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Sì (multiplo)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Caso d'uso tipico</strong></td>
+                        <td>Singola chiamata con contesto custom</td>
+                        <td>Argomenti in array</td>
+                        <td>Event handlers, callbacks</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Esempio Comparativo Completo</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> persona = {
+    nome: <span class="string">"Mario"</span>
+};
+
+<span class="keyword">function</span> <span class="function">presenta</span>(saluto, professione) {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="string">`${saluto}, sono ${<span class="keyword">this</span>.nome} e faccio il ${professione}`</span>);
+}
+
+<span class="comment">// 1. Con call()</span>
+presenta.<span class="function">call</span>(persona, <span class="string">"Ciao"</span>, <span class="string">"programmatore"</span>);
+<span class="comment">// Output: "Ciao, sono Mario e faccio il programmatore"</span>
+
+<span class="comment">// 2. Con apply()</span>
+presenta.<span class="function">apply</span>(persona, [<span class="string">"Salve"</span>, <span class="string">"ingegnere"</span>]);
+<span class="comment">// Output: "Salve, sono Mario e faccio il ingegnere"</span>
+
+<span class="comment">// 3. Con bind()</span>
+<span class="keyword">const</span> presentaMario = presenta.<span class="function">bind</span>(persona);
+<span class="function">presentaMario</span>(<span class="string">"Buongiorno"</span>, <span class="string">"designer"</span>);
+<span class="comment">// Output: "Buongiorno, sono Mario e faccio il designer"</span>
+
+<span class="comment">// 4. bind() con partial application</span>
+<span class="keyword">const</span> salutaMario = presenta.<span class="function">bind</span>(persona, <span class="string">"Hey"</span>);
+<span class="function">salutaMario</span>(<span class="string">"fotografo"</span>);
+<span class="comment">// Output: "Hey, sono Mario e faccio il fotografo"</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Il Valore di this: Dipende dall'Invocazione</h2>
+            
+            <p>
+                Una domanda fondamentale che ogni sviluppatore JavaScript deve porsi è: 
+                <strong>"Cos'è <span class="inline-code">this</span>?"</strong>
+            </p>
+
+            <div class="concept-box">
+                <h4>Regola d'Oro</h4>
+                <p style="font-size: 1.1em;">
+                    Il valore di <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">this</span> 
+                    dipende <strong>da come viene invocata la funzione</strong>, non da dove viene definita.
+                </p>
+            </div>
+
+            <h3>Le Quattro Regole di Determinazione di this</h3>
+
+            <h4>1. Default Binding (Binding di Default)</h4>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">esempio</span>() {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>);
+}
+
+<span class="function">esempio</span>(); <span class="comment">// this è window (in browser) o global (in Node.js)</span></pre>
+            </div>
+
+            <p>
+                <strong>Quando si applica:</strong> Invocazione diretta senza contesto esplicito.<br>
+                <strong>Risultato:</strong> <span class="inline-code">this</span> è l'oggetto globale 
+                (in strict mode è <span class="inline-code">undefined</span>).
+            </p>
+
+            <h4>2. Implicit Binding (Binding Implicito)</h4>
+
+            <div class="code-block"><pre><span class="keyword">const</span> obj = {
+    nome: <span class="string">"Test"</span>,
+    <span class="function">metodo</span>: <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>.nome);
+    }
+};
+
+obj.<span class="function">metodo</span>(); <span class="comment">// this è obj</span></pre>
+            </div>
+
+            <p>
+                <strong>Quando si applica:</strong> Invocazione tramite oggetto con sintassi punto.<br>
+                <strong>Risultato:</strong> <span class="inline-code">this</span> è l'oggetto che 
+                precede il punto.
+            </p>
+
+            <h4>3. Explicit Binding (Binding Esplicito)</h4>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">saluta</span>() {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>.nome);
+}
+
+<span class="keyword">const</span> utente = { nome: <span class="string">"Anna"</span> };
+
+saluta.<span class="function">call</span>(utente);   <span class="comment">// this è utente</span>
+saluta.<span class="function">apply</span>(utente);  <span class="comment">// this è utente</span>
+<span class="keyword">const</span> fn = saluta.<span class="function">bind</span>(utente);
+<span class="function">fn</span>();                  <span class="comment">// this è utente</span></pre>
+            </div>
+
+            <p>
+                <strong>Quando si applica:</strong> Uso di <span class="inline-code">call()</span>, 
+                <span class="inline-code">apply()</span> o <span class="inline-code">bind()</span>.<br>
+                <strong>Risultato:</strong> <span class="inline-code">this</span> è l'oggetto 
+                specificato nel primo parametro.
+            </p>
+
+            <h4>4. New Binding (Binding con Constructor)</h4>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">Persona</span>(nome) {
+    <span class="keyword">this</span>.nome = nome;
+}
+
+<span class="keyword">const</span> p = <span class="keyword">new</span> <span class="function">Persona</span>(<span class="string">"Luigi"</span>); <span class="comment">// this è il nuovo oggetto creato</span></pre>
+            </div>
+
+            <p>
+                <strong>Quando si applica:</strong> Invocazione con operatore <span class="inline-code">new</span>.<br>
+                <strong>Risultato:</strong> <span class="inline-code">this</span> è il nuovo oggetto 
+                creato dal costruttore.
+            </p>
+
+            <h3>Ordine di Precedenza</h3>
+
+            <p>Quando più regole potrebbero applicarsi, JavaScript segue quest'ordine di priorità:</p>
+
+            <ol>
+                <li><strong>New binding</strong> - La più alta priorità</li>
+                <li><strong>Explicit binding</strong> - Secondo posto (call, apply, bind)</li>
+                <li><strong>Implicit binding</strong> - Terzo posto (oggetto.metodo)</li>
+                <li><strong>Default binding</strong> - La più bassa priorità</li>
+            </ol>
+
+            <div class="important">
+                <strong>Eccezione: Arrow Functions</strong><br>
+                Le arrow functions (=>) non seguono queste regole. Non hanno un proprio 
+                <span class="inline-code">this</span>, ma ereditano il <span class="inline-code">this</span> 
+                dal contesto lessicale (dove sono definite). Non è possibile cambiare il loro 
+                <span class="inline-code">this</span> con <span class="inline-code">call()</span>, 
+                <span class="inline-code">apply()</span> o <span class="inline-code">bind()</span>.
+            </div>
+        </section>
+
+        <section>
+            <h2>Casi d'Uso Pratici e Pattern Comuni</h2>
+            
+            <h3>Pattern 1: Method Borrowing</h3>
+
+            <p>
+                Utilizzare metodi di un oggetto su un altro oggetto senza duplicare il codice:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> persona1 = {
+    nome: <span class="string">"Marco"</span>,
+    <span class="function">saluta</span>: <span class="keyword">function</span>() {
+        <span class="keyword">return</span> <span class="string">`Ciao, sono ${<span class="keyword">this</span>.nome}`</span>;
+    }
+};
+
+<span class="keyword">const</span> persona2 = {
+    nome: <span class="string">"Sara"</span>
+};
+
+<span class="comment">// "Prendiamo in prestito" il metodo saluta di persona1 per persona2</span>
+<span class="keyword">const</span> saluto = persona1.saluta.<span class="function">call</span>(persona2);
+<span class="function">console</span>.<span class="function">log</span>(saluto); <span class="comment">// "Ciao, sono Sara"</span></pre>
+            </div>
+
+            <h3>Pattern 2: Conversione Array-Like Objects</h3>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">esempio</span>() {
+    <span class="comment">// arguments è un oggetto array-like, non un vero array</span>
+    <span class="comment">// Convertiamolo in un array vero</span>
+    <span class="keyword">const</span> args = <span class="function">Array</span>.prototype.slice.<span class="function">call</span>(arguments);
+    
+    <span class="function">console</span>.<span class="function">log</span>(args); <span class="comment">// [1, 2, 3] - ora è un vero array</span>
+    
+    <span class="comment">// Ora possiamo usare metodi array come map, filter, ecc.</span>
+    <span class="keyword">const</span> raddoppiati = args.<span class="function">map</span>(x => x * <span class="string">2</span>);
+    <span class="function">console</span>.<span class="function">log</span>(raddoppiati); <span class="comment">// [2, 4, 6]</span>
+}
+
+<span class="function">esempio</span>(<span class="string">1</span>, <span class="string">2</span>, <span class="string">3</span>);</pre>
+            </div>
+
+            <h3>Pattern 3: Preservare il Contesto in Callback</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> oggetto = {
+    contatore: <span class="string">0</span>,
+    <span class="function">incrementa</span>: <span class="keyword">function</span>() {
+        <span class="keyword">this</span>.contatore++;
+        <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>.contatore);
+    },
+    <span class="function">avviaTimer</span>: <span class="keyword">function</span>() {
+        <span class="comment">// Senza bind, this in setTimeout sarebbe window</span>
+        <span class="function">setTimeout</span>(<span class="keyword">this</span>.incrementa.<span class="function">bind</span>(<span class="keyword">this</span>), <span class="string">1000</span>);
+    }
+};
+
+oggetto.<span class="function">avviaTimer</span>(); <span class="comment">// Dopo 1 secondo stampa: 1</span></pre>
+            </div>
+
+            <h3>Pattern 4: Funzioni Parzialmente Applicate</h3>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">calcola</span>(operazione, a, b) {
+    <span class="keyword">if</span> (operazione === <span class="string">'somma'</span>) <span class="keyword">return</span> a + b;
+    <span class="keyword">if</span> (operazione === <span class="string">'sottrai'</span>) <span class="keyword">return</span> a - b;
+    <span class="keyword">if</span> (operazione === <span class="string">'moltiplica'</span>) <span class="keyword">return</span> a * b;
+}
+
+<span class="comment">// Creiamo funzioni specializzate usando bind</span>
+<span class="keyword">const</span> somma = calcola.<span class="function">bind</span>(<span class="keyword">null</span>, <span class="string">'somma'</span>);
+<span class="keyword">const</span> sottrai = calcola.<span class="function">bind</span>(<span class="keyword">null</span>, <span class="string">'sottrai'</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(<span class="function">somma</span>(<span class="string">5</span>, <span class="string">3</span>));    <span class="comment">// 8</span>
+<span class="function">console</span>.<span class="function">log</span>(<span class="function">sottrai</span>(<span class="string">10</span>, <span class="string">4</span>));  <span class="comment">// 6</span></pre>
+            </div>
+
+            <h3>Pattern 5: Event Handling con Contesto Preservato</h3>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">ContatoreClic</span> {
+    <span class="function">constructor</span>() {
+        <span class="keyword">this</span>.clic = <span class="string">0</span>;
+        <span class="keyword">this</span>.bottone = document.<span class="function">querySelector</span>(<span class="string">'#miobottone'</span>);
+        
+        <span class="comment">// bind() preserva il contesto della classe</span>
+        <span class="keyword">this</span>.bottone.<span class="function">addEventListener</span>(
+            <span class="string">'click'</span>, 
+            <span class="keyword">this</span>.gestisciClick.<span class="function">bind</span>(<span class="keyword">this</span>)
+        );
+    }
+    
+    <span class="function">gestisciClick</span>() {
+        <span class="keyword">this</span>.clic++;
+        <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Clic registrati: ${<span class="keyword">this</span>.clic}`</span>);
+    }
+}
+
+<span class="keyword">const</span> contatore = <span class="keyword">new</span> <span class="function">ContatoreClic</span>();</pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Errori Comuni e Come Evitarli</h2>
+            
+            <h3>Errore 1: Perdita del Contesto in Callback</h3>
+
+            <div class="code-block"><pre><span class="comment">// ❌ ERRORE COMUNE</span>
+<span class="keyword">const</span> obj = {
+    valore: <span class="string">42</span>,
+    <span class="function">mostra</span>: <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>.valore);
+    }
+};
+
+<span class="function">setTimeout</span>(obj.mostra, <span class="string">1000</span>); <span class="comment">// undefined - this è window!</span>
+
+<span class="comment">// ✅ SOLUZIONE 1: bind()</span>
+<span class="function">setTimeout</span>(obj.mostra.<span class="function">bind</span>(obj), <span class="string">1000</span>); <span class="comment">// 42</span>
+
+<span class="comment">// ✅ SOLUZIONE 2: Arrow function</span>
+<span class="function">setTimeout</span>(() => obj.<span class="function">mostra</span>(), <span class="string">1000</span>); <span class="comment">// 42</span></pre>
+            </div>
+
+            <h3>Errore 2: Confondere call() con apply()</h3>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">test</span>(a, b, c) {
+    <span class="function">console</span>.<span class="function">log</span>(a, b, c);
+}
+
+<span class="keyword">const</span> args = [<span class="string">1</span>, <span class="string">2</span>, <span class="string">3</span>];
+
+<span class="comment">// ❌ ERRORE: passa l'array come primo argomento</span>
+test.<span class="function">call</span>(<span class="keyword">null</span>, args); <span class="comment">// [1,2,3] undefined undefined</span>
+
+<span class="comment">// ✅ CORRETTO con apply()</span>
+test.<span class="function">apply</span>(<span class="keyword">null</span>, args); <span class="comment">// 1 2 3</span>
+
+<span class="comment">// ✅ CORRETTO con call() + spread (ES6)</span>
+test.<span class="function">call</span>(<span class="keyword">null</span>, ...args); <span class="comment">// 1 2 3</span></pre>
+            </div>
+
+            <h3>Errore 3: Tentare di Cambiare this di una Funzione Bound</h3>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">mostraNome</span>() {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>.nome);
+}
+
+<span class="keyword">const</span> obj1 = { nome: <span class="string">"Primo"</span> };
+<span class="keyword">const</span> obj2 = { nome: <span class="string">"Secondo"</span> };
+
+<span class="comment">// Creiamo una funzione legata a obj1</span>
+<span class="keyword">const</span> funzioneBound = mostraNome.<span class="function">bind</span>(obj1);
+
+<span class="comment">// ❌ Tentativo fallito di cambiarla a obj2</span>
+funzioneBound.<span class="function">call</span>(obj2); <span class="comment">// "Primo" - non "Secondo"!</span>
+
+<span class="comment">// Il binding con bind() è PERMANENTE e non può essere modificato</span></pre>
+            </div>
+
+            <h3>Errore 4: Uso Errato con Arrow Functions</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> obj = {
+    nome: <span class="string">"Test"</span>,
+    <span class="comment">// ❌ Arrow function non ha proprio this</span>
+    <span class="function">metodo</span>: () => {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>.nome); <span class="comment">// undefined (this è window/global)</span>
+    }
+};
+
+obj.<span class="function">metodo</span>();
+
+<span class="comment">// ✅ Usa function normale per metodi che usano this</span>
+<span class="keyword">const</span> obj2 = {
+    nome: <span class="string">"Test"</span>,
+    <span class="function">metodo</span>: <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="keyword">this</span>.nome); <span class="comment">// "Test"</span>
+    }
+};</pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Esercizi Pratici</h2>
+            
+            <h3>Esercizio 1: Implementare un Logger Generico</h3>
+
+            <div class="code-block"><pre><span class="comment">// Crea una funzione log che possa essere usata con diversi oggetti</span>
+<span class="keyword">function</span> <span class="function">log</span>(messaggio) {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="string">`[${<span class="keyword">this</span>.nome}]: ${messaggio}`</span>);
+}
+
+<span class="keyword">const</span> sistema1 = { nome: <span class="string">"Sistema A"</span> };
+<span class="keyword">const</span> sistema2 = { nome: <span class="string">"Sistema B"</span> };
+
+<span class="comment">// TODO: Usa call/apply/bind per fare log con contesti diversi</span></pre>
+            </div>
+
+            <h3>Esercizio 2: Creare un Sistema di Validazione</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> validatore = {
+    min: <span class="string">0</span>,
+    max: <span class="string">100</span>,
+    <span class="function">valida</span>: <span class="keyword">function</span>(valore) {
+        <span class="keyword">return</span> valore >= <span class="keyword">this</span>.min && valore <= <span class="keyword">this</span>.max;
+    }
+};
+
+<span class="keyword">const</span> limiti = [
+    { min: <span class="string">0</span>, max: <span class="string">10</span> },
+    { min: <span class="string">20</span>, max: <span class="string">30</span> },
+    { min: <span class="string">50</span>, max: <span class="string">60</span> }
+];
+
+<span class="comment">// TODO: Usa bind per creare funzioni di validazione per ogni limite</span></pre>
+            </div>
+
+            <h3>Esercizio 3: Math con Contesto</h3>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">sommaArrayCon</span>(moltiplicatore) {
+    <span class="comment">// this.numeri è un array</span>
+    <span class="comment">// Somma tutti i numeri e moltiplicali per moltiplicatore</span>
+    <span class="keyword">const</span> somma = <span class="keyword">this</span>.numeri.<span class="function">reduce</span>((acc, n) => acc + n, <span class="string">0</span>);
+    <span class="keyword">return</span> somma * moltiplicatore;
+}
+
+<span class="keyword">const</span> dati1 = { numeri: [<span class="string">1</span>, <span class="string">2</span>, <span class="string">3</span>] };
+<span class="keyword">const</span> dati2 = { numeri: [<span class="string">10</span>, <span class="string">20</span>, <span class="string">30</span>] };
+
+<span class="comment">// TODO: Usa call/apply per calcolare con dati diversi</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Riepilogo e Best Practices</h2>
+            
+            <h3>Quando Usare Quale Metodo</h3>
+
+            <div class="concept-box">
+                <h4>📌 Usa call() quando:</h4>
+                <ul>
+                    <li>Devi invocare immediatamente una funzione con un contesto specifico</li>
+                    <li>Hai pochi argomenti da passare singolarmente</li>
+                    <li>Vuoi "prendere in prestito" un metodo da un oggetto</li>
+                </ul>
+            </div>
+
+            <div class="concept-box">
+                <h4>📌 Usa apply() quando:</h4>
+                <ul>
+                    <li>Gli argomenti sono già in un array</li>
+                    <li>Non sai in anticipo quanti argomenti avrai</li>
+                    <li>Lavori con funzioni variadic (numero variabile di argomenti)</li>
+                </ul>
+            </div>
+
+            <div class="concept-box">
+                <h4>📌 Usa bind() quando:</h4>
+                <ul>
+                    <li>Devi passare una funzione come callback</li>
+                    <li>Hai bisogno di event handlers che mantengano il contesto</li>
+                    <li>Vuoi creare funzioni parzialmente applicate (currying)</li>
+                    <li>Necessiti di una funzione riutilizzabile con contesto fisso</li>
+                </ul>
+            </div>
+
+            <h3>Checklist di Best Practices</h3>
+
+            <ul>
+                <li>✅ Usa <span class="inline-code">bind()</span> per preservare <span class="inline-code">this</span> negli event handlers</li>
+                <li>✅ Preferisci arrow functions per callback semplici che non hanno bisogno di proprio <span class="inline-code">this</span></li>
+                <li>✅ Ricorda che <span class="inline-code">bind()</span> crea un binding permanente</li>
+                <li>✅ Con ES6+, usa lo spread operator invece di <span class="inline-code">apply()</span> quando possibile</li>
+                <li>✅ Documenta quando usi binding esplicito in punti non ovvi del codice</li>
+                <li>❌ Non usare arrow functions come metodi di oggetti se hanno bisogno di <span class="inline-code">this</span></li>
+                <li>❌ Non tentare di cambiare il <span class="inline-code">this</span> di una funzione già bound</li>
+                <li>❌ Non confondere l'ordine degli argomenti tra <span class="inline-code">call()</span> e <span class="inline-code">apply()</span></li>
+            </ul>
+
+            <h3>Principi Fondamentali da Ricordare</h3>
+
+            <div class="important">
+                <strong>🎯 Punti Chiave:</strong>
+                <ol>
+                    <li><span class="inline-code">this</span> dipende da COME viene invocata la funzione, non da DOVE viene definita</li>
+                    <li><span class="inline-code">call()</span> e <span class="inline-code">apply()</span> invocano immediatamente</li>
+                    <li><span class="inline-code">bind()</span> restituisce una nuova funzione</li>
+                    <li>Il binding esplicito ha priorità sul binding implicito</li>
+                    <li>Arrow functions non hanno proprio <span class="inline-code">this</span></li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2>Conclusioni</h2>
+            
+            <p>
+                I metodi <span class="inline-code">call()</span>, <span class="inline-code">apply()</span> 
+                e <span class="inline-code">bind()</span> rappresentano strumenti fondamentali per il 
+                controllo del contesto di esecuzione in JavaScript. La loro padronanza è essenziale per:
+            </p>
+
+            <ul>
+                <li><strong>Scrivere codice più flessibile:</strong> Riutilizzare funzioni in contesti diversi</li>
+                <li><strong>Gestire callback complessi:</strong> Mantenere il riferimento corretto a <span class="inline-code">this</span></li>
+                <li><strong>Implementare pattern avanzati:</strong> Method borrowing, partial application, currying</li>
+                <li><strong>Evitare bug comuni:</strong> Comprendere come funziona <span class="inline-code">this</span> in ogni situazione</li>
+            </ul>
+
+            <p>
+                Questi concetti sono alla base della programmazione orientata agli oggetti in JavaScript 
+                e della comprensione profonda del linguaggio. Investire tempo nella loro comprensione 
+                ripagherà enormemente nella scrittura di codice JavaScript professionale e manutenibile.
+            </p>
+
+            <div class="concept-box">
+                <h4>🚀 Prossimi Passi</h4>
+                <p>
+                    Dopo aver compreso il binding esplicito, esplora:
+                </p>
+                <ul>
+                    <li>Prototipi e ereditarietà prototipale</li>
+                    <li>Classi ES6 e il loro funzionamento interno</li>
+                    <li>Closure e scope</li>
+                    <li>Pattern di programmazione funzionale in JavaScript</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer>
+            <p><strong>Lezione:</strong> Binding Esplicito in JavaScript - call, apply e bind</p>
+            <p><strong>Corso:</strong> JavaScript - Programmazione Orientata agli Oggetti</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Manuale creato il 26 Dicembre 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
