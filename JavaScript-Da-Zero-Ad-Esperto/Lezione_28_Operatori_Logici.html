@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 28 - Operatori Logici</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Operatori Logici</h1>
+            <p class="subtitle">Lezione 28 - Corso JavaScript</p>
+        </header>
+        <section><p>Sebbene vengano comunemente associati alla logica booleana pura (vero/falso), in JavaScript il loro comportamento è più sfumato: essi effettuano internamente una conversione (coercizione) dei valori per valutarli, ma alla fine restituiscono il valore originale di una delle espressioni coinvolte.</p>
+<h2> *1\. L'Operatore AND (&&)*</h2>
+<p>L'operatore logico AND (&&) si applica su due espressioni. La sua logica di valutazione segue questa regola fondamentale:</p>
+<p>*Regola dell'AND: Se la prima espressione può essere convertita a true, l'operatore restituisce la seconda espressione. Altrimenti, restituisce la prima espressione*.</p>
+<h3> *Esempi di Valutazione*</h3>
+<p>Analizziamo il comportamento con valori misti (numeri, stringhe):</p>
+<p>JavaScript</p>
+<p>// Esempio 1: Primo valore Truthy</p>
+<p>2 && 0;</p>
+<p>// Risultato: 0</p>
+<p>// Spiegazione: 2 è truthy. Quindi viene restituita la seconda espressione (0).</p>
+<p>// Esempio 2: Primo valore Truthy</p>
+<p>2 && 1;</p>
+<p>// Risultato: 1</p>
+<p>// Spiegazione: 2 è truthy. Restituisce la seconda (1).</p>
+<p>// Esempio 3: Primo valore Truthy con stringa</p>
+<p>2 && "CIAO";</p>
+<p>// Risultato: "CIAO"</p>
+<p>// Spiegazione: 2 è truthy. Restituisce "CIAO".</p>
+<p>Ovviamente, se lavoriamo con booleani puri, il comportamento rispecchia la classica tabella di verità:</p>
+<p>JavaScript</p>
+<p>true && false; // false</p>
+<p>false && true; // false</p>
+<p>true && true;  // true</p>
+<h2> *2\. L'Operatore OR (||)*</h2>
+<p>*Regola dell'OR: Se la prima espressione può essere valutata a true, l'operatore restituisce immediatamente la prima espressione (cortocircuito). Altrimenti, restituisce la seconda espressione*.</p>
+<h3> *Esempi di Valutazione*</h3>
+<p>JavaScript</p>
+<p>// Esempio 1: Primo valore Truthy</p>
+<p>// Risultato: 2</p>
+<p>// Spiegazione: 2 è truthy. L'operatore si ferma e restituisce 2\.</p>
+<p>// Esempio 2: Primo valore Falsy</p>
+<p>// Risultato: 2</p>
+<p>// Spiegazione: 0 è falsy. L'operatore passa alla seconda espressione e restituisce 2\.</p>
+<p>// Esempio 3: Valori speciali</p>
+<p>// Risultato: undefined</p>
+<p>// Spiegazione: 0 è falsy. Viene restituita la seconda espressione, anche se è undefined.</p>
+<h2> *3\. L'Operatore NOT (\!)*</h2>
+<p>A differenza di AND e OR, il NOT (\!) è un *operatore unario*, ovvero agisce su una singola espressione. La sua funzione è invertire il valore di verità.</p>
+<p>*Regola del NOT:* Se l'espressione può essere convertita a false, restituisce true. Se può essere convertita a true, restituisce false.</p>
+<p>JavaScript</p>
+<p>\!0;   // true</p>
+<p>// Spiegazione: 0 è falsy -> il NOT lo inverte in true.</p>
+<p>\!10;  // false</p>
+<p>// Spiegazione: 10 è truthy -> il NOT lo inverte in false.</p>
+<p>\!true;  // false</p>
+<p>\!false; // true</p>
+<h2> *4\. Applicazione Pratica: Combinare Condizioni*</h2>
+<p>Gli operatori logici sono essenziali per combinare condizioni multiple all'interno delle strutture di controllo, come l'istruzione if.</p>
+<h3> *Esempio Base: Verifica del Voto*</h3>
+<p>Immaginiamo di voler verificare se un voto v è compreso tra 18 e 22 per decidere se fare una passeggiata.</p>
+<p>JavaScript</p>
+<p>let v = 19;</p>
+<p>if (v >= 18 && v < 22) {</p>
+<p>console.log("Passeggiata");</p>
+<p>}</p>
+<p>*Analisi passo-passo:*</p>
+<p>1. v >= 18 (19 è maggiore di 18\) → *TRUE*</p>
+<p>2. v < 22 (19 è minore di 22\) → *TRUE*</p>
+<p>3. Risultato finale: TRUE && TRUE → *TRUE*.</p>
+<p>4. L'istruzione viene eseguita e stampa "Passeggiata".</p>
+<h3> *Esempio Avanzato: Raggruppamento con Parentesi*</h3>
+<p>Aggiungiamo complessità: vogliamo fare una passeggiata se il voto è buono *E se la giornata è di sole OPPURE* nuvolosa (ma non piovosa).</p>
+<p>Quando si combinano AND e OR, è buona norma (e spesso necessario per la precedenza degli operatori) utilizzare le *parentesi tonde* per raggruppare le condizioni logiche.</p>
+<p>JavaScript</p>
+<p>let v = 19;</p>
+<p>let g = "pioggia"; // Meteo attuale</p>
+<p>// Condizione complessa con raggruppamento</p>
+<p>console.log("Passeggiata");</p>
+<p>}</p>
+<p>*Analisi della condizione (Caso Pioggia):*</p>
+<p>1. *Primo Gruppo:* (v >= 18 && v < 22\)</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 28 - Operatori Logici</p>
+        </footer>
+    </div>
+</body>
+</html>

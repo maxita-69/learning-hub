@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 45 - Factory vs Constructor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Factory vs Constructor</h1>
+            <p class="subtitle">Lezione 45 - Corso JavaScript</p>
+        </header>
+        <section><h2> *5\. Creazione degli oggetti*</h2>
+<h3> *5.1 Oggetti letterali e duplicazione del codice*</h3>
+<p>const user1 = {</p>
+<p>name: "Mario",</p>
+<p>descrivimi: function () {</p>
+<p>console.log("Sono Mario");</p>
+<p>}</p>
+<p>};</p>
+<p>const user2 = {</p>
+<p>name: "Luigi",</p>
+<p>descrivimi: function () {</p>
+<p>console.log("Sono Luigi");</p>
+<p>}</p>
+<p>};</p>
+<p>const user3 = {</p>
+<p>name: "Anna",</p>
+<p>descrivimi: function () {</p>
+<p>console.log("Sono Anna");</p>
+<p>}</p>
+<p>};</p>
+<p>Questa soluzione *viola il principio OOP di non duplicazione del codice*.</p>
+<h3> *5.2 Factory Function*</h3>
+<p>Per risolvere il problema si può usare una *factory function*.</p>
+<p>function user(nome) {</p>
+<p>const obj = {</p>
+<p>name: nome,</p>
+<p>descrivimi: function () {</p>
+<p>console.log("Sono " + this.name);</p>
+<p>}</p>
+<p>};</p>
+<p>return obj;</p>
+<p>}</p>
+<p>const user4 = user("Marco");</p>
+<p>console.log(user4);   — otteniamo un oggetto, con le proprietà descrivimi e name</p>
+<p>Caratteristiche:</p>
+<ul><li>non utilizza `new`</li><li>restituisce esplicitamente un oggetto</li><li>permette di creare più istanze senza duplicare codice</li></ul>
+<p>stiamo invocando la funzione “user”, assegnando il valore di ritorno alla variabile user4</p>
+<h3> *5.3 Constructor Function*</h3>
+<p>Un’alternativa più compatta è la *constructor function*.</p>
+<p>function Utenti(nome) {</p>
+<p>this.name = nome;</p>
+<p>this.descrivimi = () => ‘Nome:${this.name}’;</p>
+<p>}</p>
+<p>}</p>
+<p>let user5=Utenti(“Noemi”)</p>
+<p>Se invocata senza `new`:</p>
+<p>const user5 = Utenti("Paolo");</p>
+<p>console.log(user5); // undefined</p>
+<p>Motivo:</p>
+<ul><li>la funzione non restituisce nulla</li><li>una funzione senza `return` restituisce `undefined`</li></ul>
+<p>Se invece usiamo `new`: (se mettiamo return 10, l’errore si elimina)</p>
+<p>const user5 = new Utenti("Paolo");</p>
+<p>console.log(user5);</p>
+<p>JavaScript:</p>
+<p>1. crea un nuovo oggetto</p>
+<p>2. assegna `this` a quell’oggetto</p>
+<p>3. restituisce automaticamente l’oggetto</p>
+<p>l’oggetto che abbiamo adesso ha due proprietà</p>
+<p>È ora possibile creare molte istanze:</p>
+<p>const user6 = new Utenti("Giulia");</p>
+<p>const user7 = new Utenti("Francesco");</p>
+<h2> *6\. Factory Function vs Constructor Function*</h2>
+<p>Entrambe permettono di:</p>
+<ul><li>creare più oggetti</li><li>evitare duplicazione del codice</li></ul>
+<p>Differenze principali:</p>
+<ul><li>la *constructor function* ha una sintassi più compatta</li><li>il comportamento di `this` e `new` è gestito internamente dal motore JavaScript</li></ul>
+<h2> *7\. Conclusione*</h2>
+<p>In questa lezione abbiamo:</p>
+<ul><li>introdotto il paradigma OOP</li><li>analizzato i quattro pilastri fondamentali</li><li>visto le modalità di accesso alle proprietà</li><li>confrontato oggetti letterali, factory function e constructor function</li></ul></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 45 - Factory vs Constructor</p>
+        </footer>
+    </div>
+</body>
+</html>

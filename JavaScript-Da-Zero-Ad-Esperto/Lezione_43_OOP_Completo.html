@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 43 - OOP: Paradigma Completo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OOP: Paradigma Completo</h1>
+            <p class="subtitle">Lezione 43 - Corso JavaScript</p>
+        </header>
+        <section><p># Scheda 10</p>
+<p># *Programmazione Orientata agli Oggetti in JavaScript (OOP)*</p>
+<h2> *1\. Introduzione al paradigma OOP*</h2>
+<p>La *programmazione orientata agli oggetti (Object-Oriented Programming, OOP) è un paradigma che pone al centro del modello di sviluppo gli oggetti*, anziché le funzioni.</p>
+<p>Un *paradigma* rappresenta uno stile di scrittura del codice basato su principi strutturali ben definiti.</p>
+<ul><li>*Programmazione procedurale → il focus è sulle funzioni*</li><li>*Programmazione orientata agli oggetti → il focus è sugli oggetti*</li></ul>
+<p>Un *oggetto* è una struttura dati che integra:</p>
+<ul><li>*variabili, chiamate proprietà*</li><li>*funzioni, chiamate metodi*</li></ul>
+<p>L’obiettivo è quello di *raggruppare in un’unica unità logica* dati e comportamenti che sono tra loro correlati, riducendo la frammentazione del codice e le interdipendenze non controllate.</p>
+<h2> *2\. I quattro pilastri della Programmazione Orientata agli Oggetti*</h2>
+<p>La OOP si fonda su quattro principi cardine.</p>
+<h3> *2.1 Incapsulamento*</h3>
+<p>*Incapsulare significa letteralmente racchiudere in una capsula*.</p>
+<p>Dal punto di vista del codice:</p>
+<ul><li>dati (proprietà)</li><li>funzioni (metodi)</li></ul>
+<p>vengono raggruppati all’interno di uno stesso oggetto.</p>
+<p>Le funzioni lavorano *internamente sui dati* dell’oggetto per svolgere operazioni specifiche.</p>
+<p>Questo principio riguarda il *come* un compito viene eseguito.</p>
+<p>*Vantaggi principali:*</p>
+<ul><li>riduzione della complessità</li><li>maggiore coesione del codice</li><li>minore dipendenza tra parti diverse dell’applicazione</li></ul>
+<h3> *2.2 Astrazione*</h3>
+<p>Se l’incapsulamento riguarda il *come, l’astrazione riguarda il cosa*.</p>
+<p>L’astrazione ha come obiettivo:</p>
+<ul><li>*esporre solo ciò che è essenziale*</li><li>*nascondere la complessità interna*</li></ul>
+<h4> *Esempio concettuale: il lettore DVD*</h4>
+<p>Un lettore DVD espone pulsanti come:</p>
+<ul><li>Play</li><li>Pausa</li><li>Stop</li><li>Avanti</li></ul>
+<p>Premendo Play, il DVD viene riprodotto, ma:</p>
+<ul><li>*non conosciamo*</li><li>*non dobbiamo conoscere*</li></ul>
+<p>il funzionamento interno del dispositivo.</p>
+<p>I pulsanti rappresentano l’*interfaccia* con cui interagiamo.</p>
+<p>L’implementazione interna è incapsulata e nascosta.</p>
+<p>Lavorare in astrazione significa quindi *concentrarsi su ciò che serve*, non su come viene realizzato internamente.</p>
+<h3> *2.3 Ereditarietà*</h3>
+<p>Con l’*ereditarietà*, un oggetto può:</p>
+<ul><li>accedere a proprietà e metodi di un altro oggetto</li></ul>
+<p>Questo consente di:</p>
+<ul><li>evitare duplicazione del codice</li><li>ridurre la ridondanza</li><li>favorire il riutilizzo</li></ul>
+<h3> *2.4 Polimorfismo*</h3>
+<p>*Polimorfismo significa letteralmente molte forme*.</p>
+<p>In OOP indica la possibilità che:</p>
+<ul><li>uno stesso metodo</li><li>con lo stesso nome</li></ul>
+<p>abbia *comportamenti diversi* in base al contesto in cui opera.</p>
+<h4> *Esempio già noto: l’operatore `+`*</h4>
+<p>// Con due numeri: somma</p>
+<p>console.log(2 + 3); // 5</p>
+<p>// Con due stringhe: concatenazione</p>
+<p>console.log("Hello " + "World"); // "Hello World"</p>
+<p>Lo stesso operatore (`+`) assume comportamenti diversi in base al tipo di dati su cui lavora.</p>
+<h2> *3\. Vantaggi della OOP*</h2>
+<p>L’adozione dei principi OOP comporta numerosi benefici:</p>
+<ul><li>*Riduzione della complessità*</li><li>*Incremento della riusabilità*</li><li>*Eliminazione della duplicazione del codice*</li><li>*Nascondere le complessità mostrando solo l’essenziale*</li><li>*Possibilità di comportamenti specifici a seconda del contesto*</li></ul></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 43 - OOP: Paradigma Completo</p>
+        </footer>
+    </div>
+</body>
+</html>

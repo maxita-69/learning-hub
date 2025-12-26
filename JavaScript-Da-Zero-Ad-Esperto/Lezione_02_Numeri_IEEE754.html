@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 02 - Numeri e Precisione IEEE 754</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Numeri e Precisione IEEE 754</h1>
+            <p class="subtitle">Lezione 02 - Corso JavaScript</p>
+        </header>
+        <section><p>*Corso di JavaScript - Lezione: I Numeri e la Rappresentazione in Memoria*</p>
+<h4> *1\. Introduzione al Problema*</h4>
+<p>In questa lezione affronteremo un aspetto fondamentale: come JavaScript gestisce i numeri in memoria e perché a volte incontriamo problemi apparentemente inspiegabili con semplici operazioni matematiche.</p>
+<p>Esempio problematico:</p>
+<div class="code-block"><pre>
+console.log(0.1 + 0.2 === 0.3); // false - Sorprendente\!
+</pre></div>
+<h4> *2\. Il Tipo "Number" in JavaScript*</h4>
+<ul><li>Unico tipo numerico: JavaScript ha un solo tipo per i numeri: number</li><li>Nessuna distinzione: Non esistono tipi separati come int, float, double come in altri linguaggi</li><li>Standard attuale: ECMAScript 2019 (ES10) mantiene questa implementazione</li></ul>
+<div class="code-block"><pre>
+let intero = 42;        // tipo: number
+
+let decimale = 3.14;    // tipo: number
+
+let scientifico = 2.5e-4; // tipo: number
+</pre></div>
+<h4> *3\. Lo Standard Floating Point a 64 Bit*</h4>
+<p>Rappresentazione interna: Tutti i numeri, anche gli interi, sono memorizzati come numeri in virgola mobile a 64 bit secondo lo standard IEEE 754\.</p>
+<p>Suddivisione dei 64 bit:</p>
+<ul><li>1 bit per il segno (0 = positivo, 1 = negativo)</li><li>11 bit per l'esponente</li><li>52 bit per la mantissa</li></ul>
+<h4> *4\. Notazione Scientifica e Componenti*</h4>
+<p>Concetti fondamentali:</p>
+<ul><li>Mantissa: Cifre significative del numero</li><li>Esponente: Potenza alla quale elevare la base</li><li>Base: 10 (sistema decimale) o 2 (sistema binario)</li></ul>
+<p>Formula: mantissa × base^esponente</p>
+<p>Esempi decimali:</p>
+<ul><li>250 = 2.5 × 10² (forma normalizzata)</li><li>0.0034 = 3.4 × 10⁻³ (forma normalizzata)</li></ul>
+<p>"Virgola mobile": La virgola "si sposta" al variare dell'esponente.</p>
+<h4> *5\. Il Problema Fondamentale: Precisione Limitata*</h4>
+<p>Problema principale: 52 bit per la mantissa non sono sufficienti per rappresentare esattamente alcuni numeri decimali.</p>
+<p>Esempio in binario:</p>
+<ul><li>0.1₁₀ = 0.0001100110011...₂ (rappresentazione periodica infinita)</li><li>0.2₁₀ = 0.001100110011...₂ (rappresentazione periodica infinita)</li></ul>
+<p>Conseguenza: I numeri vengono arrotondati per adattarsi ai 52 bit disponibili.</p>
+<h4> *6\. Dimostrazione del Problema*</h4>
+<div class="code-block"><pre>
+console.log(0.1 + 0.2); 
+
+// Output: 0.30000000000000004
+
+console.log(0.1 + 0.2 === 0.3); 
+
+// Output: false
+
+// Visualizziamo i valori esatti:
+
+console.log(0.1.toPrecision(20)); // 0.10000000000000000555
+
+console.log(0.2.toPrecision(20)); // 0.20000000000000001110
+
+console.log((0.1 + 0.2).toPrecision(20)); // 0.30000000000000004441
+
+console.log(0.3.toPrecision(20)); // 0.29999999999999998890
+</pre></div>
+<h4> *7\. Range di Numeri Rappresentabili in Modo Sicuro*</h4>
+<p>Safe Integer Range:</p>
+<ul><li>Minimo: -(2⁵³ - 1\) = -9,007,199,254,740,991</li><li>Massimo: 2⁵³ - 1 = 9,007,199,254,740,991</li></ul>
+<p>Accesso tramite Number:</p>
+<div class="code-block"><pre>
+console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991
+
+console.log(Number.MIN_SAFE_INTEGER); // -9007199254740991
+
+// Verifica sicurezza
+
+console.log(Number.isSafeInteger(9007199254740991)); // true
+
+console.log(Number.isSafeInteger(9007199254740992)); // false
+</pre></div>
+<h4> *8\. Soluzioni al Problema di Precisione*</h4>
+<p>Soluzione semplice (moltiplicazione):</p>
+<div class="code-block"><pre>
+// Trasformazione in interi
+
+function sommaDecimale(a, b) {
+
+    return (a  10 + b  10) / 10;
+
+}
+
+console.log(sommaDecimale(0.1, 0.2) === 0.3); // true
+
+Soluzioni avanzate (da approfondire successivamente):
+
+* Librerie specializzate (BigDecimal, Decimal.js)  
+* Il nuovo tipo BigInt per numeri interi molto grandi
+</pre></div>
+<h4> *9\. Riepilogo e Punti Chiave*</h4>
+<h4> *10\. Conclusione*</h4>
+<ul><li>✅ Compreso: Il problema non è di JavaScript ma dello standard floating point</li><li>✅ Compreso: Perché 0.1 + 0.2 ≠ 0.3</li><li>✅ Compreso: Esistono limiti di rappresentazione</li><li>✅ Compreso: Soluzioni disponibili per gestire il problema</li></ul></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 02 - Numeri e Precisione IEEE 754</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 39 - Prototype e Istanze</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Prototype e Istanze</h1>
+            <p class="subtitle">Lezione 39 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Modalità di Creazione degli Oggetti*</h2>
+<p>JavaScript offre diversi modi per creare oggetti. Sebbene la sintassi "letterale" sia la più comune, è importante conoscere l'alternativa basata sui costruttori nativi.</p>
+<h3> *Sintassi Letterale vs Costruttore*</h3>
+<p>JavaScript</p>
+<p>// 1\. Sintassi Object Literal (Consigliata per oggetti singoli)</p>
+<p>let obj = {};</p>
+<p>// 2\. Sintassi con costruttore new Object</p>
+<p>let obj2 = new Object();</p>
+<p>La parola chiave new non è un'esclusiva degli oggetti generici, ma si applica anche ai tipi primitivi (creando i cosiddetti "Wrapper Objects"), anche se con comportamenti diversi:</p>
+<p>JavaScript</p>
+<p>let num = 10;              // Numero primitivo (number)</p>
+<p>let num2 = new Number(10); // Oggetto Number (object)</p>
+<h2> *2\. Le Constructor Functions*</h2>
+<p>Le *Constructor Functions sono normali funzioni che fungono da "stampo" (template) per creare oggetti. Per convenzione, il loro nome inizia sempre con la lettera maiuscola* (PascalCase) per distinguerle dalle funzioni ordinarie.</p>
+<h3> *Definizione Base*</h3>
+<p>Definiamo una funzione User vuota.</p>
+<p>JavaScript</p>
+<p>function User() {</p>
+<p>// Corpo della funzione</p>
+<p>}</p>
+<p>console.log(User); // Visualizza il corpo della funzione</p>
+<h3> *Invocazione con new*</h3>
+<p>La differenza fondamentale risiede nel modo in cui la funzione viene invocata.</p>
+<p>1. *Senza new:* Viene eseguita come una normale funzione. Poiché non ha un return, restituisce undefined.</p>
+<p>2. JavaScript</p>
+<p>let user1 = User();</p>
+<p>console.log(user1); // Output: undefined</p>
+<p>3.</p>
+<p>4.</p>
+<p>5. *Con new:* JavaScript crea un nuovo oggetto, imposta il contesto this su quell'oggetto e lo restituisce automaticamente.</p>
+<p>6. JavaScript</p>
+<p>let user1 = new User();</p>
+<p>console.log(user1); // Output: User {} (Oggetto vuoto di tipo User)</p>
+<p>7.</p>
+<p>8.</p>
+<h2> *3\. Gestione delle Proprietà: this vs prototype*</h2>
+<p>Quando dobbiamo creare molti oggetti simili (es. 1000 utenti), usare la sintassi letterale per ognuno sarebbe ripetitivo e inefficiente. Le Constructor Functions risolvono questo problema agendo come template.</p>
+<h3> *Proprietà di Istanza (tramite this)*</h3>
+<p>Le proprietà che variano da oggetto a oggetto (come il nome o l'età) vengono definite all'interno della funzione usando *this*. Ogni volta che usiamo new, queste istruzioni vengono eseguite, creando una "copia" dei dati per quella specifica istanza.</p>
+<p>JavaScript</p>
+<p>function User() {</p>
+<p>// Proprietà specifiche per ogni istanza</p>
+<p>this.name = "";</p>
+<p>this.age = null;</p>
+<p>}</p>
+<p>let user1 = new User();</p>
+<p>let user2 = new User();</p>
+<p>// Personalizzazione delle istanze</p>
+<p>user1.name = "Gianluca";</p>
+<p>user2.name = "Simona";</p>
+<p>console.log(user1.name); // "Gianluca"</p>
+<p>console.log(user2.name); // "Simona"</p>
+<h3> *Proprietà Condivise (tramite prototype)*</h3>
+<p>Immaginiamo di voler aggiungere una proprietà type che sia *uguale per tutti* gli utenti (es. "Utente standard").</p>
+<p>Approccio Inefficiente (dentro la funzione):</p>
+<p>Se scrivessimo this.type = "Utente standard" dentro User, ogni volta che creiamo un nuovo utente (es. 1000 utenti), creeremmo 1000 copie identiche della stringa "Utente standard" in memoria. Questo è uno spreco di risorse.</p>
+<p>Approccio Ottimizzato (Prototype):</p>
+<p>Utilizziamo la proprietà speciale prototype. Le proprietà definite qui non vengono copiate in ogni oggetto, ma sono condivise. Gli oggetti vi accedono per "ereditarietà".</p>
+<p>JavaScript</p>
+<p>// Definizione della proprietà condivisa sul Prototipo</p>
+<p>User.prototype.type = "Utente standard";</p>
+<p>// Verifica</p>
+<p>console.log(user1.type); // Output: "Utente standard"</p>
+<p>console.log(user2.type); // Output: "Utente standard"</p>
+<h3> *Analisi Tecnica*</h3>
+<p>1. *Accesso:* Quando chiediamo user1.type, JavaScript cerca prima dentro l'oggetto user1.</p>
+<p>2. *Lookup: Non trovandolo (perché non è stato definito con this.type), guarda nel suo prototipo*.</p>
+<p>3. *Risultato:* Trova type in User.prototype e restituisce quel valore.</p>
+<p>Questo meccanismo permette di risparmiare memoria mantenendo i dati comuni in un unico posto, mentre i dati specifici (name, age) risiedono nelle singole istanze.</p>
+<p>Ecco il capitolo del manuale basato sulla lezione relativa alle *Funzioni Pure e Impure*, elaborato garantendo la massima fedeltà ai contenuti e la corretta ricostruzione del codice mostrato.</p>
+<p># *Funzioni Pure e Impure: I Fondamenti della Programmazione Funzionale*</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 39 - Prototype e Istanze</p>
+        </footer>
+    </div>
+</body>
+</html>

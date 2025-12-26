@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 27 - Conversioni Esplicite</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Conversioni Esplicite</h1>
+            <p class="subtitle">Lezione 27 - Corso JavaScript</p>
+        </header>
+        <section><p>In questo capitolo ci concentreremo sulla *Coercizione Esplicita*, ovvero quel processo in cui siamo noi programmatori a richiedere intenzionalmente al motore JavaScript di trasformare un dato da un tipo a un altro2.</p>
+<h2> *1\. Conversione Esplicita a Number*</h2>
+<p>Per convertire manualmente un valore in un numero, utilizziamo la funzione nativa Number(). Passiamo come parametro l'elemento da convertire e JavaScript applicherà le sue regole di trasformazione3.</p>
+<p>Analizziamo i risultati di queste conversioni, inclusi i casi particolari:</p>
+<p>JavaScript</p>
+<p>// Conversione di stringhe numeriche</p>
+<p>Number("2");        // 2</p>
+<p>// Conversione della stringa vuota</p>
+<p>Number("");         // 0</p>
+<p>// Una stringa vuota viene trattata come valore nullo/zero.</p>
+<p>// Conversione di null e booleani</p>
+<p>Number(null);       // 0</p>
+<p>Number(false);      // 0</p>
+<p>Number(true);       // 1</p>
+<p>// true diventa 1, mentre false e null diventano 0\[cite: 5, 6\].</p>
+<p>// Conversione di stringhe non numeriche</p>
+<p>Number("stringa");  // NaN</p>
+<p>// Non è possibile trasformare una parola in numero.</p>
+<p>// Il risultato è NaN (Not a Number)\[cite: 6\].</p>
+<h3> *Scorciatoia: L'Operatore Unario +*</h3>
+<p>Esiste un metodo molto diffuso e veloce per convertire una stringa in numero senza digitare l'intera funzione Number(): l'utilizzo dell'operatore *più (+) come operatore unario*.</p>
+<p>Basta anteporre il simbolo + alla stringa (o al valore) che vogliamo convertire. Il comportamento è identico alla funzione Number()4.</p>
+<p>JavaScript</p>
+<p>// Operatore Unario +</p>
+<p>+"10";      // 10</p>
+<p>+"ciao";    // NaN</p>
+<p>// Anche qui, se la stringa non è numerica, la conversione fallisce\[cite: 13\].</p>
+<h2> *2\. Conversione Esplicita a String*</h2>
+<p>Quando abbiamo bisogno di trasformare un valore nel suo equivalente testuale, utilizziamo la funzione String(). Questa operazione è generalmente più intuitiva rispetto a quella numerica, poiché si limita a rappresentare il valore sotto forma di caratteri5.</p>
+<p>JavaScript</p>
+<p>String(2);      // "2"</p>
+<p>String(null);   // "null"</p>
+<p>String(true);   // "true"</p>
+<h2> *3\. Conversione Esplicita a Boolean*</h2>
+<p>La conversione verso il tipo booleano è fondamentale per la gestione della logica condizionale. Possiamo effettuarla utilizzando la funzione Boolean().</p>
+<p>Per capire come funziona, dobbiamo ricordare che in JavaScript esiste un insieme ristretto di valori che sono intrinsecamente falsi (*Falsy values). Tutto ciò che non rientra in questa lista è considerato vero (Truthy values*)6.</p>
+<h3> *I Valori Falsy (False)*</h3>
+<p>Se passiamo uno dei seguenti valori alla funzione Boolean(), otterremo sempre false:</p>
+<p>7</p>
+<p>JavaScript</p>
+<p>Boolean("");         // false</p>
+<p>Boolean(NaN);        // false</p>
+<p>Boolean(undefined);  // false</p>
+<p>Boolean(0);          // false</p>
+<h3> *I Valori Truthy (True)*</h3>
+<p>Tutto il resto, in JavaScript, è considerato true. Questo porta a casi che possono confondere i principianti, come la stringa "0".</p>
+<p>*Attenzione:* La stringa "0" non è vuota, contiene un carattere. Pertanto, convertita in booleano, risulta vera.</p>
+<p>JavaScript</p>
+<p>// Numeri diversi da zero</p>
+<p>Boolean(1);     // true</p>
+<p>// Stringhe non vuote (anche se contengono "0")</p>
+<p>Boolean("0");   // true</p>
+<p>// Attenzione: "0" è una stringa piena, quindi è true\! \[cite: 10\]</p>
+<h3> *Scorciatoia: Il Doppio Punto Esclamativo \!\!*</h3>
+<p>Così come esiste l'operatore unario + per i numeri, esiste una sintassi rapida per i booleani: il doppio punto esclamativo (\!\!).</p>
+<p>Il primo \! nega il valore (convertendolo implicitamente), il secondo \! lo nega di nuovo, riportandolo al suo senso logico originale ma sotto forma di booleano puro8.</p>
+<p>JavaScript</p>
+<p>\!\!10;   // true</p>
+<p>\!\!0;    // false</p>
+<p>*Vuoi che prepari un breve quiz di verifica su questi specifici casi di conversione esplicita (in particolare sulla differenza tra Number("0") e Boolean("0"))?*</p>
+<p>Ecco il capitolo dedicato agli *Operatori Logici*, basato sulla trascrizione fornita. Ho strutturato il testo per chiarire il concetto fondamentale secondo cui questi operatori in JavaScript non restituiscono sempre e solo true o false, ma spesso ritornano il valore originale dell'operando.</p>
+<p># *Capitolo 6: Gli Operatori Logici*</p>
+<p>In questa lezione approfondiremo gli operatori logici AND, OR e NOT.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 27 - Conversioni Esplicite</p>
+        </footer>
+    </div>
+</body>
+</html>

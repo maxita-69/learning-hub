@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 34 - Arguments Object</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Arguments Object</h1>
+            <p class="subtitle">Lezione 34 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. L'Oggetto arguments (ES5)*</h2>
+<p>In JavaScript, i parametri passati a una funzione sono accessibili internamente tramite un oggetto speciale chiamato *arguments*.</p>
+<h3> *Caratteristiche*</h3>
+<ul><li>È un oggetto *Array-like (simile a un array): possiede una proprietà .length e permette l'accesso tramite indice (\[0\], \[1\]), ma non* possiede i metodi nativi degli array (come forEach, map, push).</li><li>Contiene tutti i valori passati in fase di invocazione, indipendentemente da quanti parametri siano stati definiti nella firma della funzione.</li></ul>
+<h3> *Esempio Pratico*</h3>
+<p>Definiamo una funzione test senza dichiarare parametri espliciti e ispezioniamo arguments.</p>
+<p>JavaScript</p>
+<p>function test() {</p>
+<p>console.log(arguments);</p>
+<p>}</p>
+<p>// Invocazione con tipi di dati misti</p>
+<p>test(2, "Ciao", true);</p>
+<p>*Output Console:*</p>
+<p>JavaScript</p>
+<p>Arguments { 0: 2, 1: "Ciao", 2: true, callee: function, length: 3, ... }</p>
+<p>Per accedere ai singoli valori o iterare su di essi:</p>
+<p>JavaScript</p>
+<p>function test() {</p>
+<p>// Accesso posizionale</p>
+<p>console.log(arguments\[0\]); // 2</p>
+<p>console.log(arguments\[1\]); // "Ciao"</p>
+<p>// Iterazione con ciclo for classico (unico modo sicuro su Array-like)</p>
+<p>for (let i = 0; i < arguments.length; i++) {</p>
+<p>console.log(arguments\[i\]);</p>
+<p>}</p>
+<p>}</p>
+<h2> *2\. Discrepanza tra Definizione e Invocazione*</h2>
+<p>In JavaScript *non viene generato errore* se invochiamo una funzione passando un numero di argomenti diverso da quello definito.</p>
+<h3> *Esempio: Parametri in Eccesso*</h3>
+<p>Se passiamo più argomenti di quelli previsti, i parametri in eccesso vengono semplicemente ignorati dai parametri nominati, ma esistono comunque dentro arguments (o se non usiamo nulla, vanno persi).</p>
+<p>JavaScript</p>
+<p>function calcola(a, b) {</p>
+<p>console.log(a + b);</p>
+<p>}</p>
+<p>// Passiamo 4 valori invece di 2</p>
+<p>calcola(10, 20, 30, 40);</p>
+<p>// Output: 30 (10 + 20\)</p>
+<p>// 30 e 40 vengono ignorati dalla logica attuale</p>
+<h2> *3\. Gestione di un Numero Variabile di Argomenti*</h2>
+<p>Spesso non possiamo stabilire a priori quanti parametri riceveremo. Un caso tipico è la ricerca del valore minimo tra una serie di numeri usando Math.min().</p>
+<p>JavaScript</p>
+<p>// Math.min accetta una lista di argomenti separati da virgola</p>
+<p>let minimo = Math.min(20, 10, 1, 0.5, 100);</p>
+<p>console.log(minimo);</p>
+<p>// Output: 0.5</p>
+<p>Il metodo funziona con qualsiasi quantità di numeri passati. Per replicare questa flessibilità nelle nostre funzioni, ES6 ha introdotto i *Rest Parameters*.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 34 - Arguments Object</p>
+        </footer>
+    </div>
+</body>
+</html>

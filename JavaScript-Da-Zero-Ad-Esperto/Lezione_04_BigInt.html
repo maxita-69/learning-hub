@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 04 - BigInt</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BigInt</h1>
+            <p class="subtitle">Lezione 04 - Corso JavaScript</p>
+        </header>
+        <section><h3>  *Lezione: BigInt - Superare i Limiti dei Numeri*</h3>
+<h4> *1\. Introduzione a BigInt*</h4>
+<p>In ECMAScript 2020 (ES11) è stato introdotto il tipo primitivo BigInt per superare i limiti del tipo number.</p>
+<p>Come possiamo leggere su MDN (Mozilla Developer Network), che è la piattaforma Mozilla di documentazione e apprendimento delle tecnologie per il web, abbiamo ad oggi (sto registrando a novembre 2021\) sette tipi primitivi, tra cui BigInt.</p>
+<p>I valori primitivi sono:</p>
+<ul><li>Stringhe</li><li>Numeri</li><li>BigInt</li><li>Valori booleani</li><li>Undefined</li><li>Symbol</li><li>Null</li></ul>
+<h4> *2\. Cos'è BigInt?*</h4>
+<p>Clicco su BigInt e leggiamo che BigInt è un tipo di dato numerico che può rappresentare interi in un formato di precisione arbitrario.</p>
+<p>Che cosa vuol dire? Possiamo cliccare sul link e leggere le informazioni su Wikipedia, ma in poche parole vuol dire che possiamo utilizzare qualsiasi valore numerico, anche molto, molto grande, e quindi possiamo effettuare anche operazioni aritmetiche tra valori molto grandi senza avere alcun problema, come invece abbiamo per il tipo number.</p>
+<h4> *3\. I Limiti del Tipo Number*</h4>
+<p>Infatti se apro la console con F12, per quanto riguarda il tipo number abbiamo un range entro il quale possiamo effettuare operazioni aritmetiche senza alcun problema.</p>
+<p>Abbiamo:</p>
+<ul><li>Limite inferiore: Number.MIN_SAFE_INTEGER</li><li>Limite superiore: Number.MAX_SAFE_INTEGER</li></ul>
+<p>Dimostrazione pratica:</p>
+<div class="code-block"><pre>
+let num1 = Number.MAX_SAFE_INTEGER;  
+console.log(num1); // 9007199254740991
+
+console.log(num1 + 1); // 9007199254740992 - Corretto
+
+console.log(num1 + 2); // 9007199254740992 - ERRATO\! Non è corretto
+
+Alla fine dovremmo avere 9007199254740993, ma il risultato non è corretto. Questi tipi di problemi non li abbiamo con BigInt.
+</pre></div>
+<h4> *4\. Come Definire un BigInt*</h4>
+<p>Cancello e pulisco la console. Come facciamo a definire un tipo BigInt? Possiamo farlo in due modi:</p>
+<p>Primo modo - Notazione letterale (aggiungendo n alla fine del numero):</p>
+<div class="code-block"><pre>
+let num2 = 10n;  
+console.log(num2); // 10n
+
+// Verifichiamo il tipo
+
+console.log(typeof num2); // bigint
+
+Secondo modo - Utilizzando la funzione BigInt():
+
+javascript
+
+let num4 = BigInt(20);  
+console.log(num4); // 20n
+
+let num5 = BigInt(Number.MAX_SAFE_INTEGER);
+
+console.log(num5); // 9007199254740991n
+</pre></div>
+<h4> *5\. Operazioni con BigInt*</h4>
+<p>Ora proviamo a fare operazioni:</p>
+<div class="code-block"><pre>
+console.log(num5 + 1); // ERRORE\! Non possiamo sommare BigInt a Number
+
+console.log(num5 + 1n); // 9007199254740992n - CORRETTO\!
+
+console.log(num5 + 2n); // 9007199254740993n - CORRETTO\!
+
+Anche se siamo oltre al valore di Number.MAX_SAFE_INTEGER, non abbiamo problemi ad effettuare operazioni aritmetiche.
+</pre></div>
+<h4> *6\. Tutte le Operazioni Aritmetiche con BigInt*</h4>
+<p>Che cosa possiamo fare? Quali operazioni aritmetiche possiamo effettuare con valori BigInt? Tutte quelle che conosciamo.</p>
+<p>Addizioni:</p>
+<div class="code-block"><pre>
+console.log(2n + 4n); // 6n
+
+Attenzione: Non possiamo sommare BigInt a Number:
+
+javascript
+
+console.log(2n + 1); // ERRORE: Non possiamo convertire BigInt in Number
+
+Moltiplicazioni:
+
+javascript
+
+console.log(2n  3n); // 6n*
+
+Sottrazioni:
+
+javascript
+
+console.log(4n - 10n); // -6n
+
+Operatori di incremento e decremento:
+
+javascript
+
+let num6 = 30n;  
+console.log(num6--); // 30n (post-decremento)  
+console.log(num6);   // 29n
+
+let num7 = 10n;  
+console.log(++num7); // 11n (pre-incremento)
+
+console.log(++num7); // 12n
+
+Divisioni:
+
+javascript
+
+console.log(10n / 5n); // 2n
+
+console.log(10n / 6n); // 1n - Perdiamo la parte decimale
+
+Perché perdiamo la parte decimale? Quando parliamo di BigInt parliamo di valori interi. Infatti la parola stessa dice BigInt per "integer" (intero). Quindi possiamo effettuare divisioni, ma la parte decimale verrà troncata.
+
+Elevazione a potenza:
+
+javascript
+
+console.log(2n * 4n); // 16n*
+
+Operatore modulo:
+
+javascript
+
+console.log(10n % 3n); // 1n
+</pre></div>
+<h4> *7\. Conclusione*</h4>
+<p>Perfetto\! Abbiamo visto come BigInt risolve i problemi di precisione con numeri molto grandi e tutte le operazioni che possiamo effettuare con questo tipo di dato.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 04 - BigInt</p>
+        </footer>
+    </div>
+</body>
+</html>

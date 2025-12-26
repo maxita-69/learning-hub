@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 22 - Operatori di Confronto</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Operatori di Confronto</h1>
+            <p class="subtitle">Lezione 22 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Classificazione degli Operatori*</h2>
+<p>Prima di entrare nel merito dei confronti, è utile distinguere gli operatori in base al numero di operandi coinvolti:</p>
+<ul><li>*Operatori Unari:* Si applicano a un singolo elemento.</li><li>Esempio: L'operatore di incremento (++) che aumenta di uno il valore di una variabile, o l'operatore di negazione logica doppia (\!\!) per convertire un valore in booleano.</li><li>*Operatori Binari:* Operano su un'espressione composta da due elementi. Il risultato di queste operazioni è sempre un valore booleano: true (vero) o false (falso).</li></ul>
+<h2> *2\. Operatori di Confronto Relazionale*</h2>
+<p>Gli operatori binari di confronto (<, <=, >, >=) verificano la relazione tra due valori.</p>
+<h3> *Confronto Numerico*</h3>
+<p>È il confronto più intuitivo e segue le regole matematiche standard.</p>
+<p>JavaScript</p>
+<p>console.log(3 > 3);   // false</p>
+<p>console.log(3 >= 3);  // true</p>
+<p>console.log(3 < 4);   // true</p>
+<h3> *Confronto tra Stringhe*</h3>
+<p>Quando gli operandi sono stringhe, JavaScript non confronta il significato delle parole, ma il valore del codice *ASCII dei caratteri. Questo significa che il confronto è case-sensitive* (sensibile alle maiuscole/minuscole).</p>
+<p>JavaScript</p>
+<p>// La 'a' minuscola ha un codice ASCII maggiore della 'A' maiuscola</p>
+<p>console.log('a' > 'A'); // true</p>
+<h2> *3\. L'Uguaglianza Semplice (==) e la Coercizione*</h2>
+<p>L'operatore di uguaglianza semplice (==) verifica se due valori sono uguali. Tuttavia, se i tipi sono diversi, JavaScript tenta di effettuare una *coercizione implicita* (trasformazione automatica) per renderli confrontabili.</p>
+<p>Questo comportamento può portare a risultati apparentemente strani, ma logici se si conoscono le regole di conversione:</p>
+<p>JavaScript</p>
+<p>// Conversione Stringa -> Numero</p>
+<p>console.log("3" == 3); // true</p>
+<p>// Coercizione con caratteri speciali (es. Newline)</p>
+<p>// JavaScript ignora gli spazi bianchi e i ritorni a capo (\\n) nella conversione numerica</p>
+<p>console.log("3\\n" == 3); // true</p>
+<p>// Gestione dello Zero</p>
+<p>console.log(-0 == 0); // true</p>
+<p>// Null e Undefined</p>
+<p>console.log(null == undefined); // true</p>
+<p>// NaN (Not a Number) è l'unico valore non uguale a se stesso</p>
+<p>console.log(NaN == NaN); // false</p>
+<h2> *4\. L'Uguaglianza Stretta (===)*</h2>
+<p>Per evitare le ambiguità della coercizione implicita, esiste l'operatore di uguaglianza stretta (===).</p>
+<p>Questo operatore non effettua alcuna conversione: restituisce true solo se sia il valore che il tipo sono identici.</p>
+<p>JavaScript</p>
+<p>// Confronto tra tipi diversi</p>
+<p>console.log("0" === 0); // false (Stringa vs Numero)</p>
+<p>// Confronto tra valori identici dello stesso tipo</p>
+<p>console.log(0 === 0);   // true</p>
+<p>console.log(0 === 1);   // false</p>
+<p>Questa versione ti sembra completa e pronta per essere inserita nel corso? Se hai il testo della prossima lezione, incollalo pure e applicherò lo stesso trattamento\!</p>
+<p>*Capitolo: Gli Operatori Binari di Confronto ed Uguaglianza in Profondità*</p>
+<p>In JavaScript, la capacità di confrontare valori è fondamentale per la logica di controllo del flusso. Questo capitolo esplora in modo esaustivo come il linguaggio gestisce queste operazioni, analizzando gli operatori di confronto, la dinamica della coercizione implicita e la distinzione cruciale tra uguaglianza semplice e stretta.*1\. Classificazione degli Operatori: Unari vs. Binari*</p>
+<p>Per comprendere appieno le operazioni di confronto, è essenziale distinguere gli operatori in base al numero di operandi su cui agiscono:</p>
+<ul><li>*Operatori Unari:* Richiedono un singolo operando. Modificano o valutano l'elemento isolato.</li><li>Esempi:</li><li>L'operatore di incremento (`++`) o decremento (`--`). Esempio: `x++` (agisce solo su `x`).</li><li>L'operatore di negazione logica singola (`!`) per invertire il valore booleano di un'espressione, o la doppia negazione (`!!`) usata come type casting rapido per convertire qualsiasi valore nel suo equivalente booleano (`true` o `false`).</li></ul></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 22 - Operatori di Confronto</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 32 - Funzioni: Definizione e Natura</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Funzioni: Definizione e Natura</h1>
+            <p class="subtitle">Lezione 32 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Definizione e Natura delle Funzioni*</h2>
+<p>Una funzione è essenzialmente un *sottoprogramma* progettato per svolgere determinati compiti in un ambiente circoscritto.</p>
+<p>Le caratteristiche fondamentali sono:</p>
+<ul><li>*Definizione e Invocazione:* Le funzioni vengono prima definite e successivamente eseguite tramite invocazione.</li><li>*Input e Output: Possono ricevere dati in ingresso (parametri), ma restituiscono sempre* un dato in uscita (output). Se non viene specificato un return, la funzione restituisce implicitamente undefined.</li><li>*Natura ad Oggetti: In JavaScript, è fondamentale comprendere che le funzioni sono Oggetti*.</li></ul>
+<h2> *2\. Funzioni come "First-Class Citizens"*</h2>
+<p>In JavaScript, le funzioni sono definite *Oggetti di Prima Classe (o Cittadini di Prima Classe*).</p>
+<h3> *Cosa significa?*</h3>
+<p>Nel mondo della programmazione, un'entità è considerata di "prima classe" quando supporta tutte le modalità operative delle altre entità standard (come stringhe, numeri, booleani).</p>
+<p>In termini pratici, tutto ciò che puoi fare con un numero o una stringa, puoi farlo con una funzione:</p>
+<p>1. Assegnarla a una variabile.</p>
+<p>2. Passarla come parametro ad altre funzioni.</p>
+<p>3. Restituirla come risultato di un'altra funzione.</p>
+<h2> *3\. Function Expressions (Espressioni di Funzione)*</h2>
+<p>Sfruttando il concetto di First-Class Citizen, possiamo utilizzare una sintassi alternativa alla classica dichiarazione: la Function Expression.</p>
+<p>Si tratta di assegnare una funzione (spesso anonima, cioè senza nome) direttamente ad una variabile.</p>
+<h3> *Codice Esemplicativo*</h3>
+<p>JavaScript</p>
+<p>// Definiamo una variabile 'fn' e le assegniamo una funzione anonima</p>
+<p>let fn = function() {</p>
+<p>console.log("Esecuzione della funzione anonima");</p>
+<p>};</p>
+<p>// NOTA: Qui è necessario il punto e virgola (;) finale,</p>
+<p>// perché stiamo tecnicamente facendo un assegnamento di valore a una variabile.</p>
+<p>// 'fn' ora conserva il riferimento alla funzione.</p>
+<p>// Per eseguirla, la invochiamo usando le parentesi tonde:</p>
+<p>fn();</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 32 - Funzioni: Definizione e Natura</p>
+        </footer>
+    </div>
+</body>
+</html>

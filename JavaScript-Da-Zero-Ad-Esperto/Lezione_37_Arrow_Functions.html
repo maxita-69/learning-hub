@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 37 - Arrow Functions</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Arrow Functions</h1>
+            <p class="subtitle">Lezione 37 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Dalla Function Expression alla Arrow Function*</h2>
+<p>Le Arrow Function nascono come evoluzione sintattica delle Function Expression. Vediamo come trasformare una funzione classica in una funzione a freccia.</p>
+<h3> *Esempio Base: Calcolo Matematico*</h3>
+<p>Supponiamo di voler calcolare il prodotto di un numero per $\\pi$ (Math.PI).</p>
+<h4> *1\. Sintassi Classica (ES5)*</h4>
+<p>Definiamo una funzione anonima assegnata alla variabile fn.</p>
+<p>JavaScript</p>
+<p>var fn = function(x) {</p>
+<p>return x * Math.PI;</p>
+<p>};</p>
+<p>console.log(fn(10)); // Output: 31.415...</p>
+<h4> *2\. Sintassi Arrow Function (ES6)*</h4>
+<p>Per convertirla:</p>
+<p>1. Rimuoviamo la parola chiave function.</p>
+<p>2. Aggiungiamo il simbolo "freccia" => (uguale + maggiore) tra i parametri e il corpo della funzione.</p>
+<p>JavaScript</p>
+<p>var arrow = (x) => {</p>
+<p>return x * Math.PI;</p>
+<p>};</p>
+<p>console.log(arrow(10)); // Output: 31.415...</p>
+<h2> *2\. Semplificazione della Sintassi (Syntactic Sugar)*</h2>
+<p>La vera potenza delle Arrow Functions risiede nella loro capacità di essere estremamente concise in determinate condizioni.</p>
+<h3> *Regola 1: Unico Parametro*</h3>
+<p>Se la funzione riceve *un solo parametro* in input, possiamo omettere le parentesi tonde () che lo racchiudono.</p>
+<p>JavaScript</p>
+<p>// Le parentesi attorno a 'x' non sono necessarie</p>
+<p>var arrow = x => {</p>
+<p>return x * Math.PI;</p>
+<p>};</p>
+<h3> *Regola 2: Return Implicito*</h3>
+<p>Se il corpo della funzione è composto da *una sola riga di codice* che restituisce un valore:</p>
+<p>1. Possiamo omettere le parentesi graffe {}.</p>
+<p>2. *Dobbiamo rimuovere la parola chiave return. Il ritorno del valore diventa implicito*.</p>
+<p>JavaScript</p>
+<p>// Sintassi ultra-compatta</p>
+<p>var arrow = x => x * Math.PI;</p>
+<p>*Nota:* Questa sintassi non è solo un risparmio di caratteri, ma rende il codice molto più leggibile, specialmente quando usiamo le funzioni come argomenti di altre funzioni (callback).</p>
+<h2> *3\. Arrow Functions come Callback*</h2>
+<p>Le Arrow Functions danno il meglio di sé quando utilizzate come *callback* per metodi degli array come filter, map o reduce.</p>
+<h3> *Esempio Pratico: Filtrare Numeri Pari*</h3>
+<p>Abbiamo un array di numeri e vogliamo estrarre solo quelli pari.</p>
+<p>Definiamo l'array iniziale:</p>
+<p>JavaScript</p>
+<p>var a = \[1, 2, 3, 4, 5, 6\];</p>
+<h4> *Approccio Classico (ES5)*</h4>
+<p>Dobbiamo passare una funzione anonima completa al metodo filter.</p>
+<p>JavaScript</p>
+<p>var b = a.filter(function(x) {</p>
+<p>return x % 2 === 0; // Restituisce true se pari</p>
+<p>});</p>
+<p>console.log(b); // Output: \[2, 4, 6\]</p>
+<h4> *Approccio Moderno con Arrow Function (ES6)*</h4>
+<p>Possiamo riscrivere la stessa logica in una singola riga, rendendo immediata la comprensione dell'intento del codice.</p>
+<p>JavaScript</p>
+<p>// "Per ogni x, tieni x se il resto della divisione per 2 è 0"</p>
+<p>var c = a.filter(x => x % 2 === 0);</p>
+<p>console.log(c); // Output: \[2, 4, 6\]</p>
+<h3> *Riepilogo dei vantaggi*</h3>
+<p>Rispetto alla versione classica, la versione con Arrow Function:</p>
+<ul><li>Elimina il "rumore" visivo (function, return, {, }, (, )).</li><li>Si legge quasi come una frase in linguaggio naturale.</li></ul>
+<h3> *Cenni sul Contesto di Esecuzione (this)*</h3>
+<p>Oltre alla sintassi, le Arrow Functions differiscono dalle funzioni classiche per la gestione del contesto (this). Mentre le funzioni classiche creano il proprio contesto, le Arrow Functions ereditano il contesto in cui sono definite. Questo aspetto avanzato sarà trattato nelle prossime lezioni.</p>
+<p>Ecco il capitolo del manuale dedicato alle *Constructor Functions e all'operatore new*, elaborato analizzando la trascrizione e il contenuto video fornito.</p>
+<p>Ho ricostruito fedelmente gli esempi di codice descritti (creazione oggetti, utilizzo di new, gestione del prototype) e strutturato il testo per spiegare il meccanismo di istanziazione in JavaScript.</p>
+<p># *Constructor Functions e l'Operatore new in JavaScript*</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 37 - Arrow Functions</p>
+        </footer>
+    </div>
+</body>
+</html>

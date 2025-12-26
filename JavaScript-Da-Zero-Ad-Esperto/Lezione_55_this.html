@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 55: this in JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .code-block .keyword {
+            color: #ff79c6;
+        }
+        
+        .code-block .function {
+            color: #50fa7b;
+        }
+        
+        .code-block .string {
+            color: #f1fa8c;
+        }
+        
+        .code-block .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        
+        .output {
+            background-color: #1e1e1e;
+            color: #4ec9b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 4px solid #4ec9b0;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .important {
+            background-color: #d1ecf1;
+            border-left: 4px solid: #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .important strong {
+            color: #0c5460;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .inline-code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.95em;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+        
+        .example-number {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>La Keyword <span class="inline-code">this</span> in JavaScript</h1>
+            <p class="subtitle">Lezione 55 - Programmazione Orientata agli Oggetti<br>
+            Durata: 4 minuti | Timestamp: 0:23 - 4:20</p>
+        </header>
+
+        <section>
+            <h2>Introduzione</h2>
+            <p>
+                La keyword <span class="inline-code">this</span> è uno degli elementi fondamentali e più potenti di JavaScript. 
+                Rappresenta il <strong>riferimento al contesto di esecuzione attuale</strong>, ovvero all'oggetto all'interno 
+                del quale il codice sta operando in quel momento.
+            </p>
+            
+            <div class="important">
+                <strong>Importante:</strong> <span class="inline-code">this</span> è un elemento <strong>riservato</strong> 
+                di JavaScript. Non è possibile assegnare un valore a <span class="inline-code">this</span> direttamente.
+            </div>
+
+            <div class="code-block"><pre><span class="comment">// ❌ ERRORE: Non possiamo fare questo</span>
+<span class="keyword">let</span> this = <span class="string">20</span>; <span class="comment">// Syntax Error!</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Il Contesto Globale</h2>
+            <p>
+                Prima di eseguire qualsiasi riga del nostro codice, il motore JavaScript crea un <strong>contesto globale 
+                di esecuzione</strong>, ovvero un oggetto globale in cui tutto il nostro codice viene eseguito. Nel browser, 
+                questo oggetto globale è <span class="inline-code">window</span>.
+            </p>
+            
+            <p>
+                In questo contesto globale, <span class="inline-code">this</span> fa riferimento all'oggetto 
+                <span class="inline-code">window</span>.
+            </p>
+
+            <h3><span class="example-number">Esempio 1</span> this nel Contesto Globale</h3>
+
+            <div class="code-block"><pre><span class="comment">// Nel contesto globale</span>
+<span class="function">console.log</span>(this);</pre>
+            </div>
+
+            <div class="output">
+Output: Window {window: Window, self: Window, document: document, ...}
+            </div>
+
+            <p>
+                Come vediamo, <span class="inline-code">this</span> nel contesto globale restituisce un riferimento 
+                all'oggetto <span class="inline-code">window</span>.
+            </p>
+        </section>
+
+        <section>
+            <h2>this all'interno di una Funzione</h2>
+            <p>
+                Quando definiamo una funzione e la invochiamo dal contesto globale, il valore di 
+                <span class="inline-code">this</span> all'interno di quella funzione continua a fare riferimento 
+                all'oggetto globale <span class="inline-code">window</span>.
+            </p>
+
+            <h3><span class="example-number">Esempio 2</span> Funzione nel Contesto Globale</h3>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">test</span>() {
+    <span class="function">console.log</span>(this);
+}
+
+<span class="comment">// Invochiamo la funzione dal contesto globale</span>
+<span class="function">test</span>();</pre>
+            </div>
+
+            <div class="output">
+Output: Window {window: Window, self: Window, document: document, ...}
+            </div>
+
+            <p>
+                Anche all'interno della funzione <span class="inline-code">test</span>, 
+                <span class="inline-code">this</span> fa ancora riferimento a <span class="inline-code">window</span> 
+                perché la funzione è stata invocata dal contesto globale.
+            </p>
+        </section>
+
+        <section>
+            <h2>this nel Contesto di un Oggetto</h2>
+            <p>
+                Le cose cambiano radicalmente quando lavoriamo con oggetti. Quando una funzione viene invocata come 
+                <strong>metodo di un oggetto</strong>, il valore di <span class="inline-code">this</span> all'interno 
+                di quella funzione fa riferimento all'<strong>oggetto stesso</strong>.
+            </p>
+
+            <h3><span class="example-number">Esempio 3</span> this in un Metodo di Oggetto</h3>
+
+            <div class="code-block"><pre><span class="keyword">let</span> obj = {
+    p1 : <span class="string">30</span>,
+    fn : <span class="keyword">function</span>() {
+        <span class="function">console.log</span>(this.p1);
+    }
+};
+
+<span class="comment">// Invochiamo il metodo con binding implicito</span>
+obj.<span class="function">fn</span>();</pre>
+            </div>
+
+            <div class="output">
+Output: 30
+            </div>
+
+            <p>
+                In questo caso, <span class="inline-code">this</span> all'interno della funzione non è più un riferimento 
+                a <span class="inline-code">window</span>, ma è un riferimento all'oggetto <span class="inline-code">obj</span>. 
+                Questo accade perché la funzione opera all'interno dell'oggetto <span class="inline-code">obj</span>.
+            </p>
+
+            <p>
+                Per questo motivo, quando scriviamo <span class="inline-code">this.p1</span>, riusciamo ad accedere 
+                correttamente alla proprietà <span class="inline-code">p1</span> dell'oggetto 
+                <span class="inline-code">obj</span>.
+            </p>
+
+            <div class="important">
+                <strong>Concetto chiave:</strong> Questo meccanismo è chiamato <strong>binding implicito</strong>. 
+                La sintassi <span class="inline-code">oggetto.metodo()</span> fa sì che 
+                <span class="inline-code">this</span> faccia riferimento all'oggetto che precede il punto.
+            </div>
+        </section>
+
+        <section>
+            <h2>Il Valore Dinamico di this</h2>
+            <p>
+                Un aspetto fondamentale da comprendere è che il valore di <span class="inline-code">this</span> 
+                <strong>non è determinato al momento della definizione della funzione</strong>, ma 
+                <strong>al momento della sua invocazione</strong>.
+            </p>
+
+            <p>
+                In altre parole, il valore di <span class="inline-code">this</span> all'interno di una funzione 
+                <strong>dipende dal modo in cui la funzione viene invocata</strong>.
+            </p>
+
+            <h3><span class="example-number">Esempio 4</span> Stessa Funzione, Contesti Diversi</h3>
+
+            <p>
+                Riprendiamo la funzione <span class="inline-code">test</span> definita in precedenza. 
+                Se invece di invocarla dal contesto globale, la assegniamo come metodo di un oggetto, 
+                il valore di <span class="inline-code">this</span> cambierà:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">test</span>() {
+    <span class="function">console.log</span>(this);
+}
+
+<span class="comment">// Definiamo un oggetto con un riferimento alla funzione test</span>
+<span class="keyword">let</span> obj1 = {
+    fn : test
+};
+
+<span class="comment">// Invochiamo la funzione attraverso l'oggetto</span>
+obj1.<span class="function">fn</span>();</pre>
+            </div>
+
+            <div class="output">
+Output: Object { fn: test() }
+            </div>
+
+            <p>
+                Questa volta, <span class="inline-code">this</span> all'interno di <span class="inline-code">test</span> 
+                non fa più riferimento a <span class="inline-code">window</span>, ma fa riferimento all'oggetto 
+                <span class="inline-code">obj1</span>!
+            </p>
+
+            <h3><span class="example-number">Esempio 5</span> Accedere alle Proprietà con this</h3>
+
+            <p>
+                Aggiungiamo una proprietà all'oggetto e vediamo come possiamo accedervi tramite 
+                <span class="inline-code">this</span>:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">test</span>() {
+    <span class="function">console.log</span>(this.p1);
+}
+
+<span class="keyword">let</span> obj1 = {
+    p1 : <span class="string">20</span>,
+    fn : test
+};
+
+obj1.<span class="function">fn</span>();</pre>
+            </div>
+
+            <div class="output">
+Output: 20
+            </div>
+
+            <p>
+                Poiché <span class="inline-code">this</span> all'interno di <span class="inline-code">test</span>, 
+                quando invocato tramite <span class="inline-code">obj1</span>, fa riferimento proprio a 
+                <span class="inline-code">obj1</span>, possiamo accedere correttamente alla proprietà 
+                <span class="inline-code">p1</span> con valore <span class="inline-code">20</span>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Una Funzione, Più Oggetti</h2>
+            <p>
+                Il comportamento dinamico di <span class="inline-code">this</span> diventa ancora più chiaro quando 
+                utilizziamo la stessa funzione con oggetti diversi. La funzione produrrà risultati diversi in base 
+                all'oggetto che la invoca.
+            </p>
+
+            <h3><span class="example-number">Esempio 6</span> this con Oggetti Multipli</h3>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">test</span>() {
+    <span class="function">console.log</span>(this.p1);
+}
+
+<span class="comment">// Primo oggetto</span>
+<span class="keyword">let</span> obj1 = {
+    p1 : <span class="string">20</span>,
+    fn : test
+};
+
+<span class="comment">// Secondo oggetto con un valore diverso</span>
+<span class="keyword">let</span> obj2 = {
+    p1 : <span class="string">40</span>,
+    fn : test
+};
+
+<span class="comment">// Invochiamo la stessa funzione attraverso oggetti diversi</span>
+obj1.<span class="function">fn</span>();  <span class="comment">// Output: 20</span>
+obj2.<span class="function">fn</span>();  <span class="comment">// Output: 40</span></pre>
+            </div>
+
+            <div class="output">
+Output: 20<br>
+Output: 40
+            </div>
+
+            <p>
+                La stessa funzione <span class="inline-code">test</span> produce output diversi 
+                (<span class="inline-code">20</span> e <span class="inline-code">40</span>) perché 
+                <span class="inline-code">this</span> fa riferimento a oggetti diversi a seconda di chi invoca la funzione:
+            </p>
+
+            <ul>
+                <li>Quando invochiamo <span class="inline-code">obj1.fn()</span>, 
+                    <span class="inline-code">this</span> = <span class="inline-code">obj1</span></li>
+                <li>Quando invochiamo <span class="inline-code">obj2.fn()</span>, 
+                    <span class="inline-code">this</span> = <span class="inline-code">obj2</span></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Conclusioni</h2>
+            <p>
+                Il valore di <span class="inline-code">this</span> in JavaScript è un concetto fondamentale 
+                della programmazione orientata agli oggetti. I punti chiave da ricordare sono:
+            </p>
+
+            <ol>
+                <li>
+                    <strong><span class="inline-code">this</span> è dinamico:</strong> Il suo valore non è 
+                    determinato dove la funzione è definita, ma <strong>come viene invocata</strong>.
+                </li>
+                <li>
+                    <strong>Nel contesto globale:</strong> <span class="inline-code">this</span> fa riferimento 
+                    all'oggetto <span class="inline-code">window</span> (nel browser).
+                </li>
+                <li>
+                    <strong>Nelle funzioni globali:</strong> Anche all'interno di funzioni chiamate dal contesto 
+                    globale, <span class="inline-code">this</span> riferisce a <span class="inline-code">window</span>.
+                </li>
+                <li>
+                    <strong>Nei metodi di oggetti:</strong> Quando una funzione è invocata come metodo di un oggetto 
+                    (<span class="inline-code">oggetto.metodo()</span>), <span class="inline-code">this</span> 
+                    fa riferimento a quell'oggetto.
+                </li>
+                <li>
+                    <strong>Riutilizzo delle funzioni:</strong> La stessa funzione può essere condivisa tra più oggetti, 
+                    e <span class="inline-code">this</span> farà sempre riferimento all'oggetto che ha invocato la funzione.
+                </li>
+            </ol>
+
+            <div class="important">
+                <strong>Prossimi passi:</strong> Nella prossima lezione approfondiremo il <strong>binding esplicito</strong>, 
+                che ci permetterà di controllare manualmente il valore di <span class="inline-code">this</span> 
+                utilizzando i metodi <span class="inline-code">bind()</span>, <span class="inline-code">call()</span> 
+                e <span class="inline-code">apply()</span>.
+            </div>
+        </section>
+
+        <footer>
+            <p><strong>Corso:</strong> Maestro JavaScript - Da zero ad esperto</p>
+            <p><strong>Sezione 4:</strong> Programmazione Orientata agli Oggetti (OOP)</p>
+            <p><strong>Lezione 55:</strong> La Keyword this</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Manuale creato il 25 Dicembre 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 33 - Function Expressions e Callback</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Function Expressions e Callback</h1>
+            <p class="subtitle">Lezione 33 - Corso JavaScript</p>
+        </header>
+        <section><h2> *4\. Funzioni come Parametri: Callback e Higher-Order Functions*</h2>
+<p>Poiché le funzioni sono "privilegiate", possiamo passarle come argomenti ad altre funzioni esattamente come passeremmo un numero o una stringa. Questo meccanismo è alla base della programmazione funzionale e asincrona in JavaScript.</p>
+<h3> *Definizioni Chiave*</h3>
+<ul><li>*Callback:* Una funzione che viene passata come parametro ad un'altra funzione. È chiamata così perché verrà "richiamata" (called back) all'interno della funzione esterna.</li><li>*Higher-Order Function (Funzione di Ordine Superiore):* Una funzione che riceve un'altra funzione come parametro oppure ne restituisce una.</li></ul>
+<h3> *Esempio Pratico: Creazione di un sistema di saluti modulare*</h3>
+<p>Creiamo due funzioni base che restituiscono stringhe diverse, e una funzione di ordine superiore che gestisce l'esecuzione.</p>
+<p>JavaScript</p>
+<p>// 1\. Definiamo le funzioni base (che saranno usate come callback)</p>
+<p>function ciao() {</p>
+<p>return "Ciao";</p>
+<p>}</p>
+<p>function arrivederci() {</p>
+<p>return "Arrivederci";</p>
+<p>}</p>
+<p>// 2\. Definiamo la Higher-Order Function 'saluta'</p>
+<p>// Questa funzione accetta un parametro 'fn' (che ci aspettiamo sia una funzione)</p>
+<p>function saluta(fn) {</p>
+<p>// Invochiamo la funzione passata come parametro e stampiamo il risultato</p>
+<p>// Qui 'fn' è la callback che viene eseguita</p>
+<p>console.log(fn());</p>
+<p>}</p>
+<p>// 3\. Invocazione</p>
+<p>// Passiamo il riferimento alla funzione 'ciao' (senza parentesi tonde\!)</p>
+<p>saluta(ciao);</p>
+<p>// Output: "Ciao"</p>
+<p>// Passiamo il riferimento alla funzione 'arrivederci'</p>
+<p>saluta(arrivederci);</p>
+<p>// Output: "Arrivederci"</p>
+<p>*Attenzione: Quando passiamo la callback a saluta, usiamo solo il nome (es. ciao), senza le parentesi tonde (). Se mettessimo le parentesi (ciao()), passeremmo il risultato* dell'esecuzione (la stringa), non la funzione stessa.</p>
+<h3> *Callback Anonime (Inline)*</h3>
+<p>Non è obbligatorio definire la funzione callback separatamente. Possiamo definirla direttamente all'interno delle parentesi tonde della chiamata, creando una funzione anonima "al volo".</p>
+<p>JavaScript</p>
+<p>// Invochiamo 'saluta' definendo la callback direttamente nell'argomento</p>
+<p>saluta(function() {</p>
+<p>return "Saluto definito inline\!";</p>
+<p>});</p>
+<p>// Output: "Saluto definito inline\!"</p>
+<h3> *Analisi dell'Esempio*</h3>
+<p>Nell'ultimo frammento di codice:</p>
+<p>1. La funzione anonima function() { return ... } è la *Callback*.</p>
+<p>2. La funzione saluta è la *Funzione di Ordine Superiore*.</p>
+<p>Questo approccio ci permette di lavorare con un livello di *astrazione* più alto, separando la logica di esecuzione (dentro saluta) dalla logica specifica del compito (dentro la callback).</p>
+<p>Ecco il capitolo del manuale basato sulla lezione riguardante la gestione avanzata dei parametri delle funzioni, l'oggetto arguments e gli operatori Rest e Spread (ES6).</p>
+<p>Ho applicato rigorosamente le regole di fedeltà, correzione e ricostruzione del codice mostrato a video.</p>
+<p># *Gestione Avanzata dei Parametri: Arguments, Rest e Spread Operator*</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 33 - Function Expressions e Callback</p>
+        </footer>
+    </div>
+</body>
+</html>

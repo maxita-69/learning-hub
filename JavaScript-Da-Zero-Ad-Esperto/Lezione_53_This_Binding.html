@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 53 - this: Binding Rules</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>this: Binding Rules</h1>
+            <p class="subtitle">Lezione 53 - Corso JavaScript</p>
+        </header>
+        <section><h2> *Regole di Binding per this*</h2>
+<p>JavaScript ha quattro regole principali per determinare il valore di this:</p>
+<h3> *1\. Default Binding (Binding Predefinito)*</h3>
+<p>Quando una funzione viene invocata senza un contesto specifico:</p>
+<p>function fn() {</p>
+<p>console.log(this);</p>
+<p>}</p>
+<p>fn();</p>
+<p>// Output: Window (in modalità non-strict)</p>
+<p>// Output: undefined (in modalità strict)</p>
+<h3> *2\. Implicit Binding (Binding Implicito)*</h3>
+<p>Quando una funzione viene chiamata come metodo di un oggetto:</p>
+<p>const obj = {</p>
+<p>name: "Oggetto",</p>
+<p>fn: function() {</p>
+<p>console.log(this.name);</p>
+<p>}</p>
+<p>};</p>
+<p>obj.fn();</p>
+<p>// Output: "Oggetto"</p>
+<h3> *3\. Explicit Binding (Binding Esplicito)*</h3>
+<p>Utilizzando call(), apply() o bind():</p>
+<p>function greet() {</p>
+<p>console.log(\`Ciao, sono ${this.name}\`);</p>
+<p>}</p>
+<p>const person = { name: "Mario" };</p>
+<p>greet.call(person);</p>
+<p>// Output: "Ciao, sono Mario"</p>
+<p>greet.apply(person);</p>
+<p>// Output: "Ciao, sono Mario"</p>
+<p>const boundGreet = greet.bind(person);</p>
+<p>boundGreet();</p>
+<p>// Output: "Ciao, sono Mario"</p>
+<h3> *4\. new Binding*</h3>
+<p>Quando una funzione viene usata come costruttore con new:</p>
+<p>function Persona(nome) {</p>
+<p>this.nome = nome;</p>
+<p>}</p>
+<p>const p1 = new Persona("Luigi");</p>
+<p>console.log(p1.nome);</p>
+<p>// Output: "Luigi"</p>
+<h2> *Arrow Functions e this*</h2>
+<p>Le *arrow functions* hanno un comportamento diverso rispetto alle funzioni tradizionali:</p>
+<ul><li>Non hanno il proprio this</li><li>Ereditano this dal contesto lessicale circostante</li><li>Il valore di this è determinato al momento della definizione, non dell'invocazione</li></ul>
+<p>const obj = {</p>
+<p>name: "Oggetto",</p>
+<p>regularFn: function() {</p>
+<p>console.log(this.name);</p>
+<p>},</p>
+<p>arrowFn: () => {</p>
+<p>console.log(this.name);</p>
+<p>}</p>
+<p>};</p>
+<p>obj.regularFn();</p>
+<p>// Output: "Oggetto"</p>
+<p>obj.arrowFn();</p>
+<p>// Output: undefined (this è Window nel contesto globale)</p>
+<h2> *Perdita del Contesto (Context Loss)*</h2>
+<p>Un problema comune è la perdita del contesto quando si passa un metodo come callback:</p>
+<h3> *Problema:*</h3>
+<p>const obj = {</p>
+<p>name: "Oggetto",</p>
+<p>greet: function() {</p>
+<p>console.log(\`Ciao da ${this.name}\`);</p>
+<p>}</p>
+<p>};</p>
+<p>setTimeout(obj.greet, 1000);</p>
+<p>// Output: "Ciao da undefined" (this è Window)</p>
+<h3> *Soluzione 1: Arrow Function*</h3>
+<p>setTimeout(() => obj.greet(), 1000);</p>
+<p>// Output: "Ciao da Oggetto"</p>
+<h3> *Soluzione 2: bind()*</h3>
+<p>setTimeout(obj.greet.bind(obj), 1000);</p>
+<p>// Output: "Ciao da Oggetto"</p>
+<h2> *Strict Mode e this*</h2>
+<p>In *strict mode*, il comportamento di this cambia:</p>
+<p>"use strict";</p>
+<p>function test() {</p>
+<p>console.log(this);</p>
+<p>}</p>
+<p>test();</p>
+<p>// Output: undefined (non Window\!)</p>
+<p>Questo aiuta a individuare errori in cui this potrebbe non essere quello che ci aspettiamo.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 53 - this: Binding Rules</p>
+        </footer>
+    </div>
+</body>
+</html>

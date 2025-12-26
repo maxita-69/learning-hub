@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 41 - OOP: I Quattro Pilastri</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OOP: I Quattro Pilastri</h1>
+            <p class="subtitle">Lezione 41 - Corso JavaScript</p>
+        </header>
+        <section><h3> *1\. Il paradigma OOP: concetti fondamentali*</h3>
+<p>La programmazione orientata agli oggetti (OOP) è un paradigma di programmazione che organizza il codice intorno agli oggetti, piuttosto che alle funzioni. Un paradigma è uno stile di progettazione e scrittura del codice che segue principi specifici.</p>
+<p>Nella programmazione procedurale, l’unità fondamentale è la funzione — il codice viene organizzato in procedure che manipolano dati esterni.</p>
+<p>Nella OOP, l’unità fondamentale è l’oggetto: una struttura dati che racchiude al proprio interno sia dati (chiamati proprietà) che comportamenti (chiamati metodi).</p>
+<p>Questo approccio permette di raggruppare in maniera coerente ciò che è logicamente correlato, riducendo la frammentazione tipica di applicazioni procedurali complesse.</p>
+<h3> *2\. I quattro pilastri dell’OOP*</h3>
+<p>L’OOP si basa su quattro principi fondamentali, ciascuno con un impatto diretto sulla struttura, manutenibilità e scalabilità del codice.</p>
+<h4> *2.1 Incapsulamento*</h4>
+<p>Incapsulamento significa racchiudere dati (proprietà) e funzioni (metodi) all’interno di un’unità logica — l’oggetto — in modo che il funzionamento interno sia isolato dall’esterno.</p>
+<div class="code-block"><pre>
+const lettoreDVD = {  
+  stato: 'fermo',  
+  avvia() {  
+    this.stato = 'in riproduzione';  
+    console.log('DVD avviato');  
+  }
+
+};
+
+In questo esempio, il metodo avvia() opera internamente sulla proprietà stato. L’esterno non deve (e non può, se non esposto) conoscere come lo stato viene aggiornato.
+</pre></div>
+<h4> *2.2 Astrazione*</h4>
+<p>Mentre l’incapsulamento riguarda il come si realizza un compito, l’astrazione riguarda il cosa viene messo a disposizione.</p>
+<p>L’obiettivo è esporre solo ciò che è necessario all’utente, nascondendo i dettagli implementativi.</p>
+<p>Esempio: un lettore DVD espone i pulsanti Play, Pausa, Stop. L’utente non ha bisogno di sapere come il motore legge i settori del disco: questa complessità è astratta.</p>
+<p>In codice, l’astrazione si realizza definendo un’interfaccia pulita (i metodi pubblici), mentre la logica interna resta celata.</p>
+<h4> *2.3 Ereditarietà*</h4>
+<p>L’ereditarietà permette a un oggetto di ereditare proprietà e metodi da un altro oggetto (detto prototipo o classe padre), evitando duplicazione del codice.</p>
+<p>In JavaScript l’ereditarietà è prototipale (ne vedremo implementazione in seguito), ma l’idea è:</p>
+<p>"Se Studente è un tipo di Persona, allora Studente può riutilizzare le caratteristiche di Persona."</p>
+<h4> *2.4 Polimorfismo*</h4>
+<p>Polimorfismo (dal greco: molte forme) indica la capacità di un’entità di assumere comportamenti diversi in contesti diversi.</p>
+<p>Nel contesto OOP, significa che lo stesso nome di metodo può avere implementazioni diverse a seconda dell’oggetto che lo invoca.</p>
+<p>Un esempio già noto, anche al di fuori della OOP, è l’operatore + in JavaScript:</p>
+<div class="code-block"><pre>
+console.log(5 + 3);        // → 8 (somma numerica)
+
+console.log("5" + "3");    // → "53" (concatenazione stringhe)
+
+Lo stesso simbolo (+) ha comportamenti diversi: è un caso di polimorfismo ad hoc.
+
+I vantaggi sintetici dei quattro pilastri sono:
+
+* Riduzione della complessità (astrazione + incapsulamento)  
+* Aumento della riusabilità (ereditarietà)  
+* Flessibilità del codice (polimorfismo)
+</pre></div>
+<h3> *3\. Accesso alle proprietà degli oggetti in JavaScript*</h3>
+<p>Gli oggetti in JavaScript sono collezioni di coppie chiave-valore. Le chiavi sono sempre trasformate in stringhe internamente dal motore (anche se scritte come numeri o simboli).</p>
+<h4> *3.1 Dot notation (obj.prop)*</h4>
+<p>Usata quando il nome della proprietà è un identificatore valido (es. lettere, $, _, senza spazi o caratteri speciali):</p>
+<div class="code-block"><pre>
+const user = {  
+  name: "Massimiliano",  
+  age: 34  
+};
+
+console.log(user.name);  // → "Massimiliano"
+</pre></div>
+<h4> *3.2 Bracket notation (obj\["prop"\])*</h4>
+<p>Obbligatoria in tre casi:</p>
+<p>1. Chiavi non valide come identificatori</p>
+<p>2. Chiavi numeriche</p>
+<p>3. Accesso dinamico tramite variabile</p>
+<h4># *Esempio 1: chiave numerica*</h4>
+<div class="code-block"><pre>
+const user = {  
+  "4": "valore speciale"  // chiave stringa "4"  
+};
+
+// ❌ Errore: user.4 non è sintassi valida  
+// console.log(user.4);   // SyntaxError
+
+// ✅ Corretto:  
+console.log(user\["4"\]);        // → "valore speciale"  
+console.log(user\[3 + 1\]);      // → "valore speciale"
+
+console.log(user\[2  2\]);      // → "valore speciale"*
+
+💡 Il motore valuta prima l’espressione tra parentesi (3 + 1 → 4), poi converte il risultato in stringa ("4"), e infine cerca la proprietà con quella chiave.
+</pre></div>
+<h4># *Esempio 2: chiave con spazi*</h4>
+<div class="code-block"><pre>
+const user = {  
+  "buon giorno": "Ciao\!"  
+};
+
+// ❌ user.buon giorno → errore (spazio non permesso)  
+// ✅ Solo con bracket notation:
+
+console.log(user\["buon giorno"\]);  // → "Ciao\!"
+</pre></div>
+<h4># *Esempio 3: accesso dinamico*</h4>
+<div class="code-block"><pre>
+const user = { name: "Massimiliano" };  
+const chiave = "name";
+
+console.log(user.chiave);     // → undefined (cerca proprietà "chiave")
+
+console.log(user\[chiave\]);    // → "Massimiliano" (equivalente a user\["name"\])
+
+✅ user\[chiave\] → il motore cerca la variabile chiave, ne estrae il valore ("name"), e usa quel valore come chiave.  </pre></div></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 41 - OOP: I Quattro Pilastri</p>
+        </footer>
+    </div>
+</body>
+</html>

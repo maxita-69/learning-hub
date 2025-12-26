@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 48 - Object.prototype</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Object.prototype</h1>
+            <p class="subtitle">Lezione 48 - Corso JavaScript</p>
+        </header>
+        <section><p># Scheda 13</p>
+<p>![][image16]</p>
+<p>![][image17]</p>
+<p>![][image18]</p>
+<p>![][image19]</p>
+<p>![][image20]</p>
+<p>![][image21]</p>
+<p>![][image22]</p>
+<h3> *Report Iniziale - Fonti Analizzate*</h3>
+<p>*Analisi effettuata su:* Trascrizione video contenuta nel file 2025-12-20_17-22-38.docx</p>
+<p># *Navigazione della Catena dei Prototipi con __proto__*</p>
+<h2> *Ripasso: Ricerca delle Proprietà nella Catena*</h2>
+<p>Nella precedente lezione abbiamo visto come il motore JavaScript ricerchi una proprietà non solo sull'oggetto sul quale stiamo effettuando la ricerca, ma anche in tutti gli oggetti che sono al di sopra nella catena dei prototipi.</p>
+<h3> *Esempio di Ricerca nella Catena*</h3>
+<p>Ad esempio, se scriviamo:</p>
+<p>console.log(Ferrari458Special.Cavalli);</p>
+<p>Per quanto la proprietà Cavalli non sia presente nell'oggetto Ferrari458Special, abbiamo un risultato, otteniamo un valore. Questo accade perché il motore JavaScript:</p>
+<p>1. Prima ricerca all'interno di Ferrari458Special</p>
+<p>2. Non trovando la proprietà, inizia a risalire la catena dei prototipi</p>
+<p>3. Il prototipo dell'oggetto Ferrari458Special è l'oggetto Ferrari458</p>
+<p>4. Ricerca la proprietà all'interno di questo oggetto, la trova e restituisce il valore</p>
+<h3> *Ricerca Multi-Livello*</h3>
+<p>Se facciamo:</p>
+<p>console.log(Ferrari458Special.Colore);</p>
+<p>Il motore JavaScript:</p>
+<ul><li>Non trova la proprietà in Ferrari458Special</li><li>Non trova la proprietà nell'oggetto Ferrari458</li><li>Continua la risalita dei prototipi</li><li>Dato che il prototipo di Ferrari458 è l'oggetto Ferrari, ricercherà la proprietà Colore all'interno dell'oggetto Ferrari</li><li>Trova la proprietà e restituisce il valore</li></ul>
+<h3> *Proprietà Non Esistente*</h3>
+<p>Ma se facciamo:</p>
+<p>console.log(Ferrari458Special.Cerchi);</p>
+<p>// Output: undefined</p>
+<p>Abbiamo undefined perché la proprietà Cerchi non è presente né in Ferrari458Special, né in Ferrari458, né nell'oggetto Ferrari.</p>
+<h2> *Il Vertice della Catena: Object.prototype*</h2>
+<h3> *Metodi Ereditati da Object.prototype*</h3>
+<p>Ma se facciamo:</p>
+<p>console.log(Ferrari458Special.toString());</p>
+<p>// Output: \[object Object\]</p>
+<p>Per quanto non abbiamo definito la proprietà toString, abbiamo un risultato\!</p>
+<h3> *Creazione Interna degli Oggetti Letterali*</h3>
+<p>Quando definiamo un oggetto con sintassi letterale, ad esempio:</p>
+<p>const lettObj = {};</p>
+<p>In realtà, internamente, il motore JavaScript quello che fa è invocare:</p>
+<p>new Object();</p>
+<h3> *Esplorazione di Object.prototype*</h3>
+<p>Facciamo:</p>
+<p>console.log(Object);</p>
+<p>Sappiamo che Object è una Constructor Function. Se espandiamo l'output nella console, andiamo alla proprietà prototype, che sappiamo contiene un oggetto. Questo oggetto presenta una serie di proprietà, tra cui la proprietà *toString*.</p>
+<p>Quindi i nostri oggetti *ereditano le proprietà inserite all'interno di Object.prototype*.</p>
+<h2> *Struttura della Catena dei Prototipi*</h2>
+<p>La struttura completa della catena dei prototipi è la seguente:</p>
+<p>1. *Al vertice della catena*: abbiamo null</p>
+<p>2. *Subito sotto*: abbiamo l'oggetto Object.prototype</p>
+<p>3. *Di seguito*: tutti gli oggetti da noi creati</p>
+<p>Questa è quella che viene chiamata *Prototype Chain, ovvero catena dei prototipi, ed è il meccanismo di JavaScript che implementa il principio OOP della ereditarietà*.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 48 - Object.prototype</p>
+        </footer>
+    </div>
+</body>
+</html>

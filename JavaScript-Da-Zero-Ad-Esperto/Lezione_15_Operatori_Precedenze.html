@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 15 - Operatori e Precedenze</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Operatori e Precedenze</h1>
+            <p class="subtitle">Lezione 15 - Corso JavaScript</p>
+        </header>
+        <section><h2> *✅ Pratica dopo la teoria: calcoli, precedenze, incrementi e oggetti numerici*</h2>
+<p>💡 Dopo la lezione teorica sui numeri in virgola mobile, ora mettiamo le mani in pasta. Questa lezione è più leggera, ma ricca di esercizi pratici fondamentali.</p>
+<h2> *🔹 1\. Gli Operatori Aritmetici di Base*</h2>
+<p>JavaScript fornisce operatori standard per eseguire tutti i calcoli matematici:</p>
+<h2> *🔹 2\. Precedenza degli Operatori e Parentesi*</h2>
+<p>JavaScript rispetta le regole matematiche: *Moltiplicazione e divisione hanno priorità su addizione e sottrazione*.</p>
+<h3> *✅ Esempio di Precedenza*</h3>
+<p>JavaScript</p>
+<p>let risultato = 10 + 3  2;  // Prima 3  2 (6), poi 10 + 6</p>
+<p>console.log(risultato);      // 16</p>
+<h3> *✅ Uso delle Parentesi per Modificare l'Ordine*</h3>
+<p>Le parentesi *()* vengono sempre elaborate per prime, consentendo di forzare l'ordine delle operazioni:</p>
+<p>JavaScript</p>
+<p>let risultato = (10 + 3)  2;  // Prima (10 + 3\) (13), poi 13  2</p>
+<p>console.log(risultato);        // 26</p>
+<p>📌 *Regola mnemonica: PEMDAS* (Parentesi, Esponenti, Moltiplicazione/Divisione, Addizione/Sottrazione).</p>
+<h2> *🔹 3\. L’Operatore Modulo (%)*</h2>
+<p>L'operatore *modulo restituisce il resto della divisione intera*.</p>
+<p>✅ *Utilizzo Comune*:</p>
+<ul><li>Determinare se un numero è *pari (num % 2 === 0) o dispari*.</li><li>Eseguire azioni cicliche o periodiche (es. ogni N elementi in un ciclo).</li></ul>
+<h2> *🔹 4\. Operatori di Incremento e Decremento*</h2>
+<p>Questi operatori modificano il valore di una variabile *aggiungendo o sottraendo 1. La loro posizione (prefisso o suffisso) è critica*:</p>
+<h3> *🧪 Esempi Pratici*</h3>
+<p>JavaScript</p>
+<p>let numA = 0;</p>
+<p>console.log(numA++); // → 0 (valore restituito prima dell'incremento)</p>
+<p>console.log(numA);   // → 1</p>
+<p>let numB = 5;</p>
+<p>console.log(--numB); // → 4 (valore restituito dopo il decremento)</p>
+<p>console.log(numB);   // → 4</p>
+<h2> *🔹 5\. Il Tipo number: Primitivo vs Oggetto*</h2>
+<p>In JavaScript, è fondamentale distinguere tra la forma *primitiva e la forma oggetto wrapper* dei numeri:</p>
+<h3> *🚨 Pericolo con new Number()*</h3>
+<p>JavaScript</p>
+<p>typeof 5            // → "number"</p>
+<p>typeof new Number(5)  // → "object" ❗</p>
+<p>5 === new Number(5)   // → false ❗ (Stai confrontando un primitivo con un oggetto)</p>
+<p>✅ *Best Practice: usa sempre il primitivo* (let x = 10).</p>
+<h2> *🔹 6\. L’Oggetto Math: Funzioni Matematiche Avanzate*</h2>
+<p>Math è un oggetto *statico* (non ha bisogno di new) che fornisce costanti e metodi per eseguire operazioni matematiche complesse.</p>
+<h3> *Proprietà (Costanti) Principali*</h3>
+<h3> *Metodi Comuni*</h3>
+<h3> *🎯 Generare Numeri Casuali con Math.random()*</h3>
+<p>Il metodo Math.random() restituisce un numero *floating-point pseudo-casuale nell'intervallo \[0, 1\)* (incluso 0, escluso 1).</p>
+<h2> *🔹 7\. Numeri Sicuri: Number.isSafeInteger()*</h2>
+<p>Per gli interi, JavaScript garantisce una rappresentazione *esatta* solo all'interno dell'intervallo sicuro, definito dalle costanti:</p>
+<p>JavaScript</p>
+<p>Number.MAX_SAFE_INTEGER // 9007199254740991</p>
+<p>Number.MIN_SAFE_INTEGER // -9007199254740991</p>
+<p>Utilizza *Number.isSafeInteger()* per verificare se un numero intero ricade in questo intervallo, specialmente in contesti critici (es. ID univoci di database o calcoli finanziari):</p>
+<p>JavaScript</p>
+<p>let n = Number.MAX_SAFE_INTEGER;</p>
+<p>console.log(Number.isSafeInteger(n));    // true</p>
+<p>console.log(Number.isSafeInteger(n + 1));  // false ❗</p>
+<h2> *✅ Riepilogo Finale*</h2></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 15 - Operatori e Precedenze</p>
+        </footer>
+    </div>
+</body>
+</html>

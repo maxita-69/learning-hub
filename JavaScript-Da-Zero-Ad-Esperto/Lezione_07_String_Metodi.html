@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 07 - Oggetto String e Metodi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Oggetto String e Metodi</h1>
+            <p class="subtitle">Lezione 07 - Corso JavaScript</p>
+        </header>
+        <section><h3> *Corso di JavaScript - Lezione: L'Oggetto String e i suoi Metodi*</h3>
+<h4> *1\. Introduzione all'Oggetto String*</h4>
+<p>Ho già pronunciato la frase che in JavaScript "gli oggetti sono il re". Quindi non ci sorprenderà il fatto che disponiamo di un oggetto predefinito String, tramite il quale è possibile creare una stringa proprio come è fatto con Number.</p>
+<p>Creazione di una stringa come oggetto:</p>
+<div class="code-block"><pre>
+let str = new String("Ciao");
+
+console.log(typeof str); // "object"
+
+Facciamo console.log di String e diamo un'occhiata a cosa contiene:
+
+javascript
+
+console.log(String); // ƒ String() { \[native code\] }
+
+Dice sempre che è una funzione, ma noi sappiamo che le funzioni in JavaScript sono oggetti.
+</pre></div>
+<h4> *2\. Metodi negli Oggetti*</h4>
+<p>Quando utilizziamo new viene creato un oggetto che può contenere dei metodi.</p>
+<p>Esempio di metodo in un oggetto:</p>
+<div class="code-block"><pre>
+let oggetto = {  
+    fn: function() {  
+        return "ciao";  
+    }  
+};
+
+console.log(oggetto.fn()); // "ciao"
+
+Invocare un metodo con la sintassi nomeOggetto.nomeMetodo() ormai è una procedura che conosciamo.
+</pre></div>
+<h4> *3\. Il Caso Particolare delle Stringhe*</h4>
+<p>La novità è che quando abbiamo bisogno di conoscere la lunghezza di una stringa, scriviamo:</p>
+<div class="code-block"><pre>
+let a = "Ciao";
+
+console.log(a.length); // 4
+
+Cerchiamo di accedere alla proprietà length non invocata su un oggetto ma su un tipo primitivo. Questo effettivamente può risultare strano.
+
+Estrazione di sottostringa:
+
+javascript
+
+let a = "Limitiamoci a dieci caratteri";  
+let b = a.substr(0, 10);  
+console.log(b); // "Limitiamoc"
+
+console.log(b.length); // 10
+
+Anche in questo caso accediamo ad un metodo, ma non attraverso un oggetto ma attraverso un dato primitivo.
+</pre></div>
+<h4> *4\. Ereditarietà Prototipale*</h4>
+<p>Il motivo per cui riusciamo a farlo è che internamente il tipo primitivo viene convertito in oggetto, e ogni oggetto in JavaScript eredita in modo automatico una serie di proprietà e metodi a cui quindi può accedere.</p>
+<p>Esempio:</p>
+<div class="code-block"><pre>
+let object = {};
+
+console.log(object.toString()); // "\[object Object\]"
+
+Noi vediamo che object effettivamente non contiene toString, ma siamo comunque riusciti ad accedere al metodo. Questo succede perché ogni oggetto accede al sistema di ereditarietà prototipale che studieremo più avanti nel corso.
+</pre></div>
+<h4> *5\. Metodi Pratici con le Stringhe*</h4>
+<p>Procediamo ed analizziamo alcuni metodi che possiamo utilizzare con le stringhe. Lo facciamo direttamente nella console per comodità.</p>
+<p>Trasformazione case:</p>
+<div class="code-block"><pre>
+"ciao".toUpperCase(); // "CIAO"
+
+"OK".toLowerCase(); // "ok"
+
+Ricerca di caratteri:
+
+javascript
+
+"Gianluca".indexOf('a'); // 2
+
+Infatti la G è in posizione zero, la i è in posizione uno e la a in posizione due.
+
+javascript
+
+"Gianluca".lastIndexOf('a'); // 7
+
+La stringa "Gianluca" è composta da otto caratteri, quindi la a finale in posizione sette.
+
+Verifica presenza sottostringa:
+
+javascript
+
+"Mi chiamo Gianluca".includes("mi"); // true  
+"Mi chiamo Gianluca".includes("chi"); // true
+
+"Mi chiamo Gianluca".includes("foo"); // false
+
+A differenza di indexOf che restituisce la posizione, il metodo includes restituisce soltanto true oppure false.
+
+Suddivisione stringa:
+
+javascript
+
+"Questa è una frase".split(" "); // \["Questa", "è", "una", "frase"\]
+
+Il risultato è un array con le varie parti della stringa.
+
+Ripetizione stringa:
+
+javascript
+
+"ciao ".repeat(5); // "ciao ciao ciao ciao ciao "
+
+Eliminazione spazi:
+
+javascript
+
+"   ciao   ".trim(); // "ciao"
+
+Il metodo trim va ad eliminare gli spazi all'inizio e alla fine della stringa.
+</pre></div></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 07 - Oggetto String e Metodi</p>
+        </footer>
+    </div>
+</body>
+</html>

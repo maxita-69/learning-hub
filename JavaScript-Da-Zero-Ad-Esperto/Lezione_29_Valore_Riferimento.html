@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 29 - Passaggio Valore vs Riferimento</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Passaggio Valore vs Riferimento</h1>
+            <p class="subtitle">Lezione 29 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Passaggio per Valore (Pass by Value)*</h2>
+<p>Nel passaggio per valore, ciò che viene trasferito è una *copia esatta del dato*2. Le due variabili coinvolte rimangono completamente indipendenti: una modifica alla variabile originale non ha alcun effetto sulla variabile copiata e viceversa.</p>
+<h3> *Tipi Coinvolti*</h3>
+<p>In JavaScript, questa modalità si applica a tutti i *Tipi Primitivi*:</p>
+<ul><li>Number</li><li>String</li><li>Boolean</li><li>Null</li><li>Undefined 3</li></ul>
+<h3> *Esempio Pratico*</h3>
+<p>Analizziamo il comportamento di due variabili numeriche:</p>
+<p>JavaScript</p>
+<p>// Definiamo una variabile A con valore 10</p>
+<p>let A = 10;</p>
+<p>// Assegniamo A ad una nuova variabile B</p>
+<p>let B = A;</p>
+<p>// In questo momento, B riceve una COPIA del valore 10\.</p>
+<p>// A e B sono indipendenti.</p>
+<p>// Modifichiamo A</p>
+<p>A = 8;</p>
+<p>// Verifichiamo il valore di B</p>
+<p>console.log(B); // Output: 10</p>
+<p>Analisi:</p>
+<p>L'istruzione let B = A non crea un legame tra le due variabili. Assegna a B solamente una copia del valore contenuto in A in quel preciso istante. Di conseguenza, la successiva modifica di A (che diventa 8\) non influisce minimamente su B, che mantiene il suo valore originale (10)4.</p>
+<h2> *2\. Passaggio per Riferimento (Pass by Reference)*</h2>
+<p>Il comportamento cambia radicalmente quando lavoriamo con strutture dati complesse. In JavaScript, *Oggetti, Array e Funzioni* vengono passati per riferimento5.</p>
+<p>In questo contesto, una variabile non "contiene" fisicamente l'oggetto, ma contiene un *riferimento* (un puntatore o indirizzo) alla posizione in memoria dove quell'oggetto risiede6.</p>
+<p>Quando assegniamo una variabile oggetto a un'altra:</p>
+<p>1. Non viene creata una copia dell'oggetto.</p>
+<p>2. Viene copiato solo il *riferimento* (l'indirizzo di memoria).</p>
+<p>3. Entrambe le variabili puntano allo *stesso identico oggetto* in memoria7.</p>
+<h3> *Esempio di Mutazione Condivisa*</h3>
+<p>Questo implica che una modifica effettuata tramite una variabile si rifletterà immediatamente sull'altra, poiché entrambe "guardano" lo stesso dato.</p>
+<p>JavaScript</p>
+<p>// Definiamo un oggetto obj1 con una proprietà</p>
+<p>let obj1 = { p1: 10 };</p>
+<p>// Assegniamo obj1 a obj2</p>
+<p>let obj2 = obj1;</p>
+<p>// ORA: obj1 e obj2 puntano allo stesso indirizzo in memoria.</p>
+<p>// Modifica tramite obj1</p>
+<p>obj1.p1 = "20";</p>
+<p>// Verifichiamo obj2</p>
+<p>console.log(obj2.p1); // Output: "20"</p>
+<p>// La modifica fatta su obj1 è visibile in obj2</p>
+<p>// Modifica tramite obj2</p>
+<p>obj2.p1 = "1.2";</p>
+<p>// Verifichiamo obj1</p>
+<p>console.log(obj1.p1); // Output: "1.2"</p>
+<p>// La modifica fatta su obj2 si riflette su obj1</p>
+<p>Come dimostrato dall'esempio, obj1 e obj2 sono due "telecomandi" diversi che controllano la stessa televisione. Se cambiamo canale con uno, il cambiamento è visibile anche per chi guarda il televisore (o usa l'altro telecomando)8.</p>
+<h2> *3\. Confronto e Uguaglianza tra Oggetti*</h2>
+<p>La natura del passaggio per riferimento ha implicazioni dirette sugli operatori di confronto (== o ===).</p>
+<h3> *Confronto tra Oggetti Distinti*</h3>
+<p>In JavaScript, due oggetti distinti non sono mai uguali, anche se il loro contenuto è identico.</p>
+<p>JavaScript</p>
+<p>// Confronto tra due oggetti vuoti distinti</p>
+<p>let o1 = {};</p>
+<p>let o2 = {};</p>
+<p>console.log(o1 == o2);  // false</p>
+<p>console.log(o1 === o2); // false</p>
+<p>*Perché?* JavaScript non controlla il contenuto (le proprietà interne), ma controlla se i riferimenti in memoria sono gli stessi. Poiché o1 e o2 sono stati creati separatamente, occupano posizioni di memoria diverse9.</p>
+<h3> *Confronto tra Riferimenti*</h3>
+<p>Il confronto restituisce true solo se le due variabili puntano allo stesso riferimento in memoria.</p>
+<p>JavaScript</p>
+<p>let obj1 = { valore: 10 };</p>
+<p>let obj2 = obj1; // Copia del riferimento</p>
+<p>// Confronto di uguaglianza (semplice o stretta)</p>
+<p>console.log(obj1 == obj2);  // true</p>
+<p>console.log(obj1 === obj2); // true</p>
+<p>In questo caso il risultato è true perché obj1 e obj2 sono alias per la stessa locazione di memoria10.</p>
+<p>*Vuoi che prepari un diagramma visivo (ASCII art) per mostrare la differenza tra lo Stack (dove risiedono i valori primitivi) e l'Heap (dove risiedono gli oggetti) per consolidare questo concetto?*</p>
+<p>*Ecco la rielaborazione completa della lezione in formato manuale tecnico. Il testo è stato corretto, strutturato e arricchito con esempi di codice commentati, mantenendo la fedeltà assoluta ai concetti esposti.*</p>
+<p># *Manipolazione Avanzata di Dati e Strutture di Controllo in JavaScript*</p>
+<p>*In questo capitolo esploreremo tecniche pratiche per la manipolazione delle stringhe, la gestione matematica dei numeri (inclusa la generazione di range casuali) e l'utilizzo dei cicli per l'interazione con l'utente. Attraverso esercizi pratici, analizzeremo come trasformare dati grezzi in output formattati correttamente.*</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 29 - Passaggio Valore vs Riferimento</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 46 - Astrazione e Privacy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Astrazione e Privacy</h1>
+            <p class="subtitle">Lezione 46 - Corso JavaScript</p>
+        </header>
+        <section><p># Scheda 11</p>
+<p># *L'Astrazione e la Gestione della Privacy nelle Constructor Functions*</p>
+<p>In questo capitolo approfondiremo il concetto di *Astrazione*, uno dei quattro pilastri fondamentali della Programmazione Orientata agli Oggetti (OOP). Analizzeremo come implementare questo principio in JavaScript utilizzando le Constructor Functions, focalizzandoci sulla creazione di membri privati per nascondere i dettagli implementativi e proteggere la logica interna dell'oggetto.</p>
+<h2> *1\. Il Concetto di Astrazione*</h2>
+<p>L'astrazione è il principio secondo cui un sistema complesso dovrebbe nascondere i dettagli di funzionamento interno ed esporre all'utente solo l'interfaccia necessaria per l'interazione.</p>
+<h3> *L'Analogia del Lettore DVD*</h3>
+<p>Per comprendere il concetto, la lezione utilizza l'esempio di un lettore DVD. Sebbene la progettazione interna del dispositivo sia estremamente complessa (circuiti, laser, motori), l'interfaccia esposta all'utente è semplice: pochi pulsanti intuitivi (Play, Stop, Eject).</p>
+<p>L'astrazione consiste proprio in questo: nascondere la complessità ed esporre solo l'essenziale.</p>
+<p>In JavaScript, l'obiettivo è applicare la stessa logica agli oggetti: permettere l'utilizzo delle funzionalità (metodi pubblici) impedendo l'accesso diretto o la modifica delle logiche interne (variabili o funzioni private).</p>
+<h2> *2\. Implementazione della Privacy nei Costruttori*</h2>
+<p>JavaScript (nelle versioni storiche e nell'uso delle funzioni costruttore) non possiede modificatori di visibilità nativi come public o private tipici di altri linguaggi (Java o C\#). Tuttavia, possiamo simulare la privacy sfruttando lo *scope delle funzioni*.</p>
+<h3> *Il Problema: Tutto è Pubblico per Default*</h3>
+<p>Quando definiamo proprietà e metodi usando la keyword this all'interno di una Constructor Function, questi diventano automaticamente pubblici e accessibili dall'esterno.</p>
+<p>![][image1]</p>
+<p>tutte le proprietà sono accessibili, quindi ho il valore 80\.</p>
+<h3> *La Soluzione: Utilizzo di Variabili Locali (let)*</h3>
+<p>Per rendere "privati" dei dati o delle funzioni, dobbiamo smettere di allegarli all'oggetto tramite this. Invece, li dichiariamo come *variabili locali* all'interno della funzione costruttore usando let (o const/var).</p>
+<p>In questo modo, tali variabili saranno visibili solo all'interno della funzione User (grazie alla chiusura lessicale), ma non saranno accessibili tramite l'istanza dell'oggetto.</p>
+<h3> *Codice Completo dell'Implementazione*</h3>
+<p>Di seguito vediamo come trasformare un metodo di calcolo e una variabile in membri privati, esponendo solo il risultato finale.</p>
+<p>JavaScript</p>
+<p>![][image2]</p>
+<p>in questo caso ho aggiunto “let” e il risultato è undifined</p>
+<p>LE constractor function sono funzioni “normali” a tutti gli effetti e quindi posso utlizzare “let”</p>
+<h2> *3\. Verifica dell'Incapsulamento*</h2>
+<p>Analizziamo il comportamento dell'oggetto creato per confermare che l'astrazione funzioni correttamente.</p>
+<h3> *Tentativo di Accesso ai Membri Privati*</h3>
+<p>Se proviamo ad accedere alle variabili definite con let, JavaScript non le trova nell'oggetto istanziato.</p>
+<p>![][image3]</p>
+<h3> *Accesso ai Membri Pubblici*</h3>
+<p>Possiamo invece utilizzare l'interfaccia pubblica (pesoIdeale), che internamente ha il permesso di leggere i dati privati ("Closure").</p>
+<p>JavaScript</p>
+<p>// Accesso corretto tramite il metodo pubblico esposto</p>
+<p>console.log(user1.pesoIdeale());</p>
+<p>// Output: 76 (calcolato correttamente usando la logica nascosta)</p>
+<p>![][image4]</p>
+<h3> *se elimino il this, abbiamo*</h3>
+<p>![][image5]</p>
+<h3> *Nota Tecnica sulla Sintassi*</h3>
+<p>Nel passaggio dal codice pubblico a quello privato, è fondamentale notare una correzione sintattica descritta nella lezione:</p>
+<ul><li>Quando calcolaPesoIdeale era pubblico (this.calcolaPesoIdeale), doveva essere invocato con this.calcolaPesoIdeale().</li><li>Una volta trasformato in variabile locale (let calcolaPesoIdeale), *il riferimento this va rimosso* durante l'invocazione. La funzione esiste nello scope locale, non sull'oggetto.</li></ul>
+<h2></h2>
+<h2> *Approfondimenti e Note Integrative*</h2>
+<h3> *Il Meccanismo della Closure*</h3>
+<p>La tecnica descritta in questa lezione funziona grazie al concetto di *Closure* (chiusura). Quando il costruttore User termina l'esecuzione, le variabili locali (calcolaPesoIdeale, privata, altezza) dovrebbero teoricamente essere distrutte. Tuttavia, poiché il metodo pubblico this.pesoIdeale mantiene un riferimento a esse, queste variabili vengono "mantenute in vita" in memoria, accessibili solo da quel metodo specifico.</p>
+<h3> *Svantaggi Prestazionali*</h3>
+<p>Definire metodi (anche pubblici) all'interno del costruttore, come fatto per this.pesoIdeale, comporta che la funzione venga *ricreata in memoria per ogni singola istanza* (user1, user2, user3 avranno copie separate della funzione). Sebbene necessario per accedere alle variabili private (che sono uniche per istanza), questo approccio consuma più memoria rispetto all'uso del prototype.</p>
+<h3> *Evoluzione Moderna: Classi e Campi Privati (\#)*</h3>
+<p>La lezione menziona che JavaScript avrebbe integrato "a breve" meccanismi nativi. Nelle versioni moderne di ECMAScript (ES2022+), è stata introdotta la sintassi delle classi con i *campi privati*, identificati dal prefisso \#.</p>
+<p>JavaScript</p>
+<p>class User {</p>
+<p>\#altezza; // Campo privato nativo</p>
+<p>constructor(name, altezza) {</p>
+<p>this.name = name;</p>
+<p>this.\#altezza = altezza;</p>
+<p>}</p>
+<p>\#calcolaPeso() { // Metodo privato nativo</p>
+<p>return (this.\#altezza - 100) * 0.95;</p>
+<p>}</p>
+<p>getPeso() {</p>
+<p>return this.\#calcolaPeso();</p>
+<p>}</p>
+<p>}</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 46 - Astrazione e Privacy</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 36 - IIFE e Module Pattern</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>IIFE e Module Pattern</h1>
+            <p class="subtitle">Lezione 36 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Function Expression e Invocazione Immediata (IIFE)*</h2>
+<p>Una funzione in JavaScript può essere definita e invocata nello stesso istante. Questa tecnica è nota come *IIFE*.</p>
+<h3> *Analisi della Sintassi*</h3>
+<p>Per creare una IIFE, trasformiamo una Function Expression anonima in un'espressione valutabile racchiudendola tra parentesi tonde ( ... ), seguite da una coppia di parentesi () per l'invocazione.</p>
+<h3> *Esempio 1: Calcolo Immediato con Correzione Numerica*</h3>
+<p>Nel seguente esempio, creiamo una funzione che accetta due parametri, esegue un calcolo utilizzando un fattore locale e restituisce il risultato formattato.</p>
+<p>*Ricostruzione Visiva:* A schermo viene mostrato l'uso dell'operatore unario + per convertire la stringa restituita da toFixed nuovamente in numero.</p>
+<p>JavaScript</p>
+<p>// La variabile 'calcola' riceverà il risultato dell'invocazione, non la funzione stessa</p>
+<p>var calcola = (function(a, b) {</p>
+<p>// Variabile locale, non accessibile dall'esterno</p>
+<p>var fattore = 1.2;</p>
+<p>// Esecuzione del calcolo</p>
+<p>var ris = (a + b) * fattore;</p>
+<p>// Risoluzione del problema dei decimali in JS (es. 7.1999...)</p>
+<p>// 1\. .toFixed(2) -> restituisce la stringa "7.20"</p>
+<p>// 2\. Operatore unario '+' -> converte la stringa in numero (7.2)</p>
+<p>console.log(+ris.toFixed(2));</p>
+<p>})(2, 4); // Invocazione immediata con parametri 2 e 4</p>
+<p>*Output Console:* 7.2</p>
+<h2> *2\. Isolamento dello Scope (Privacy dei Dati)*</h2>
+<p>Il vantaggio principale delle IIFE è la creazione di uno *scope riservato. Le variabili definite al loro interno (come fattore nell'esempio sopra) nascono e muoiono con l'esecuzione della funzione e non sono visibili dal Contesto Globale* (Global Scope).</p>
+<p>Se provassimo ad accedere a fattore dall'esterno, otterremmo un errore:</p>
+<p>JavaScript</p>
+<p>console.log(fattore);</p>
+<p>// Uncaught ReferenceError: fattore is not defined</p>
+<p>Questo meccanismo previene il *Global Namespace Pollution* (inquinamento dello spazio globale), evitando conflitti con altre variabili che potrebbero avere lo stesso nome.</p>
+<h2> *3\. Il Module Pattern*</h2>
+<p>Il *Module Pattern è un modello di progettazione che sfrutta le IIFE per implementare il concetto di incapsulamento*. Ci permette di:</p>
+<p>1. Mantenere *private* le funzioni e le variabili interne.</p>
+<p>2. Esporre *pubblicamente* solo un'interfaccia selezionata (API) tramite la restituzione di un oggetto.</p>
+<h3> *Esempio 2: Creazione di un Modulo "Chat" (File lib.js)*</h3>
+<p>Di seguito il codice completo ricostruito visualmente dall'editor del docente. Il modulo gestisce l'avvio di una chat simulata, distinguendo tra versione desktop e mobile.</p>
+<p>JavaScript</p>
+<p>// Assegniamo alla variabile 'chat' l'oggetto restituito dalla IIFE</p>
+<p>var chat = (function() {</p>
+<p>// --- MEMBRI PRIVATI (Nascosti) ---</p>
+<p>// Queste funzioni non possono essere chiamate direttamente dall'esterno</p>
+<p>function chat(tipo) {</p>
+<p>if (tipo === 'mobile') {</p>
+<p>startChatMobile();</p>
+<p>} else {</p>
+<p>startChat();</p>
+<p>}</p>
+<p>}</p>
+<p>function startChat() {</p>
+<p>console.log("Sto avviando la chat");</p>
+<p>}</p>
+<p>function startChatMobile() {</p>
+<p>console.log("Sto avviando la chat mobile");</p>
+<p>}</p>
+<p>// --- API PUBBLICA (Esposta) ---</p>
+<p>// Restituiamo un oggetto letterale che fa da "ponte" verso le funzioni private.</p>
+<p>// La proprietà 'init' è l'unico punto di accesso per l'utente.</p>
+<p>return {</p>
+<p>init: chat</p>
+<p>};</p>
+<p>})();</p>
+<h3> *Verifica dell'Accesso*</h3>
+<p>Se proviamo a invocare le funzioni interne dal contesto globale:</p>
+<ul><li>chat.chat('mobile') $\\rightarrow$ *Errore* (funzione non esposta).</li><li>chat.startChat() $\\rightarrow$ *Errore*.</li></ul>
+<p>L'unico modo corretto per interagire con il modulo è usare la proprietà esposta init:</p>
+<p>JavaScript</p>
+<p>// Accesso corretto tramite l'API pubblica</p>
+<p>chat.init('mobile');</p>
+<p>// Output: "Sto avviando la chat mobile"</p>
+<h2> *4\. Integrazione nel Markup HTML (File index.html)*</h2>
+<p>Per utilizzare il modulo in una pagina web, dobbiamo rispettare l'ordine di caricamento degli script.</p>
+<p>*Ricostruzione Visiva:* Nel video (minuto 09:50) viene mostrato il file index.html. Gli script sono posizionati correttamente all'interno del tag <body> per ottimizzare il caricamento.</p>
+<p>*File index.html:*</p>
+<p>HTML</p>
+<p><\!DOCTYPE *html*></p>
+<p><html lang="en"></p>
+<p><head></p>
+<p><meta charset="UTF-8"></p>
+<p><meta name="viewport" content="width=device-width, initial-scale=1.0"></p>
+<p><title>Document</title></p>
+<p></head></p>
+<p><body></p>
+<p><script src="lib.js"></script></p>
+<p><script></p>
+<p>// Invochiamo il metodo pubblico 'init' esposto dal modulo</p>
+<p>chat.init('mobile');</p>
+<p></script></p>
+<p></body></p>
+<p></html></p>
+<h3> *Riepilogo Concettuale*</h3>
+<p>Con questo pattern, la variabile globale chat non contiene la logica interna, ma solo l'oggetto { init: chat }. Questo ci permette di *nascondere* la complessità (le funzioni startChat, startChatMobile) e proteggere il codice da interferenze esterne, esponendo solo ciò che è strettamente necessario.</p>
+<p>Ecco il capitolo del manuale dedicato alle *Arrow Functions*, elaborato analizzando il video e la trascrizione della lezione.</p>
+<p>Ho applicato le regole di fedeltà al contenuto e ricostruzione visiva del codice (notando l'uso di var nel video, che ho mantenuto per fedeltà storica alla lezione, sebbene oggi si preferisca const).</p>
+<p># *Arrow Functions: Sintassi Concisa ed ES6*</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 36 - IIFE e Module Pattern</p>
+        </footer>
+    </div>
+</body>
+</html>

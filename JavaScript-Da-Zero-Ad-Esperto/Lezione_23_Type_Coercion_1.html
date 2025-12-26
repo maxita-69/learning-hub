@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 23 - Type Coercion - Parte 1</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Type Coercion - Parte 1</h1>
+            <p class="subtitle">Lezione 23 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Tipizzazione Debole e Dinamica*</h2>
+<p>JavaScript è un linguaggio a *tipizzazione debole* (o dinamica). Questo comporta due caratteristiche principali:</p>
+<p>1. È possibile assegnare un valore a una variabile senza specificarne il tipo a priori.</p>
+<p>2. Una variabile inizializzata con un certo tipo (es. numero) può essere successivamente riassegnata con un valore di tipo diverso (es. stringa).</p>
+<p>A causa di questa flessibilità, JavaScript si trova spesso a dover operare conversioni automatiche per gestire operazioni tra tipi diversi.</p>
+<h2> *2\. Tipi di Coercizione*</h2>
+<p>Il processo di conversione di un tipo di dato in un altro è chiamato *coercizione*. Ne esistono due varianti:</p>
+<ul><li>*Coercizione Esplicita:* Avviene quando siamo noi programmatori a richiedere la trasformazione.</li><li>Esempio: L'uso del doppio punto esclamativo (\!\!) per forzare un valore al suo corrispettivo booleano.</li><li>*Coercizione Implicita:* È l'argomento centrale di questa lezione. Avviene quando JavaScript trasforma automaticamente i tipi "dietro le quinte" per rendere possibile un confronto o un'operazione.</li></ul>
+<h2> *3\. Le Tre Vie della Conversione*</h2>
+<p>Per effettuare un confronto o un'operazione su tipi diversi, JavaScript deve prima uniformarli. La prima regola fondamentale da comprendere è che esistono solo *tre tipi di conversione* possibili in JavaScript:</p>
+<p>1. Conversione a *Number*</p>
+<p>2. Conversione a *String*</p>
+<p>3. Conversione a *Boolean*</p>
+<h2> *4\. La Conversione Implicita a Number*</h2>
+<p>La conversione verso il tipo *Number* è la più comune ed è quella tentata dalla maggior parte degli operatori:</p>
+<ul><li>Operatori di confronto (>, <, >=, <=).</li><li>Operatore di uguaglianza semplice (==).</li><li>Operatori aritmetici (-, *, /, etc.).</li></ul>
+<h3> *Il Comportamento dell'Operatore Più (+)*</h3>
+<p>L'operatore binario + merita un'attenzione particolare. La regola di base è che anche esso *tenta una conversione a Number*. Tuttavia, esiste un'importante eccezione che ha la priorità:</p>
+<p>*Eccezione: Se almeno uno dei due operandi è di tipo String, l'operatore + forza entrambi gli elementi al tipo String ed esegue un concatenamento*.</p>
+<p>Analizziamo i casi citati nella lezione applicando questa logica:</p>
+<p>JavaScript</p>
+<p>// Caso 1: Stringa + Numero</p>
+<p>// C'è una stringa ("3"), quindi scatta l'eccezione.</p>
+<p>// Il numero 10 viene convertito in stringa "10".</p>
+<p>// Avviene il concatenamento.</p>
+<p>console.log("3" + 10); // Risultato: "310"</p>
+<p>// Caso 2: Stringa + Null</p>
+<p>// C'è una stringa ("ciao"), scatta l'eccezione.</p>
+<p>// null viene convertito nella stringa "null".</p>
+<p>console.log("ciao" + null); // Risultato: "ciaonull"</p>
+<p>// Caso 3: Numero + Stringa</p>
+<p>// Il numero 3 diventa stringa "3".</p>
+<p>console.log(3 + "ciao"); // Risultato: "3ciao"</p>
+<p>Quando invece *nessun elemento è una stringa, l'operatore + segue la regola standard e converte tutto a Number*:</p>
+<p>JavaScript</p>
+<p>// Caso 4: Numero + Null</p>
+<p>// Nessuna stringa presente. Conversione a Number.</p>
+<p>// null diventa 0\.</p>
+<p>console.log(2 + null); // Risultato: 2 (ovvero 2 + 0\)</p>
+<h2> *5\. Regole di Conversione dei Primitivi a Number*</h2>
+<p>Per comprendere i risultati delle operazioni matematiche (come nel Caso 4), dobbiamo sapere come i vari tipi primitivi vengono trasformati in numeri:</p>
+<h3> *Esempi di Calcolo*</h3>
+<p>Applicando la tabella sopra, possiamo spiegare i seguenti risultati:</p>
+<p>JavaScript</p>
+<p>// Caso 5: true + 1</p>
+<p>// true diventa 1\.</p>
+<p>console.log(true + 1); // Risultato: 2 (1 + 1\)</p>
+<p>// Caso 6: false + null</p>
+<p>// false diventa 0, null diventa 0\.</p>
+<p>console.log(false + null); // Risultato: 0 (0 + 0\)</p>
+<h3> *La Pulizia delle Stringhe*</h3>
+<p>Quando JavaScript converte una stringa in numero, per prima cosa elimina gli spazi di tabulazione e i caratteri di nuova riga (\\n) all'inizio e alla fine.</p>
+<p>JavaScript</p>
+<p>// Caso 7: "30" == 30</p>
+<p>// La stringa "30" diventa il numero 30\.</p>
+<p>console.log("30" == 30); // true</p>
+<p>// Caso 8: Stringa complessa con spazi</p>
+<p>// "  2  \\n" viene pulita e diventa il numero 2\.</p>
+<p>console.log(" \\t 2 \\n " < 3); // true (poiché 2 < 3\)</p>
+<h2> *6\. Casi Speciali dell'Uguaglianza Semplice (==)*</h2>
+<p>Sebbene abbiamo detto che l'operatore di uguaglianza semplice (==) tenta solitamente una conversione a Number, esistono delle *eccezioni fondamentali* descritte come "Seconda Regola da Ricordare":</p>
+<h3> *Null e Undefined*</h3>
+<p>null e undefined non seguono la conversione a Number quando confrontati con ==.</p>
+<ul><li>null è uguale *solo* a null o undefined. Non è uguale a nient'altro (nemmeno a 0 o false).</li><li>undefined è uguale *solo* a null o undefined.</li></ul>
+<p>JavaScript</p>
+<p>// Confronto matematico (conversione attiva)</p>
+<p>console.log(2 + null);   // 2 (null diventa 0\)</p>
+<p>// Confronto di uguaglianza (eccezione attiva)</p>
+<p>console.log(null == 0);  // false (null NON diventa 0 qui)</p>
+<p>console.log(null == undefined); // true</p>
+<h3> *Not a Number (NaN)*</h3>
+<p>Il valore NaN rappresenta un risultato numerico non valido. L'eccezione qui è che NaN non è mai uguale a nulla, *nemmeno a se stesso*.</p>
+<p>JavaScript</p>
+<p>console.log(NaN == NaN); // false</p>
+<p>Questa struttura copre fedelmente l'intera lezione, mantenendo la distinzione tra la regola generale (conversione a Number) e le eccezioni specifiche (+ con stringhe, null/undefined in uguaglianza).</p>
+<p>Ecco la rielaborazione completa del materiale. Ho integrato il testo della trascrizione con gli esempi visivi delle slide, correggendo gli errori di trascrizione (come "Beck Slash Aiken" → \\n o \\t, "note number two" → NaN o true) e mantenendo un tono didattico rigoroso.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 23 - Type Coercion - Parte 1</p>
+        </footer>
+    </div>
+</body>
+</html>

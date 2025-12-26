@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 38 - Oggetti e Constructor Functions</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Oggetti e Constructor Functions</h1>
+            <p class="subtitle">Lezione 38 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Metodi di Creazione degli Oggetti*</h2>
+<p>In JavaScript esistono diversi modi per creare un oggetto.</p>
+<h3> *Object Literal vs Costruttore*</h3>
+<p>La sintassi più comune è quella "letterale" ({}), ma è possibile utilizzare anche il costruttore nativo new Object().</p>
+<p>JavaScript</p>
+<p>// 1\. Sintassi Object Literal (Consigliata)</p>
+<p>let obj = {};</p>
+<p>// 2\. Sintassi con costruttore new Object</p>
+<p>let obj2 = new Object();</p>
+<p>Questo dualismo esiste anche per i tipi primitivi, sebbene con differenze sostanziali nel tipo di dato risultante (primitivo vs oggetto wrapper):</p>
+<p>JavaScript</p>
+<p>// Primitivo numerico</p>
+<p>let num = 10;</p>
+<p>// Oggetto Number (creato tramite costruttore)</p>
+<p>let num2 = new Number(10);</p>
+<p>console.log(typeof num);  // "number"</p>
+<p>console.log(typeof num2); // "object"</p>
+<p>*Nota:* La sintassi con new compare spesso in JavaScript, quindi è fondamentale comprenderne il funzionamento interno.</p>
+<h2> *2\. Le Constructor Functions (Funzioni Costruttore)*</h2>
+<p>Le *Constructor Functions* sono in tutto e per tutto normali funzioni, ma vengono utilizzate come "stampi" per produrre oggetti. Per distinguerle dalle funzioni ordinarie, seguiamo due convenzioni rigorose:</p>
+<p>1. *Nome in PascalCase: Il nome della funzione deve iniziare con la lettera maiuscola* (es. User, non user).</p>
+<p>2. *Invocazione con new:* Devono essere eseguite precedute dall'operatore new.</p>
+<h3> *Definizione di base*</h3>
+<p>Definiamo una funzione User vuota e verifichiamo la sua natura.</p>
+<p>JavaScript</p>
+<p>function User() {</p>
+<p>// Nessun codice per ora</p>
+<p>}</p>
+<p>console.log(User); // Visualizza il corpo della funzione</p>
+<p>console.log(typeof User); // Output: "function"</p>
+<h2> *3\. Invocazione: Funzione vs Costruttore*</h2>
+<p>Cosa succede se invochiamo User come una normale funzione rispetto all'invocazione con new?</p>
+<h3> *Caso A: Invocazione Standard (Senza new)*</h3>
+<p>Se chiamiamo User() normalmente, il motore JavaScript esegue il corpo della funzione. Poiché non abbiamo definito un return, la funzione restituisce implicitamente undefined.</p>
+<p>JavaScript</p>
+<p>let user1 = User();</p>
+<p>console.log(user1);</p>
+<p>// Output: undefined</p>
+<p>// La variabile 'user1' non contiene un oggetto, ma il valore di ritorno (undefined).</p>
+<h3> *Caso B: Invocazione come Costruttore (Con new)*</h3>
+<p>Utilizzando l'operatore new, JavaScript cambia il comportamento dell'esecuzione:</p>
+<p>1. Crea un *nuovo oggetto vuoto*.</p>
+<p>2. Collega questo oggetto al *Prototype* della funzione costruttore.</p>
+<p>3. Esegue la funzione impostando this come riferimento al nuovo oggetto.</p>
+<p>4. *Restituisce automaticamente* il nuovo oggetto (anche senza return).</p>
+<p>JavaScript</p>
+<p>// Invocazione con 'new'</p>
+<p>let user2 = new User();</p>
+<p>console.log(user2);</p>
+<p>// Output: User {} (Un oggetto istanza di User)</p>
+<p>console.log(typeof user2);</p>
+<p>// Output: "object"</p>
+<p>In sintesi: le Constructor Functions sono *"fabbriche" di oggetti*.</p>
+<h2> *4\. Il Ruolo del prototype*</h2>
+<p>Ogni funzione in JavaScript possiede automaticamente una proprietà speciale chiamata *prototype*. Questa proprietà contiene un oggetto che funge da "contenitore" per metodi e proprietà che vogliamo condividere con tutte le istanze create da quel costruttore.</p>
+<h3> *Verifica del Prototype*</h3>
+<p>JavaScript</p>
+<p>// Accediamo alla proprietà prototype della funzione User</p>
+<p>console.log(User.prototype);</p>
+<p>// Output iniziale: {constructor: ƒ} (un oggetto quasi vuoto)</p>
+<h3> *Aggiungere Proprietà e Metodi al Prototype*</h3>
+<p>Possiamo arricchire il prototype aggiungendo proprietà o metodi. Questi saranno immediatamente accessibili ("ereditati") da tutti gli oggetti creati con new User().</p>
+<p>JavaScript</p>
+<p>// 1\. Aggiungiamo una proprietà statica</p>
+<p>User.prototype.p1 = 10;</p>
+<p>// 2\. Aggiungiamo un metodo</p>
+<p>User.prototype.p2 = function(x) {</p>
+<p>return x * x; // Restituisce il quadrato del numero</p>
+<p>};</p>
+<h3> *Verifica dell'Ereditarietà*</h3>
+<p>Creiamo nuove istanze e verifichiamo se riescono ad accedere a queste proprietà, anche se non sono definite direttamente "dentro" l'oggetto user1 o user2, ma nel loro prototipo.</p>
+<p>JavaScript</p>
+<p>let user1 = new User();</p>
+<p>let user2 = new User();</p>
+<p>// Accesso alla proprietà p1 (definita nel prototype)</p>
+<p>console.log(user1.p1); // Output: 10</p>
+<p>console.log(user2.p1); // Output: 10</p>
+<p>// Invocazione del metodo p2 (definito nel prototype)</p>
+<p>console.log(user2.p2(3)); // Output: 9 (3 * 3\)</p>
+<h3> *Analisi Tecnica*</h3>
+<p>Quando scriviamo user1.p1:</p>
+<p>1. JavaScript cerca la proprietà p1 direttamente nell'oggetto user1.</p>
+<p>2. Non trovandola, risale la catena dei prototipi e cerca in User.prototype.</p>
+<p>3. Trova p1 e ne restituisce il valore (10).</p>
+<p>Questo meccanismo è alla base dell'ereditarietà in JavaScript e permette di risparmiare memoria: il metodo p2 esiste in un solo posto (il prototype), ma è utilizzabile da infinite istanze.</p>
+<p>Ecco la rielaborazione della lezione in formato manuale tecnico, basata sull'analisi del video e della trascrizione relativi alle *Constructor Functions*.</p>
+<p># *Constructor Functions e Ottimizzazione con Prototype*</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 38 - Oggetti e Constructor Functions</p>
+        </footer>
+    </div>
+</body>
+</html>

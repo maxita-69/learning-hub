@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 20 - null e undefined Approfonditi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>null e undefined Approfonditi</h1>
+            <p class="subtitle">Lezione 20 - Corso JavaScript</p>
+        </header>
+        <section><p># Scheda 5</p>
+<p>Hai colto perfettamente l'argomento. La lezione si concentra sulla cruciale distinzione tra i due valori primitivi che indicano assenza di valore in JavaScript: *null e undefined*.</p>
+<p>Di seguito trovi la struttura della lezione, inclusi i concetti spiegati e la ricostruzione degli esempi di codice che il docente ha mostrato a video per illustrare i vari casi.</p>
+<p># *📘 Lezione: null vs undefined*</p>
+<p>I valori *null e undefined* sono tipi primitivi che indicano assenza di valore e generano un po' di confusione.</p>
+<h2> *1\. Il Valore null (Nullo)*</h2>
+<p>*null indica l'assenza intenzionale di un valore*.</p>
+<ul><li>È un valore che deve essere *assegnato* esplicitamente dal programmatore.</li><li>Significato: "Non definito nulla" (letteralmente vuol dire nullo).</li></ul>
+<h3> *✅ Codice a Video (Esempio di Assegnazione)*</h3>
+<p>Il docente avrebbe mostrato come assegnare null ad una variabile per indicare che è temporaneamente vuota:</p>
+<p>JavaScript</p>
+<p>let totale = null;</p>
+<p>console.log(totale); // Output: null</p>
+<h2> *2\. Il Valore undefined (Non Definito)*</h2>
+<p>*undefined indica che una variabile è stata dichiarata, ma non le è stato assegnato alcun valore*.</p>
+<ul><li>È un valore assegnato automaticamente da JavaScript quando manca un'inizializzazione.</li><li>Significato: "Non definito".</li></ul>
+<h3> *✅ Codice a Video (Esempio 1: Dichiarazione Senza Valore)*</h3>
+<p>JavaScript</p>
+<p>let a; // Variabile dichiarata ma non inizializzata</p>
+<p>console.log(a);  // Output: undefined</p>
+<h3> *✅ Codice a Video (Esempio 2: Proprietà Inesistente di un Oggetto)*</h3>
+<p>L'accesso a una proprietà di un oggetto che non esiste restituisce undefined.</p>
+<p>JavaScript</p>
+<p>let obj = {}; // Oggetto vuoto</p>
+<p>console.log(obj.totale); // Output: undefined</p>
+<h3> *✅ Codice a Video (Esempio 3: Ritorno Implicito di una Funzione)*</h3>
+<p>Una funzione senza un'istruzione return esplicita restituisce implicitamente undefined.</p>
+<p>JavaScript</p>
+<p>function test() {</p>
+<p>// Blocco di codice senza istruzione return</p>
+<p>}</p>
+<p>console.log(test()); // Output: undefined</p>
+<h2> *3\. Caratteristiche Comuni (Falsy)*</h2>
+<p>Le caratteristiche in comune tra null e undefined sono:</p>
+<p>1. Entrambi sono *valori primitivi*.</p>
+<p>2. Entrambi sono considerati *falsy* (ovvero, restituiscono false in un contesto booleano).</p>
+<h3> *✅ Codice a Video (Esempio di Coercizione Booleana)*</h3>
+<p>Il docente ha dimostrato che la conversione esplicita a booleano per entrambi i valori restituisce false:</p>
+<p>$$\\text{Boolean}(\\text{undefined}) \\implies \\text{false}$$</p>
+<p>$$\\text{Boolean}(\\text{null}) \\implies \\text{false}$$</p>
+<p>Questo è stato dimostrato probabilmente nella console o con un codice come:</p>
+<p>JavaScript</p>
+<p>console.log(Boolean(undefined)); // Output: false</p>
+<p>console.log(Boolean(null));      // Output: false</p>
+<h2> *4\. Differenze Tecniche Aggiuntive (Per completezza)*</h2>
+<p>Sebbene il docente non l'abbia menzionato nel frammento, la distinzione più evidente per i programmatori è il loro tipo di dato (typeof):</p>
+<p>🚨 *Attenzione*: typeof null restituisce "object", un errore noto fin dalla prima implementazione di JavaScript.</p>
+<p>Ottima osservazione. Il video si è concentrato molto sul fatto che entrambi sono "falsi" e indicano "assenza", ma capire la *differenza semantica e tecnica* è ciò che distingue un principiante da un professionista.</p>
+<p>Ecco le differenze sostanziali che devi conoscere:</p>
+<p># *⚔️ null vs undefined: Le Differenze Reali*</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 20 - null e undefined Approfonditi</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 40 - Funzioni Pure</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Funzioni Pure</h1>
+            <p class="subtitle">Lezione 40 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Definizione di Funzione Pura*</h2>
+<p>Nel paradigma funzionale, una funzione è considerata *pura* quando rispetta due regole fondamentali:</p>
+<p>1. *Determinismo: Il risultato della funzione dipende esclusivamente dai dati passati in input (argomenti). A fronte dello stesso identico input, la funzione deve restituire sempre* lo stesso identico output.</p>
+<p>2. *Assenza di Effetti Collaterali (Side Effects):* La funzione non deve modificare lo stato esterno, né produrre cambiamenti osservabili al di fuori del suo scopo (come modificare variabili globali, alterare il DOM o stampare in console).</p>
+<h2> *2\. Funzioni Impure e Non Deterministiche*</h2>
+<p>Per comprendere meglio, partiamo da un contro-esempio. Analizziamo una funzione che calcola una somma ma dipende da una variabile esterna.</p>
+<h3> *Esempio di Codice Impuro*</h3>
+<p>Definiamo una variabile somma nel contesto globale e una funzione calcola che agisce su di essa.</p>
+<p>JavaScript</p>
+<p>// Variabile definita nel contesto globale (esterno alla funzione)</p>
+<p>let somma = 0;</p>
+<p>function calcola(a, b) {</p>
+<p>// La funzione dipende e modifica una variabile esterna</p>
+<p>somma = a + b;</p>
+<p>return somma;</p>
+<p>}</p>
+<p>// Invocazione</p>
+<p>console.log(calcola(2, 3)); // Output: 5</p>
+<p>console.log(somma);         // Output: 5 (La variabile esterna è stata modificata)</p>
+<p>*Perché questa funzione è impura?*</p>
+<p>1. *Dipendenza Esterna:* Il suo funzionamento è legato alla variabile somma che si trova fuori dal suo scope.</p>
+<p>2. *Effetto Collaterale:* Modifica la variabile somma (Side Effect). Se invocassimo la funzione più volte o se un'altra parte del codice modificasse somma, lo stato dell'applicazione diventerebbe difficile da tracciare.</p>
+<p>*Nota sui Side Effects: Anche l'uso di console.log() all'interno di una funzione è tecnicamente considerato un effetto collaterale*, poiché modifica lo stato della console (un'entità esterna alla funzione) mostrando un'informazione a video.</p>
+<h2> *3\. Refactoring verso una Funzione Pura*</h2>
+<p>Trasformiamo ora la funzione precedente in una funzione pura. L'obiettivo è eliminare le dipendenze esterne e far sì che l'output sia determinato solo dagli input.</p>
+<h3> *Esempio di Codice Puro*</h3>
+<p>JavaScript</p>
+<p>function calcola(a, b) {</p>
+<p>// La funzione lavora solo con i parametri 'a' e 'b'</p>
+<p>let risultato = a + b;</p>
+<p>// Restituisce il valore senza modificare nulla all'esterno</p>
+<p>return risultato;</p>
+<p>}</p>
+<p>// Invocazione</p>
+<p>console.log(calcola(1, 2)); // Output: 3</p>
+<p>console.log(calcola(1, 2)); // Output: 3 (Sempre lo stesso risultato per lo stesso input)</p>
+<p>*Vantaggi dell'approccio Puro:*</p>
+<ul><li>*Prevedibilità:* Se passiamo 1, 2, 3, otterremo sempre 6, indipendentemente dallo stato del resto dell'applicazione.</li><li>*Manutenibilità e Debug:* È più facile capire cosa fa la funzione e trovare errori, poiché non ci sono variabili nascoste che ne influenzano il comportamento.</li></ul>
+<h2> *4\. Riepilogo del Capitolo: Le Funzioni in JavaScript*</h2>
+<p>Con questa lezione concludiamo il capitolo dedicato alle funzioni. Ecco una sintesi dei concetti chiave trattati finora:</p>
+<p>1. *Oggetti di Prima Classe (First-Class Citizens):* Le funzioni in JS sono trattate come qualsiasi altro valore (possono essere assegnate a variabili, passate come argomenti, restituite da altre funzioni).</p>
+<p>2. *Callback:* Una funzione passata come parametro ad un'altra funzione.</p>
+<p>3. *Higher-Order Functions (Funzioni di Ordine Superiore): Funzioni che ricevono altre funzioni come input o ne restituiscono una. Questo ci permette di lavorare a un livello di astrazione* più alto.</p>
+<p>4. *Arrow Functions (ES6):* Una sintassi concisa per le funzioni anonime, spesso usata per le callback.</p>
+<p>5. *Constructor Functions:* Funzioni utilizzate con l'operatore new per creare oggetti. Permettono di gestire l'ereditarietà tramite la proprietà prototype e l'uso di this per definire le proprietà dell'istanza.</p>
+<p>6. *Pure vs Impure:* La distinzione fondamentale basata su determinismo ed effetti collaterali.</p>
+<p>La comprensione profonda di questi meccanismi è la base per affrontare argomenti più complessi nello sviluppo di applicazioni JavaScript moderne.</p>
+<p># Progr. Orientata agli Oggetti in JavaScript</p>
+<p># *Capitolo: Introduzione alla Programmazione Orientata agli Oggetti in JavaScript*</p>
+<p>Analisi effettuata su: trascrizione del file 2025-12-09 10-28-14.docx, contenente una lezione introduttiva alla OOP in JavaScript.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 40 - Funzioni Pure</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programmazione OOP in JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .keyword {
+            color: #ff79c6;
+        }
+        
+        .function {
+            color: #50fa7b;
+        }
+        
+        .string {
+            color: #f1fa8c;
+        }
+        
+        .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        
+        .operator {
+            color: #ff79c6;
+        }
+        
+        .output {
+            background-color: #1e1e1e;
+            color: #4ec9b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 4px solid #4ec9b0;
+        }
+        
+        .inline-code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.95em;
+        }
+        
+        .important {
+            background-color: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .important strong {
+            color: #0c5460;
+        }
+        
+        .pillar-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .pillar-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Programmazione Orientata agli Oggetti in JavaScript</h1>
+            <p class="subtitle">Corso JavaScript - Fondamenti di OOP</p>
+        </header>
+
+        <section>
+            <h2>Introduzione alla OOP</h2>
+            <p>
+                La <strong>Programmazione Orientata agli Oggetti</strong> (Object-Oriented Programming, OOP) 
+                è un paradigma di programmazione basato sul concetto di "oggetti", che possono contenere 
+                dati sotto forma di proprietà e codice sotto forma di metodi.
+            </p>
+            
+            <p>
+                In JavaScript, la OOP si basa su <strong>quattro pilastri fondamentali</strong> che costituiscono 
+                le basi di questo approccio alla programmazione.
+            </p>
+        </section>
+
+        <section>
+            <h2>I Quattro Pilastri della OOP</h2>
+
+            <div class="pillar-box">
+                <h4>1. Incapsulamento (Encapsulation)</h4>
+                <p>
+                    L'<strong>incapsulamento</strong> è il meccanismo che consente di raggruppare dati e metodi 
+                    che operano su quei dati all'interno di una singola unità (un oggetto). Questo permette di 
+                    nascondere i dettagli implementativi e di esporre solo ciò che è necessario all'esterno.
+                </p>
+            </div>
+
+            <div class="pillar-box">
+                <h4>2. Astrazione (Abstraction)</h4>
+                <p>
+                    L'<strong>astrazione</strong> consiste nel nascondere la complessità del codice dietro 
+                    interfacce semplici. Permette di concentrarsi su "cosa fa" un oggetto piuttosto che 
+                    "come lo fa", semplificando l'uso del codice.
+                </p>
+            </div>
+
+            <div class="pillar-box">
+                <h4>3. Ereditarietà (Inheritance)</h4>
+                <p>
+                    L'<strong>ereditarietà</strong> permette di creare nuove classi basandosi su classi esistenti, 
+                    riutilizzando e estendendo le loro funzionalità. Questo promuove il riuso del codice e 
+                    facilita la manutenzione.
+                </p>
+            </div>
+
+            <div class="pillar-box">
+                <h4>4. Polimorfismo (Polymorphism)</h4>
+                <p>
+                    Il <strong>polimorfismo</strong> consente a oggetti di classi diverse di essere trattati 
+                    come oggetti di una classe comune. Permette di utilizzare la stessa interfaccia per 
+                    operare su oggetti di tipi diversi.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Accesso alle Proprietà degli Oggetti</h2>
+            
+            <p>
+                In JavaScript esistono <strong>due modalità principali</strong> per accedere alle proprietà 
+                di un oggetto: la <strong>dot notation</strong> (notazione a punto) e la 
+                <strong>bracket notation</strong> (notazione a parentesi quadre).
+            </p>
+
+            <h3>Dot Notation (Notazione a Punto)</h3>
+            
+            <p>La sintassi più comune e leggibile per accedere alle proprietà:</p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> user = {
+    name: <span class="string">"Mario"</span>,
+    age: <span class="string">30</span>
+};
+
+<span class="comment">// Accesso con dot notation</span>
+<span class="function">console</span>.<span class="function">log</span>(user.name); <span class="comment">// Output: "Mario"</span>
+<span class="function">console</span>.<span class="function">log</span>(user.age);  <span class="comment">// Output: 30</span></pre>
+            </div>
+
+            <h3>Bracket Notation (Notazione a Parentesi Quadre)</h3>
+            
+            <p>Una sintassi alternativa che offre maggiore flessibilità:</p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> user = {
+    name: <span class="string">"Mario"</span>
+};
+
+<span class="comment">// Accesso con bracket notation</span>
+<span class="function">console</span>.<span class="function">log</span>(user[<span class="string">"name"</span>]); <span class="comment">// Output: "Mario"</span></pre>
+            </div>
+
+            <h3>Identificatori Non Validi come Chiavi</h3>
+
+            <p>
+                La <strong>bracket notation diventa necessaria</strong> quando lavoriamo con chiavi che 
+                non sono identificatori JavaScript validi, come chiavi contenenti spazi o caratteri speciali.
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> user = {
+    name: <span class="string">"Mario"</span>,
+    <span class="string">"buon giorno"</span>: <span class="string">"saluto"</span>
+};
+
+<span class="comment">// ❌ ERRORE con dot notation</span>
+<span class="function">console</span>.<span class="function">log</span>(user.buon giorno); <span class="comment">// Syntax error</span>
+
+<span class="comment">// ✅ CORRETTO con bracket notation</span>
+<span class="function">console</span>.<span class="function">log</span>(user[<span class="string">"buon giorno"</span>]); <span class="comment">// Output: "saluto"</span></pre>
+            </div>
+
+            <h3>Accesso Dinamico alle Proprietà</h3>
+
+            <p>
+                Un'altra situazione in cui è <strong>necessario utilizzare le parentesi quadre</strong> è 
+                nell'<strong>accesso dinamico</strong> alle proprietà.
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> user = {
+    name: <span class="string">"Mario"</span>
+};
+
+<span class="comment">// Definiamo una variabile che contiene il nome della proprietà</span>
+<span class="keyword">const</span> nome = <span class="string">"name"</span>;
+
+<span class="comment">// ❌ Accesso con dot notation</span>
+<span class="function">console</span>.<span class="function">log</span>(user.nome); <span class="comment">// Output: undefined</span>
+<span class="comment">// Il motore JavaScript cerca una proprietà chiamata "nome", non "name"</span>
+
+<span class="comment">// ✅ Accesso con bracket notation</span>
+<span class="function">console</span>.<span class="function">log</span>(user[nome]); <span class="comment">// Output: "Mario"</span>
+<span class="comment">// Il motore JavaScript valuta la variabile 'nome' e usa il suo valore</span></pre>
+            </div>
+
+            <div class="important">
+                <strong>Importante:</strong> Quando utilizziamo <span class="inline-code">user[nome]</span>, 
+                il motore JavaScript:<br>
+                1. Ricerca la variabile <span class="inline-code">nome</span><br>
+                2. Se la trova, la sostituisce con il suo valore (<span class="inline-code">"name"</span>)<br>
+                3. Accede alla proprietà con quella chiave
+            </div>
+        </section>
+
+        <section>
+            <h2>Creazione di Oggetti: Dai Letterali alle Constructor Functions</h2>
+            
+            <p>
+                Analizziamo il passaggio dalla creazione di oggetti letterali a oggetti creati attraverso 
+                una <strong>constructor function</strong>, esplorando anche le <strong>factory functions</strong> 
+                come soluzione intermedia.
+            </p>
+
+            <h3>Oggetti Letterali</h3>
+
+            <p>Un oggetto in JavaScript può essere creato con <strong>sintassi letterale</strong>:</p>
+
+            <div class="code-block"><pre><span class="comment">// Oggetto user1</span>
+<span class="keyword">const</span> user1 = {
+    name: <span class="string">"Mario"</span>,
+    descrivimi: <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Ciao, sono ${<span class="keyword">this</span>.name}`</span>);
+    }
+};
+
+<span class="comment">// Oggetto user2</span>
+<span class="keyword">const</span> user2 = {
+    name: <span class="string">"Luigi"</span>,
+    descrivimi: <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Ciao, sono ${<span class="keyword">this</span>.name}`</span>);
+    }
+};
+
+<span class="comment">// Oggetto user3</span>
+<span class="keyword">const</span> user3 = {
+    name: <span class="string">"Giorgia"</span>,
+    descrivimi: <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Ciao, sono ${<span class="keyword">this</span>.name}`</span>);
+    }
+};</pre>
+            </div>
+
+            <div class="important">
+                <strong>Problema:</strong> In questo modo stiamo già <strong>non rispettando il principio OOP 
+                della non ridondanza e duplicazione del codice</strong>. La definizione del metodo 
+                <span class="inline-code">descrivimi</span> viene ripetuta identicamente in ogni oggetto.
+            </div>
+
+            <h3>Factory Functions</h3>
+
+            <p>Per risolvere questo problema, possiamo utilizzare una <strong>factory function</strong> (funzione fabbrica):</p>
+
+            <div class="code-block"><pre><span class="comment">// Factory function</span>
+<span class="keyword">function</span> <span class="function">user</span>(nome) {
+    <span class="keyword">const</span> obj = {
+        name: nome,
+        descrivimi: <span class="keyword">function</span>() {
+            <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Ciao, sono ${<span class="keyword">this</span>.name}`</span>);
+        }
+    };
+    
+    <span class="keyword">return</span> obj;
+}
+
+<span class="comment">// Creazione di un oggetto tramite factory function</span>
+<span class="keyword">const</span> user4 = <span class="function">user</span>(<span class="string">"Anna"</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(user4);</pre>
+            </div>
+
+            <div class="output">
+Output: { name: "Anna", descrivimi: [Function] }
+            </div>
+
+            <div class="code-block"><pre>user4.<span class="function">descrivimi</span>();</pre>
+            </div>
+
+            <div class="output">
+Output: "Ciao, sono Anna"
+            </div>
+
+            <div class="important">
+                <strong>Nota importante:</strong> Non stiamo utilizzando la parola chiave 
+                <span class="inline-code">new</span>, stiamo semplicemente invocando la funzione 
+                <span class="inline-code">user()</span> e assegnando il valore di ritorno alla 
+                variabile <span class="inline-code">user4</span>.
+            </div>
+
+            <h3>Constructor Functions</h3>
+
+            <p>Adesso creiamo una <strong>constructor function</strong> (funzione costruttore):</p>
+
+            <div class="code-block"><pre><span class="comment">// Constructor function</span>
+<span class="keyword">function</span> <span class="function">Utenti</span>(nome) {
+    <span class="keyword">this</span>.name = nome;
+    <span class="keyword">this</span>.descrivimi = <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Ciao, sono ${<span class="keyword">this</span>.name}`</span>);
+    };
+}</pre>
+            </div>
+
+            <p><strong>Primo tentativo (ERRATO):</strong></p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> user5 = <span class="function">Utenti</span>(<span class="string">"Paolo"</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(user5); <span class="comment">// Output: undefined</span></pre>
+            </div>
+
+            <div class="important">
+                <strong>❓ Perché <span class="inline-code">user5</span> è <span class="inline-code">undefined</span>?</strong><br>
+                La funzione <span class="inline-code">Utenti</span> non effettua un 
+                <span class="inline-code">return</span> esplicito. Quando una funzione non restituisce nulla, 
+                viene comunque restituito <span class="inline-code">undefined</span> implicitamente.
+            </div>
+
+            <p><strong>Verifica con return esplicito:</strong></p>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">Utenti</span>(nome) {
+    <span class="keyword">this</span>.name = nome;
+    <span class="keyword">this</span>.descrivimi = <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Ciao, sono ${<span class="keyword">this</span>.name}`</span>);
+    };
+    <span class="keyword">return</span> <span class="string">10</span>; <span class="comment">// Return esplicito</span>
+}
+
+<span class="keyword">const</span> user5 = <span class="function">Utenti</span>(<span class="string">"Paolo"</span>);
+<span class="function">console</span>.<span class="function">log</span>(user5); <span class="comment">// Output: 10</span></pre>
+            </div>
+
+            <p><strong>Secondo tentativo (CORRETTO con <span class="inline-code">new</span>):</strong></p>
+
+            <div class="code-block"><pre><span class="keyword">function</span> <span class="function">Utenti</span>(nome) {
+    <span class="keyword">this</span>.name = nome;
+    <span class="keyword">this</span>.descrivimi = <span class="keyword">function</span>() {
+        <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Ciao, sono ${<span class="keyword">this</span>.name}`</span>);
+    };
+    <span class="comment">// Nessun return esplicito</span>
+}
+
+<span class="comment">// Utilizziamo la parola chiave 'new'</span>
+<span class="keyword">const</span> user5 = <span class="keyword">new</span> <span class="function">Utenti</span>(<span class="string">"Paolo"</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(user5);</pre>
+            </div>
+
+            <div class="output">
+Output: Utenti { name: "Paolo", descrivimi: [Function] }
+            </div>
+
+            <div class="code-block"><pre>user5.<span class="function">descrivimi</span>();</pre>
+            </div>
+
+            <div class="output">
+Output: "Ciao, sono Paolo"
+            </div>
+
+            <h3>Confronto tra Factory e Constructor Functions</h3>
+
+            <p><strong>Creazione multipla di oggetti:</strong></p>
+
+            <div class="code-block"><pre><span class="comment">// Con constructor function</span>
+<span class="keyword">const</span> user6 = <span class="keyword">new</span> <span class="function">Utenti</span>(<span class="string">"Francesca"</span>);
+<span class="keyword">const</span> user7 = <span class="keyword">new</span> <span class="function">Utenti</span>(<span class="string">"Roberto"</span>);
+<span class="comment">// ... e così via</span></pre>
+            </div>
+
+            <p>
+                Sia con la <strong>factory function</strong> che con la <strong>constructor function</strong> 
+                possiamo creare quanti oggetti vogliamo senza necessità di duplicare il codice.
+            </p>
+
+            <div class="important">
+                <strong>Vantaggi della constructor function:</strong><br>
+                La sintassi della constructor function è <strong>molto più compatta</strong> rispetto alla 
+                factory function:<br>
+                - Non è necessario creare esplicitamente un oggetto con <span class="inline-code">const obj = {}</span><br>
+                - Non è necessario effettuare un <span class="inline-code">return</span> esplicito dell'oggetto
+            </div>
+        </section>
+
+        <section>
+            <h2>Come Funziona Internamente la Constructor Function</h2>
+
+            <p>
+                Quando utilizziamo la parola chiave <span class="inline-code">new</span> prima dell'invocazione 
+                di una constructor function, internamente il motore JavaScript:
+            </p>
+
+            <ol>
+                <li><strong>Crea un oggetto vuoto</strong> <span class="inline-code">{}</span></li>
+                <li><strong>Fa in modo che <span class="inline-code">this</span> sia un riferimento a questo 
+                    oggetto</strong> creato</li>
+                <li><strong>Esegue il codice della funzione</strong>, che aggiunge proprietà e metodi all'oggetto 
+                    tramite <span class="inline-code">this</span></li>
+                <li><strong>Restituisce automaticamente l'oggetto</strong> (senza bisogno di un 
+                    <span class="inline-code">return</span> esplicito)</li>
+            </ol>
+
+            <div class="code-block"><pre><span class="comment">// Ciò che accade internamente quando scriviamo:</span>
+<span class="keyword">const</span> user5 = <span class="keyword">new</span> <span class="function">Utenti</span>(<span class="string">"Paolo"</span>);
+
+<span class="comment">// È equivalente a:</span>
+<span class="comment">// 1. const oggetto = {};</span>
+<span class="comment">// 2. this = oggetto;</span>
+<span class="comment">// 3. this.name = "Paolo";</span>
+<span class="comment">//    this.descrivimi = function() { ... };</span>
+<span class="comment">// 4. return oggetto;</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Conclusioni</h2>
+
+            <p>In questa lezione abbiamo esplorato:</p>
+
+            <ul>
+                <li>I <strong>quattro pilastri della OOP</strong>: incapsulamento, astrazione, ereditarietà e polimorfismo</li>
+                <li>Le modalità di <strong>accesso alle proprietà</strong> degli oggetti: dot notation e bracket notation</li>
+                <li>Gli <strong>identificatori non validi</strong> come chiavi e come gestirli</li>
+                <li>L'<strong>accesso dinamico</strong> alle proprietà tramite variabili</li>
+                <li>Il passaggio dagli <strong>oggetti letterali</strong> alle <strong>factory functions</strong> e 
+                    alle <strong>constructor functions</strong></li>
+                <li>Il funzionamento interno della parola chiave <span class="inline-code">new</span></li>
+            </ul>
+
+            <p>
+                Questi concetti costituiscono le fondamenta della programmazione orientata agli oggetti in JavaScript 
+                e saranno essenziali per comprendere pattern più avanzati come le classi ES6 e l'ereditarietà prototipale.
+            </p>
+        </section>
+
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Programmazione Orientata agli Oggetti</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Manuale creato il 25 Dicembre 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

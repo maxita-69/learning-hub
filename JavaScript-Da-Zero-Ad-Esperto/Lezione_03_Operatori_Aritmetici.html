@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 03 - Operatori Aritmetici e Math</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Operatori Aritmetici e Math</h1>
+            <p class="subtitle">Lezione 03 - Corso JavaScript</p>
+        </header>
+        <section><h3> *Lezione: Operatori Aritmetici e Numeri*</h3>
+<h4> *1\. Introduzione*</h4>
+<p>La lezione precedente probabilmente non è stata leggera. In questa lezione ci esercitiamo un po' con i numeri.</p>
+<h4> *2\. Operatori Aritmetici Fondamentali*</h4>
+<p>Per i nostri calcoli aritmetici abbiamo gli operatori aritmetici:</p>
+<ul><li>+ per la somma</li><li>- per la sottrazione</li><li>/ per la divisione</li><li>* per la moltiplicazione</li></ul>
+<p>Esempio:</p>
+<div class="code-block"><pre>
+let risultato = 10 + 3 * 2;
+
+console.log(risultato); // 16
+
+Abbiamo correttamente 16 perché alla moltiplicazione viene data precedenza.
+</pre></div>
+<h4> *3\. Uso delle Parentesi*</h4>
+<p>Se volessimo prima sommare 10 + 3, poi moltiplicare per due, lo possiamo fare con le parentesi tonde:</p>
+<div class="code-block"><pre>
+let risultato = (10 + 3) * 2;
+
+console.log(risultato); // 26
+
+In questo caso verrà effettuato prima la somma 10 + 3 e poi la moltiplicazione per due. Ed infatti abbiamo 26 esattamente.
+</pre></div>
+<h4> *4\. Operatore Modulo*</h4>
+<p>L'operatore modulo restituisce il resto della divisione tra due numeri.</p>
+<p>Esempi:</p>
+<div class="code-block"><pre>
+console.log(10 % 3); // 1  
+// Perché 10 diviso 3 = 3 col resto di 1
+
+console.log(10 % 4); // 2    
+// Perché 10 diviso 4 = 2 con il resto di 2
+
+console.log(10 % 5); // 0
+
+// Perché 10 diviso 5 = 2 col resto di zero
+</pre></div>
+<h4> *5\. Operatore di Elevazione a Potenza*</h4>
+<p>Possiamo elevare un numero ad un esponente con il doppio asterisco:</p>
+<div class="code-block"><pre>
+console.log(2 * 3); // 8*
+
+// Due elevato alla terza = 8
+</pre></div>
+<h4> *6\. Operatori di Incremento e Decremento*</h4>
+<p>Post-incremento:</p>
+<div class="code-block"><pre>
+let num = 0;  
+console.log(num++); // 0
+
+console.log(num);   // 1
+
+Con il post-incremento prima restituisce il numero e poi lo incrementa.
+
+Pre-incremento:
+
+javascript
+
+let num = 0;
+
+console.log(++num); // 1
+
+Con il pre-incremento prima viene incrementato il valore e poi restituito.
+
+Post-decremento:
+
+javascript
+
+let num = 5;  
+console.log(num--); // 5
+
+console.log(num);   // 4
+
+Pre-decremento:
+
+javascript
+
+let num = 5;
+
+console.log(--num); // 4
+</pre></div>
+<h4> *7\. Oggetto Number vs Tipo Primitivo*</h4>
+<p>In JavaScript si dice che gli oggetti sono "first-class". Quindi non dobbiamo meravigliarci che esiste non solo il tipo primitivo number, ma anche l'oggetto Number.</p>
+<p>Numero come primitivo:</p>
+<div class="code-block"><pre>
+let num = 5;
+
+Numero come oggetto:
+
+javascript
+
+let numeroOggetto = new Number(110);
+
+Non è argomento di questo capitolo, quindi non preoccupiamoci della sintassi.
+</pre></div>
+<h4> *8\. Range dei Numeri Sicuri*</h4>
+<p>Al termine della precedente lezione abbiamo detto che esiste un range composto da un numero minimo e un numero massimo che può essere rappresentato in JavaScript in modo sicuro.</p>
+<div class="code-block"><pre>
+console.log(Number.MAX_SAFE_INTEGER); // Limite massimo
+
+console.log(Number.MIN_SAFE_INTEGER); // Limite minimo
+
+Verifica sicurezza numeri:
+
+javascript
+
+let numeroGrande = Number.MAX_SAFE_INTEGER + 10;
+
+console.log(Number.isSafeInteger(numeroGrande)); // false
+
+Se il numero supera il limite di MAX_SAFE_INTEGER, avremo false.
+</pre></div>
+<h4> *9\. L'oggetto Math*</h4>
+<p>Come già accennato nel primo capitolo, abbiamo anche l'oggetto Math che fornisce molte proprietà e metodi per lavorare con i numeri.</p>
+<p>Numero casuale tra 0 e 1:</p>
+<div class="code-block"><pre>
+console.log(Math.random());
+
+Numero casuale tra 0 e 1000:
+
+javascript
+
+let casuale = Math.random() * 1000;
+
+console.log(casuale); // Es: 590.086...
+
+Numero intero casuale tra 0 e 1000:
+
+javascript
+
+let casuale = Math.trunc(Math.random() * 1000);
+
+console.log(casuale); // Es: 665, 402, ecc.
+
+Continuiamo ad aggiornare e vediamo che ogni volta il valore cambia.
+</pre></div>
+<h4> *10\. Conclusione*</h4>
+<p>Perfetto per questa lezione è tutto, ci vediamo nella prossima lezione.</p>
+<p>*Lezione: Operatori Aritmetici, Numeri e Approfondimenti in JavaScript1. Introduzione: Un Passo Indietro e uno Avanti*</p>
+<p>Se la lezione precedente ha richiesto una concentrazione elevata, questa sessione è pensata per consolidare le basi e, al contempo, introdurre concetti più sfumati riguardanti l'uso dei numeri e degli operatori aritmetici in JavaScript. L'obiettivo è esercitarsi con la manipolazione numerica, che è fondamentale in quasi ogni aspetto della programmazione.*2\. Gli Operatori Aritmetici Fondamentali: L'ABC del Calcolo*</p>
+<p>Gli operatori aritmetici sono i mattoni di qualsiasi espressione matematica. In JavaScript, sono rappresentati come segue:</p>
+<ul><li>*`+` (Somma):* Per addizionare due operandi.</li><li>*`-` (Sottrazione):* Per sottrarre il secondo operando dal primo.</li><li>*`/` (Divisione):* Per dividere il primo operando per il secondo, restituendo un risultato decimale se necessario.</li><li>*`` (Moltiplicazione):** Per moltiplicare due operandi.</li></ul>
+<p>È cruciale ricordare la *precedenza degli operatori*. In assenza di parentesi, JavaScript (come la matematica standard) valuta prima la moltiplicazione e la divisione, e poi l'addizione e la sottrazione.</p>
+<p>*Esempio di Precedenza:*</p>
+<p>let risultato = 10 + 3 * 2;</p>
+<p>// La moltiplicazione (3 * 2 = 6\) ha la precedenza.</p>
+<p>// L'espressione diventa 10 + 6\.</p>
+<p>console.log(risultato); // 16</p>
+<p>*3\. L'Uso Strategico delle Parentesi Tonche*</p>
+<p>Quando si desidera alterare l'ordine naturale di precedenza, le *parentesi tonde `()`* sono lo strumento essenziale. Le operazioni racchiuse tra parentesi vengono sempre eseguite per prime.</p>
+<p>*Esempio di Parentesi:*</p>
+<p>let risultato = (10 + 3\) * 2;</p>
+<p>// La somma (10 + 3 = 13\) viene eseguita per prima grazie alle parentesi.</p>
+<p>// L'espressione diventa 13 * 2\.</p>
+<p>console.log(risultato); // 26</p>
+<p>*4\. L'Operatore Modulo (`%`): Il Resto della Divisione*</p>
+<p>L'operatore modulo (`%`) è spesso sottovalutato, ma è estremamente utile in scenari come la verifica di numeri pari/dispari, la ciclicità o la distribuzione uniforme. Non restituisce il quoziente, ma il *resto intero* della divisione tra due numeri.</p>
+<p>*Esempi di Modulo:*</p>
+<p>console.log(10 % 3); // 1 (Perché 10 / 3 = 3 con resto 1\)</p>
+<p>console.log(10 % 4); // 2 (Perché 10 / 4 = 2 con resto 2\)</p>
+<p>console.log(10 % 5); // 0 (Perché 10 / 5 = 2 con resto 0 - utile per verificare i multipli\!)</p>
+<p>*5\. L'Operatore di Elevazione a Potenza (``): Esponenti in JavaScript*</p>
+<p>Per elevare un numero a una determinata potenza (esponente), JavaScript offre l'operatore *doppio asterisco ``*.</p>
+<p>*Esempio di Potenza:*</p>
+<p>console.log(2 * 3); // 8 (Due elevato alla terza = 2  2 * 2\)</p>
+<p>console.log(5 ** 0.5); // 2.23606797749979 (Radice quadrata di 5\)</p>
+<p>(Alternativa: Per operazioni matematiche più complesse, si può usare anche `Math.pow(base, esponente)`).*6\. Operatori di Incremento e Decremento: Semplificare le Variazioni di Unità*</p>
+<p>Questi operatori sono scorciatoie per aggiungere o sottrarre 1 a una variabile e sono fondamentali nei cicli e nelle iterazioni. È cruciale distinguere tra la versione post- e pre-.*Post-incremento (`num++`) e Post-decremento (`num--`)*</p>
+<p>Il valore della variabile viene *prima restituito/utilizzato nell'espressione e poi incrementato/decrementato*.</p>
+<p>let numPost = 0;</p>
+<p>console.log(numPost++); // 0 (Stampa il valore corrente, poi lo incrementa a 1\)</p>
+<p>console.log(numPost);   // 1</p>
+<p>*Pre-incremento (`++num`) e Pre-decremento (`--num`)*</p>
+<p>Il valore della variabile viene *prima incrementato/decrementato e poi restituito/utilizzato* nell'espressione.</p>
+<p>let numPre = 0;</p>
+<p>console.log(++numPre); // 1 (Incrementa il valore a 1, poi stampa il nuovo valore)</p>
+<p>let numPreDec = 5;</p>
+<p>console.log(--numPreDec); // 4 (Decrementa il valore a 4, poi stampa il nuovo valore)</p>
+<p>*7\. Il Dualismo dei Numeri: Tipo Primitivo vs. Oggetto Number*</p>
+<p>In JavaScript, i tipi di dati si dividono in primitivi (come `number`, `string`, `boolean`, ecc.) e oggetti. Il tipo `number` (primitivo) è il più comune per le operazioni numeriche, ma esiste anche l'oggetto `Number`.</p>
+<ul><li>*Numero Primitivo:* È un valore semplice e diretto.</li></ul>
+<p>let numPrimitivo = 5;</p>
+<ul><li>*Oggetto `Number`:* È un'istanza dell'oggetto `Number`, e sebbene JavaScript lo gestisca in modo simile al primitivo in molti contesti, è concettualmente diverso e fornisce accesso a proprietà e metodi specifici.</li></ul>
+<p>let numeroOggetto = new Number(110);</p>
+<p>(Approfondiremo la differenza tra primitivi e oggetti, in particolare i "wrapper" di oggetti, in capitoli successivi. Per ora, è sufficiente sapere che la maggior parte delle volte lavoreremo con il tipo primitivo `number`).*8\. Il Range di Sicurezza dei Numeri in JavaScript*</p>
+<p>JavaScript utilizza la rappresentazione a 64 bit in virgola mobile (IEEE 754), il che implica che non tutti gli interi possono essere rappresentati con precisione. Esiste un intervallo di "numeri interi sicuri": quelli che possono essere rappresentati in modo univoco e preciso.</p>
+<ul><li>*`Number.MAX_SAFE_INTEGER`:* Rappresenta il numero intero massimo sicuro (2^53 - 1).</li><li>*`Number.MIN_SAFE_INTEGER`:* Rappresenta il numero intero minimo sicuro (-(2^53 - 1)).</li></ul>
+<p>*Verifica della Sicurezza:*</p>
+<p>console.log(Number.MAX_SAFE_INTEGER);</p>
+<p>console.log(Number.MIN_SAFE_INTEGER);</p>
+<p>let numeroGrande = Number.MAX_SAFE_INTEGER + 10;</p>
+<p>// Oltre questo limite, le operazioni aritmetiche possono non essere accurate.</p>
+<p>console.log(Number.isSafeInteger(numeroGrande)); // false</p>
+<p>(Per numeri interi estremamente grandi che superano questo limite, si ricorre al tipo `BigInt`, introdotto più recentemente in JavaScript, ma che non è oggetto di questa lezione).*9\. L'Oggetto `Math`: Funzioni Matematiche Avanzate*</p>
+<p>L'oggetto `Math` è un oggetto built-in che non ha un costruttore e fornisce proprietà e metodi per costanti matematiche (come `Math.PI`) e funzioni. È la nostra libreria standard per operazioni matematiche più complesse.*Generazione di Numeri Casuali (`Math.random`)*</p>
+<p>Il metodo `Math.random()` restituisce un numero in virgola mobile pseudo-casuale, compreso tra 0 (incluso) e 1 (escluso).</p>
+<p>// Numero casuale tra 0 e 1</p>
+<p>console.log(Math.random());</p>
+<p>// Numero casuale tra 0 e 1000 (escluso)</p>
+<p>let casualeFloat = Math.random() * 1000;</p>
+<p>console.log(casualeFloat); // Es: 590.086...</p>
+<p>// Numero intero casuale tra 0 e 999 (intervallo di 1000 numeri)</p>
+<p>// Usiamo Math.trunc() per eliminare la parte decimale.</p>
+<p>let casualeIntero = Math.trunc(Math.random() * 1000);</p>
+<p>console.log(casualeIntero); // Es: 665, 402, ecc.</p>
+<p>(Altri metodi utili di `Math` includono `Math.floor()` (arrotonda per difetto), `Math.ceil()` (arrotonda per eccesso), `Math.round()` (arrotonda all'intero più vicino) e `Math.sqrt()` (radice quadrata)).*10\. Conclusione: Padronanza del Calcolo*</p>
+<p>Avere una solida comprensione degli operatori aritmetici, della loro precedenza e degli strumenti come l'oggetto `Math` e la consapevolezza del safe integer range è fondamentale per scrivere codice JavaScript robusto e affidabile. Perfetto per questa lezione è tutto. Ci vediamo nella prossima per approfondire ulteriormente le strutture dati e le variabili.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 03 - Operatori Aritmetici e Math</p>
+        </footer>
+    </div>
+</body>
+</html>

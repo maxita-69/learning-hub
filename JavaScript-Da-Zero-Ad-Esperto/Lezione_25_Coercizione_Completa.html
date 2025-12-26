@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 25 - Coercizione Completa</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Coercizione Completa</h1>
+            <p class="subtitle">Lezione 25 - Corso JavaScript</p>
+        </header>
+        <section><p># Scheda 6</p>
+<p>Ecco il capitolo del manuale rielaborato basandosi rigorosamente sulla trascrizione fornita e sulle slide di supporto.</p>
+<p># *Capitolo 4: La Coercizione dei Tipi (Type Coercion)*</p>
+<h2> *1\. Introduzione: La Tipizzazione Debole*</h2>
+<p>JavaScript è classificato come un linguaggio debolmente tipizzato (o a tipizzazione dinamica)1.</p>
+<p>Questa definizione implica due caratteristiche fondamentali:</p>
+<p>1. Possiamo assegnare un valore a una variabile senza doverne specificare il tipo a priori.</p>
+<p>2. Una variabile inizializzata con un certo tipo di dato può essere successivamente riassegnata con un valore di tipo completamente diverso2.</p>
+<p>Questa estrema flessibilità comporta che, in determinate occasioni, JavaScript debba operare in autonomia delle conversioni da un tipo a un altro per permettere l'esecuzione del codice3.</p>
+<p>Questo processo di conversione automatica o manuale è chiamato Coercizione4.</p>
+<h2> *2\. Le Due Tipologie di Coercizione*</h2>
+<p>Esistono due modalità distinte attraverso cui avviene la coercizione:</p>
+<h3> *A. Coercizione Esplicita (Explicit)*</h3>
+<p>Si verifica quando siamo noi programmatori a richiedere intenzionalmente la trasformazione di un valore da un tipo a un altro5.</p>
+<p>Un esempio classico, già trattato in precedenza, è l'utilizzo del doppio punto esclamativo (\!\!), che forza un valore a diventare il suo corrispettivo Booleano6.</p>
+<h3> *B. Coercizione Implicita (Implicit)*</h3>
+<p>Questa è la tipologia che analizzeremo nel dettaglio in questo capitolo. Qui la conversione è effettuata automaticamente dal motore JavaScript in situazioni specifiche7.</p>
+<p>Spesso questi comportamenti possono sembrare complessi o controintuitivi, ma seguono regole logiche precise8.</p>
+<p>Quando JavaScript deve effettuare un confronto o un'operazione tra due valori di tipo diverso, la prima cosa che fa è trasformare il tipo di uno dei due valori affinché entrambi siano uniformi9.</p>
+<p>*Regola Fondamentale: Esistono solo tre tipi di conversione* in JavaScript10:</p>
+<p>1. Conversione a *Number*</p>
+<p>2. Conversione a *String*</p>
+<p>3. Conversione a *Boolean*</p>
+<h2> *3\. Regole degli Operatori e Concatenazione*</h2>
+<p>Il tipo di conversione applicato dipende dall'operatore utilizzato.</p>
+<h3> *L'Eccezione dell'Operatore + (Stringhe)*</h3>
+<p>Normalmente, gli operatori aritmetici tentano una conversione verso il tipo Number. Tuttavia, l'operatore + ha un'eccezione fondamentale:</p>
+<p>*Se uno dei due operandi è una stringa, l'operatore + agisce come concatenatore, forzando anche l'altro elemento a diventare stringa*11.</p>
+<p>Analizziamo i casi pratici descritti:</p>
+<p>JavaScript</p>
+<p>// Caso 1: Stringa + Numero</p>
+<p>"3" + 10; // Risultato: "310"</p>
+<p>// JavaScript trasforma il numero 10 nella stringa "10" e concatena "3" + "10".</p>
+<p>// Caso 2: Stringa + Null</p>
+<p>"ciao" + null; // Risultato: "ciaonull"</p>
+<p>// JavaScript trasforma null nella stringa "null" e concatena. \[cite: 15\]</p>
+<p>// Caso 3: Numero + Stringa</p>
+<p>3 + "ciao"; // Risultato: "3ciao"</p>
+<p>// Il numero 3 diventa stringa "3" e viene concatenato a "ciao". \[cite: 15\]</p>
+<h3> *Conversione a Number (Operatori Matematici e Confronto)*</h3>
+<p>Quando nessuno dei due elementi è una stringa, l'operatore + tenta di effettuare una conversione al tipo Number.</p>
+<p>Questa regola vale anche per tutti gli operatori di confronto (>, >=, <, <=), l'operatore di uguaglianza debole (==) e gli altri operatori aritmetici (-, *, /, %)12121212.</p>
+<h2> *4\. Tabella di Conversione a Number*</h2>
+<p>Per comprendere i risultati delle operazioni matematiche sui tipi non numerici, dobbiamo esaminare come i valori primitivi vengono convertiti in numeri.</p>
+<p>Nota sulla pulizia delle stringhe:</p>
+<p>Quando JavaScript trasforma una stringa in numero, la prima operazione che esegue è l'eliminazione di spazi, tabulazioni (\\t) e caratteri di newline (\\n) all'inizio e alla fine della stringa23. Ecco perché una stringa complessa come "\\n 3.2 \\n\\t" viene letta correttamente come 3.2.</p>
+<h2> *5\. Analisi degli Esempi Pratici (Casi 4-8)*</h2>
+<p>Applicando la tabella sopra, possiamo spiegare i seguenti comportamenti del motore JavaScript:</p>
+<p>JavaScript</p>
+<p>// Caso 4: Somma con null</p>
+<p>2 + null; // Risultato: 2</p>
+<p>// Spiegazione: null diventa 0\. Quindi: 2 + 0 = 2</p>
+<p>// Caso 5: Somma con true</p>
+<p>true + null; // Risultato: 1</p>
+<p>// Spiegazione: true diventa 1, null diventa 0\. Quindi: 1 + 0 = 1</p>
+<p>// Caso 6: Somma con false</p>
+<p>false + null; // Risultato: 0</p>
+<p>// Spiegazione: false diventa 0, null diventa 0\. Quindi: 0 + 0 = 0 \[cite: 17, 18\]</p>
+<p>// Caso 7: Uguaglianza debole</p>
+<p>"30" == 30; // Risultato: true</p>
+<p>// Spiegazione: la stringa "30" viene convertita nel numero 30\. \[cite: 18\]</p>
+<p>// Caso 8: Confronto con spazi</p>
+<p>3 > " 2 \\t\\n"; // Risultato: true</p>
+<p>// Spiegazione: la stringa viene pulita (trimmed) e diventa il numero 2\.</p>
+<p>// Il confronto diventa: 3 > 2, che restituisce true. \[cite: 18\]</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 25 - Coercizione Completa</p>
+        </footer>
+    </div>
+</body>
+</html>

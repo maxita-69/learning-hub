@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 05 - Stringhe: Natura e Proprietà</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Stringhe: Natura e Proprietà</h1>
+            <p class="subtitle">Lezione 05 - Corso JavaScript</p>
+        </header>
+        <section><h3> *Lezione: Le Stringhe e la loro Natura*</h3>
+<h4> *1\. Introduzione alle Stringhe JavaScript*</h4>
+<p>Una stringa di JavaScript è una sequenza immutabile di elementi a 16 bit senza segno. Ogni elemento a 16 bit, nella maggior parte dei casi rappresenta un carattere Unicode.</p>
+<p>Attenzione: Non sempre, perché non è detto che una unità a 16 bit sia sufficiente per rappresentare un carattere Unicode.</p>
+<h4> *2\. Definizione di Stringhe e Proprietà*</h4>
+<p>Una stringa può essere definita in diversi modi, tra cui delimitando tra apici singoli oppure tra apici doppi.</p>
+<p>Esempio base:</p>
+<div class="code-block"><pre>
+let unaStringa = "ciao";
+
+console.log(unaStringa.length); // 4
+
+Noi vediamo che la stringa è composta da quattro caratteri, ma in realtà la proprietà length restituisce il numero di elementi a 16 bit contenuti all'interno della stringa.
+</pre></div>
+<h4> *3\. Accesso agli Elementi della Stringa*</h4>
+<p>Possiamo accedere ai singoli elementi all'interno della stringa con la notazione delle parentesi quadre:</p>
+<div class="code-block"><pre>
+console.log(unaStringa\[0\]); // "c"  
+console.log(unaStringa\[1\]); // "i"  
+console.log(unaStringa\[2\]); // "a"
+
+console.log(unaStringa\[3\]); // "o"
+
+Quindi sembra che effettivamente stiamo accedendo ai caratteri.
+</pre></div>
+<h4> *4\. Il Caso dei Caratteri Unicode Complessi*</h4>
+<p>Facciamo un altro esempio con un simbolo Unicode più complesso:</p>
+<div class="code-block"><pre>
+let stringa2 = "👍";
+
+console.log(stringa2.length); // 2
+
+Anche se abbiamo un singolo carattere visibile, la proprietà length restituisce due. Questo perché un singolo elemento a 16 bit non è sufficiente per rappresentare il simbolo del pollice in su.
+
+Dimostrazione:
+
+javascript
+
+console.log(stringa2\[0\]); // Simbolo strano (prima metà)  
+console.log(stringa2\[1\]); // Simbolo strano (seconda metà)
+
+console.log(stringa2\[0\] + stringa2\[1\]); // "👍" - Correttamente visualizzato
+
+Concatenando i due elementi riusciamo correttamente a visualizzare il pollice in su.
+</pre></div>
+<h4> *5\. Immutabilità delle Stringhe*</h4>
+<p>Come dicevo, le stringhe, come gli altri tipi primitivi, sono immutabili. Non possiamo modificare la stringa.</p>
+<p>Esempio:</p>
+<div class="code-block"><pre>
+let stringa3 = "ciao";  
+stringa3\[0\] = "m";
+
+console.log(stringa3); // "ciao" - NON è cambiato\!
+
+Quindi non possiamo sostituire in questo modo gli elementi all'interno della stringa.
+</pre></div>
+<h4> *6\. Caratteri Speciali e Sequenze di Escape*</h4>
+<p>All'interno di una stringa possiamo inserire dei caratteri speciali e per farlo dobbiamo utilizzare il carattere del backslash (\\).</p>
+<p>New Line:</p>
+<div class="code-block"><pre>
+console.log("prima riga\\nseconda riga");
+
+text
+
+prima riga
+
+seconda riga
+
+Tabulazione:
+
+javascript
+
+console.log("nome\\tcognome");
+
+text
+
+nome    cognome
+</pre></div>
+<h4> *7\. Gestione degli Apici*</h4>
+<p>Quando definiamo la stringa con singoli apici dobbiamo effettuare l'escape di eventuali altri apici presenti all'interno della stringa.</p>
+<p>Esempio con apici singoli:</p>
+<div class="code-block"><pre>
+console.log('Che\\' ho visto l\\'altra sera');
+
+// "Che' ho visto l'altra sera"
+
+Se non effettuiamo l'escape di questo apice, viene interpretato come limitatore di fine stringa.
+
+Esempio con apici doppi:
+
+javascript
+
+console.log("Stringa con \\"hosting\\" tra apici");
+
+// "Stringa con "hosting" tra apici"
+
+Anche in questo caso, se non effettuiamo l'escape, questo apice risulterà come limitatore di fine stringa.
+</pre></div>
+<h4> *8\. Caratteri Unicode e Altri Escape*</h4>
+<p>Carattere Unicode:</p>
+<div class="code-block"><pre>
+console.log("Copyright: \\u00A9");
+
+// "Copyright: ©"
+
+Backslash letterale:
+
+javascript
+
+console.log("Percorso: C:\\\\Users\\\\Documenti");
+
+// "Percorso: C:\\Users\\Documenti"
+
+Se vogliamo inserire uno slash all'interno di una stringa dobbiamo effettuare l'escape, quindi mettiamo due volte backslash. All'interno della stringa compare giustamente un singolo backslash, perché il primo backslash dei due opera come carattere di escape.
+</pre></div>
+<h4> *9\. Conclusione*</h4>
+<p>Bene, per questa lezione tutto. Ci vediamo alla prossima.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 05 - Stringhe: Natura e Proprietà</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 47 - Prototype Chain</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Prototype Chain</h1>
+            <p class="subtitle">Lezione 47 - Corso JavaScript</p>
+        </header>
+        <section><p># Scheda 12</p>
+<p>![][image6]</p>
+<p>abbiamo un oggetto vuoto.</p>
+<p>se invece vogliamo ottenere la proprietà marchio</p>
+<p>![][image7]</p>
+<p>dopo aver definito delle proprietà</p>
+<p>![][image8]</p>
+<p>esempio di come risale alla catena dei prototipi:</p>
+<p>![][image9]</p>
+<p>una catena lega più di due elementi</p>
+<p>![][image10]</p>
+<p>così invece risale:</p>
+<p>![][image11]</p>
+<p>![][image12]si ha undifined perchè cerca la proprietà e non la trova.</p>
+<p>Hai ragione\! Devo aggiungere la sintassi colorata per il codice JavaScript. Ecco la versione corretta con i colori</p>
+<h3> *Report Iniziale - Fonti Analizzate*</h3>
+<p>*Analisi effettuata su:* Trascrizione video contenuta nel file 2025-12-20_15-54-12.docx</p>
+<p># *La Catena dei Prototipi in JavaScript*</p>
+<h2> *Introduzione al Concetto di Prototipo*</h2>
+<p>In JavaScript, gli oggetti possono accedere a proprietà e metodi di altri oggetti attraverso un meccanismo definito *catena dei prototipi (prototype chain). L'obiettivo principale di questo sistema è evitare la duplicazione del codice*, permettendo agli oggetti di ereditare funzionalità da altri oggetti in modo gerarchico.</p>
+<p>Come già sperimentato con le Constructor Function, gli oggetti creati attraverso una Constructor Function possono accedere alle proprietà e ai metodi definiti nella proprietà Prototype della Constructor Function stessa.</p>
+<h2> *Meccanismo di Ereditarietà tra Oggetti*</h2>
+<p>Consideriamo tre oggetti: OBJ1, OBJ2 e OBJ3, collegati in una relazione gerarchica:</p>
+<ul><li>*OBJ1 è il padre di OBJ2*</li><li>*OBJ2 è il padre di OBJ3*</li><li>Di conseguenza, anche *OBJ3 e OBJ1* sono in rapporto di parentela</li></ul>
+<h3> *Distribuzione di Proprietà e Metodi*</h3>
+<p>La distribuzione delle proprietà e dei metodi lungo la catena è la seguente:</p>
+<ul><li>*OBJ1* definisce:</li><li>una proprietà P1</li><li>un metodo FN1</li><li>*OBJ2* definisce:</li><li>una proprietà P2</li><li>eredita sia P1 che FN1 da *OBJ1*</li><li>*OBJ3* definisce:</li><li>una proprietà P3</li><li>un metodo FN2</li><li>eredita da *OBJ2 e OBJ1* tutti i loro metodi e proprietà</li></ul>
+<p>Con questo meccanismo *non si verifica duplicazione del codice*: né OBJ2 né OBJ3 hanno necessità di duplicare il metodo FN1, a meno che non abbiano l'esigenza di modificarne il comportamento.</p>
+<h2> *Differenza tra Proprietà Prototype e Prototipo*</h2>
+<p>Una distinzione fondamentale, spesso fonte di confusione, riguarda la differenza tra *proprietà Prototype e prototipo*:</p>
+<ul><li>*Proprietà Prototype*: è una proprietà di nome Prototype che contiene un oggetto. È presente nelle Constructor Function.</li><li>*Prototipo di un oggetto A*: è l'oggetto immediatamente al di sopra di A nella catena dei prototipi, da cui A eredita proprietà e metodi.</li></ul>
+<h2> *Esempio Pratico con Oggetti Letterali*</h2>
+<h3> *Creazione dell'Oggetto Base*</h3>
+<p>Definiamo un oggetto letterale Ferrari con le seguenti proprietà:</p>
+<p>const Ferrari = {</p>
+<p>Marchio: "Ferrari",</p>
+<p>Dull: "dato casuale",</p>
+<p>Colore: "rosso"</p>
+<p>};</p>
+<h3> *Creazione di un Oggetto con Prototipo Specificato*</h3>
+<p>Per creare un oggetto il cui prototipo sia l'oggetto Ferrari, utilizziamo il metodo *Object.create()*, passando in input l'oggetto che vogliamo sia prototipo del nuovo oggetto:</p>
+<p>const Ferrari458 = Object.create(Ferrari);</p>
+<p>In questo caso, vogliamo che il prototipo dell'oggetto Ferrari458 sia l'oggetto Ferrari.</p>
+<h3> *Verifica del Comportamento*</h3>
+<p>console.log(Ferrari458);</p>
+<p>// Output: {} (oggetto vuoto)</p>
+<p>console.log(Ferrari458.Marchio);</p>
+<p>// Output: "Ferrari"</p>
+<p>Nonostante Ferrari458 sia un oggetto vuoto, riusciamo ad accedere alla proprietà Marchio dell'oggetto Ferrari grazie al meccanismo della catena dei prototipi.</p>
+<h3> *Definizione di Proprietà sull'Oggetto Derivato*</h3>
+<p>Definiamo alcune proprietà specifiche sull'oggetto Ferrari458:</p>
+<p>Ferrari458.Cilindrata = "4500cc";</p>
+<p>Ferrari458.Cavalli = 570;</p>
+<p>Ferrari458.Colore = "rosso opaco";</p>
+<p>console.log(Ferrari458.Colore);</p>
+<p>// Output: "rosso opaco" (valore definito su Ferrari458)</p>
+<p>Se commentiamo la riga che definisce la proprietà Colore su Ferrari458:</p>
+<p>Ferrari458.Cilindrata = "4500cc";</p>
+<p>Ferrari458.Cavalli = 570;</p>
+<p>// Ferrari458.Colore = "rosso opaco";  // riga commentata</p>
+<p>console.log(Ferrari458.Colore);</p>
+<p>// Output: "rosso" (valore ereditato da Ferrari)</p>
+<h2> *Meccanismo di Risoluzione delle Proprietà*</h2>
+<p>Come si comporta il motore JavaScript nella risoluzione delle proprietà?</p>
+<p>1. *Ricerca locale*: Il motore JavaScript cerca innanzitutto la proprietà all'interno dell'oggetto Ferrari458</p>
+<p>2. *Risalita della catena*: Se non la trova, inizia a risalire la catena dei prototipi</p>
+<p>3. *Ricerca nel prototipo*: Va a ricercare la proprietà sull'oggetto Ferrari</p>
+<p>4. *Restituzione del valore*: Trova la proprietà e restituisce il valore (in questo caso "rosso")</p>
+<h2> *Estensione della Catena dei Prototipi*</h2>
+<p>Una catena solitamente lega più di due elementi, e infatti possiamo allungarla ulteriormente. Possiamo creare un oggetto che abbia come prototipo l'oggetto Ferrari458:</p>
+<p>const Ferrari458Special = Object.create(Ferrari458);</p>
+<p>console.log(Ferrari458Special);</p>
+<p>// Output: {} (oggetto vuoto)</p>
+<h3> *Definizione di Proprietà e Ricerca Multi-Livello*</h3>
+<p>Definiamo una proprietà specifica:</p>
+<p>Ferrari458Special.Colore = "nero";</p>
+<p>console.log(Ferrari458Special.Colore);</p>
+<p>// Output: "nero"</p>
+<p>Il motore JavaScript ricerca la proprietà Colore all'interno dell'oggetto Ferrari458Special, la trova e quindi restituisce il valore.</p>
+<p>*Primo caso* - Commentiamo la definizione locale:</p>
+<p>// Ferrari458Special.Colore = "nero";  // riga commentata</p>
+<p>console.log(Ferrari458Special.Colore);</p>
+<p>// Output: "rosso opaco"</p>
+<p>Il motore JavaScript:</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 47 - Prototype Chain</p>
+        </footer>
+    </div>
+</body>
+</html>

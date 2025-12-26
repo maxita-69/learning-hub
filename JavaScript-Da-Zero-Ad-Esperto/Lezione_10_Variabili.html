@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 10 - Variabili: var, let, const</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Variabili: var, let, const</h1>
+            <p class="subtitle">Lezione 10 - Corso JavaScript</p>
+        </header>
+        <section><p># Scheda 3</p>
+<p># *Appunti JavaScript: Variabili e Identificatori*</p>
+<p>Ecco un riepilogo delle regole fondamentali per la dichiarazione di variabili e le best practices, con esempi di codice pronti all'uso.</p>
+<h2> *1\. Dichiarazione con var*</h2>
+<p>È il metodo "vecchio" stile.</p>
+<ul><li>Può essere dichiarata senza assegnazione iniziale.</li><li>Può essere *riassegnata* più volte.</li></ul>
+<p>JavaScript</p>
+<p>var anni;</p>
+<p>anni = 30; // Assegnazione successiva</p>
+<h2> *2\. Dichiarazione con let*</h2>
+<p>È lo standard moderno per variabili che cambiano nel tempo.</p>
+<ul><li>Può essere dichiarata senza valore iniziale.</li><li>Può essere *riassegnata*.</li><li>È *Case-sensitive* (distingue maiuscole e minuscole).</li></ul>
+<p>JavaScript</p>
+<p>let a = 10;</p>
+<p>let A = 20;</p>
+<p>console.log(a); // Output: 10</p>
+<p>console.log(A); // Output: 20</p>
+<p>let professione;</p>
+<p>professione = "Full stack developer"; // Riassegnazione consentita</p>
+<h2> *3\. Dichiarazione con const*</h2>
+<p>Da usare per valori che non devono mai cambiare.</p>
+<ul><li>*Obbligatorio* assegnare un valore subito.</li><li>*Impossibile* riassegnarla dopo (genera errore).</li></ul>
+<p>JavaScript</p>
+<p>const name = "Gianluca";</p>
+<p>// name = "Simona"; // ❌ ERRORE: riassegnazione non consentita</p>
+<h2> *4\. Best Practices (Le regole d'oro)*</h2>
+<p>Come scrivere codice pulito e moderno:</p>
+<p>1. Usa *const* di default per valori fissi.</p>
+<p>2. Usa *let* solo se il valore deve cambiare (es. contatori).</p>
+<p>3. Evita *var* (è obsoleto).</p>
+<p>4. Usa nomi *descrittivi* (es. nomeUtente invece di n).</p>
+<p>5. Usa il *camelCase* (iniziale minuscola, parole successive maiuscole).</p>
+<h3> *Esempi:*</h3>
+<p>JavaScript</p>
+<p>const PI_GRECO = 3.14159;   // ✅ Costante (spesso in maiuscolo se valore matematico/fisso)</p>
+<p>let contatore = 0;          // ✅ Variabile che cambierà</p>
+<p>const nomeUtente = "Mario"; // ✅ Nome descrittivo e chiaro</p>
+<h2> *5\. Regole per i Nomi (Identificatori)*</h2>
+<p>Un nome di variabile valido deve seguire queste regole:</p>
+<ul><li>✅ Deve iniziare con una *lettera, _ (underscore) o $* (dollaro).</li><li>❌ *NON* può iniziare con un numero.</li><li>❌ *NON* può contenere spazi.</li><li>⚠️ È *Case-sensitive* (nome è diverso da Nome).</li></ul>
+<p>*Esempi:*</p>
+<ul><li>let _nome = "Anna"; (Valido)</li><li>let 1nome = "Bob"; (❌ Errore\!)</li></ul>
+<h2> *📌 Tabella Riassuntiva*</h2>
+<p># *💻 Analisi del Codice JavaScript*</p>
+<p>Ecco il codice principale analizzato e commentato:</p>
+<h2> *1\. Blocco di Codice Principale*</h2>
+<p>Questo blocco mostra la dichiarazione di variabili con i tre principali identificatori: var, let e const.</p>
+<p>JavaScript</p>
+<p>var anni = 36;</p>
+<p>let professione = "Web Developer";</p>
+<p>const nome = "Gianluca";</p>
+<p>let a = 10;</p>
+<p>let A = 20;</p>
+<p>console.log(a);</p>
+<p>console.log(A);</p>
+<h2> *2\. Spiegazione e Output*</h2>
+<h3> *Dichiarazione delle Variabili*</h3>
+<ul><li>var anni = 36;</li><li>Variabile "vecchio stile" con ambito globale o funzionale.</li><li>Contiene un valore *numerico* (36).</li><li>let professione = "Web Developer";</li><li>Variabile moderna (scope di blocco) il cui valore *può essere riassegnato*.</li><li>Contiene una *stringa*.</li><li>const nome = "Gianluca";</li><li>*Costante (scope di blocco) che non può essere modificata* dopo l'assegnazione.</li><li>Contiene una *stringa*.</li></ul>
+<h3> *Case Sensitivity (Sensibilità a Maiuscole/Minuscole)*</h3>
+<p>JavaScript</p>
+<p>let a = 10;</p>
+<p>let A = 20;</p>
+<ul><li>*Concetto chiave: JavaScript è case-sensitive. a e A sono trattate dal motore JS come due variabili distinte*.</li></ul>
+<h3> *Output del Codice*</h3>
+<ul><li>console.log(a); → Stampa: *10*</li><li>console.log(A); → Stampa: *20*</li><li>Il console.log() è essenziale per visualizzare il risultato nella console del browser durante lo sviluppo.</li></ul>
+<h2> *3\. 💡 Best Practice & Note Finali*</h2>
+<p>Per un codice JavaScript moderno e robusto:</p>
+<p>1. *Priorità: Usa const e let. Evita var*.</p>
+<p>2. *const: Da usare per tutti i valori che non cambiano* durante l'esecuzione del programma.</p>
+<p>3. *let: Da usare solo se il valore deve* essere modificato.</p>
+<p>4. *Nomi: Scegli nomi di variabili che siano descrittivi* del loro contenuto (es. prezzoTotale).</p>
+<p>5. *Case:* Ricorda sempre che il linguaggio distingue tra maiuscole e minuscole.</p>
+<p>1.</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 10 - Variabili: var, let, const</p>
+        </footer>
+    </div>
+</body>
+</html>

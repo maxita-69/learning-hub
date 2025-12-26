@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 06 - Template Literals</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Template Literals</h1>
+            <p class="subtitle">Lezione 06 - Corso JavaScript</p>
+        </header>
+        <section><h3>  *Lezione: Template Literals*</h3>
+<h4> *1\. Introduzione ai Template Literals*</h4>
+<p>Il modo tradizionale di definire stringhe è limitante sotto molti punti di vista. Ad esempio:</p>
+<ul><li>Non è possibile interpolare variabili all'interno della stringa</li><li>Non possiamo andare a capo se non indicando l'apposita sequenza di escape (\\n)</li></ul>
+<p>A questo proposito, ECMAScript 2015 (ES6) ha introdotto i template literals per potenziare questo aspetto di JavaScript.</p>
+<h4> *2\. Sintassi Base dei Template Literals*</h4>
+<p>Per definire una stringa attraverso template dobbiamo racchiudere la stringa tra backtick (\`).</p>
+<p>Come scrivere il backtick:</p>
+<ul><li>Su Linux: Alt + '</li><li>Su Windows: Alt + 96</li><li>Su Mac: Alt + 9</li></ul>
+<p>Esempio base:</p>
+<div class="code-block"><pre>
+let unaStringa = \`Prima riga  
+seconda riga  
+terza riga\`;
+
+console.log(unaStringa);
+
+Risultato:
+
+text
+
+Prima riga  
+seconda riga
+
+terza riga
+
+Vediamo che abbiamo la stringa su tre righe senza bisogno di sequenze di escape.
+</pre></div>
+<h4> *3\. Interpolazione di Variabili*</h4>
+<p>Possiamo interpolare le nostre variabili all'interno dei template literals.</p>
+<p>Esempio:</p>
+<div class="code-block"><pre>
+let nome = "Simona";
+
+console.log(\`Ciao da ${nome}\`);
+
+Risultato: Ciao da Simona
+
+Per interpolare una variabile all'interno di una stringa definita con template literal dobbiamo utilizzare questa sintassi:
+
+* Simbolo del dollaro ($)  
+* Apertura e chiusura parentesi graffe ({})  
+* All'interno mettiamo la nostra variabile
+</pre></div>
+<h4> *4\. Espressioni all'interno dei Template Literals*</h4>
+<p>In realtà, all'interno delle parentesi graffe possiamo inserire tutte le espressioni che vogliamo. Ricordo che un'espressione è una porzione di codice che crea un valore.</p>
+<p>Esempio con operazioni matematiche:</p>
+<div class="code-block"><pre>
+const A = 5;  
+const B = 10;
+
+console.log(\`${A} più ${B} è uguale a ${A + B}\`);
+
+Risultato: 5 più 10 è uguale a 15
+
+Esempio con moltiplicazione:
+
+javascript
+
+console.log(\`${A} per ${B} è uguale a ${A * B}\`);
+
+Risultato: 5 per 10 è uguale a 50
+</pre></div>
+<h4> *5\. Invocazione di Funzioni all'interno dei Template Literals*</h4>
+<p>All'interno di una stringa definita con i template literals possiamo anche invocare una funzione.</p>
+<p>Esempio:</p>
+<div class="code-block"><pre>
+function descrivimi(nome, cognome) {  
+    return \`Mi chiamo ${nome} ${cognome}\`;  
+}
+
+console.log(\`${descrivimi("Simona", "Rossi")}\`);
+
+Risultato: Mi chiamo Simona Rossi
+
+Utilizziamo la sintassi del dollaro e dell'apertura/chiusura parentesi graffe e all'interno invochiamo la funzione passando i parametri in input.
+</pre></div>
+<h4> *6\. Conclusione*</h4>
+<p>Ebbene, per questa lezione tutto. Ci vediamo nella prossima</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 06 - Template Literals</p>
+        </footer>
+    </div>
+</body>
+</html>

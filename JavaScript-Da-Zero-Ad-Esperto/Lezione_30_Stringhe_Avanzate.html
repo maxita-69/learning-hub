@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 30 - Manipolazione Stringhe Avanzata</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Manipolazione Stringhe Avanzata</h1>
+            <p class="subtitle">Lezione 30 - Corso JavaScript</p>
+        </header>
+        <section><h2> *1\. Manipolazione delle Stringhe: Capitalizzazione delle Parole*</h2>
+<p>*Un compito comune nella programmazione è la formattazione del testo, come trasformare una frase in cui ogni parola inizia con la lettera maiuscola (spesso definito come "Title Case").*</p>
+<h3> *Logica di base*</h3>
+<p>*Partiamo da una stringa interamente in minuscolo. L'obiettivo è isolare ogni singola parola, modificarne la prima lettera e ricomporre la frase.*</p>
+<p>*Per farlo, seguiamo questi passaggi:*</p>
+<p>1. *Split: Suddividiamo la stringa in un array di parole utilizzando lo spazio come separatore.*</p>
+<p>2. *Iterazione: Attraversiamo l'array con un ciclo for.*</p>
+<p>3. *Trasformazione: Per ogni elemento, prendiamo il carattere all'indice 0, lo rendiamo maiuscolo e lo concateniamo al resto della parola (ottenuta tramite substring).*</p>
+<p>4. *Join: Riuniamo l'array in una stringa unica.*</p>
+<h3> *Codice Esemplicativo*</h3>
+<p>*JavaScript*</p>
+<p>*// Definizione della stringa iniziale*</p>
+<p>*let str = "stringa da modificare";*</p>
+<p>*// 1\. Trasformazione in Array*</p>
+<p>*// Utilizziamo split passando lo spazio (" ") come separatore*</p>
+<p>*let arr = str.split(" ");*</p>
+<p>*console.log(arr); // Output: \['stringa', 'da', 'modificare'\]*</p>
+<p>*// 2\. Iterazione e Modifica*</p>
+<p>*for (let i = 0; i < arr.length; i++) {*</p>
+<p>*// arr\[i\]\[0\] accede alla prima lettera della parola corrente*</p>
+<p>*// substring(1) prende tutti i caratteri dalla seconda posizione in poi*</p>
+<p>*arr\[i\] = arr\[i\]\[0\].toUpperCase() + arr\[i\].substring(1);*</p>
+<p>*}*</p>
+<p>*// 3\. Ricostruzione della Stringa*</p>
+<p>*// Riassembliamo l'array inserendo uno spazio tra gli elementi*</p>
+<p>*str = arr.join(" ");*</p>
+<p>*console.log(str);*</p>
+<p>*// Output Finale: "Stringa Da Modificare"*</p>
+<h2> *2\. Sostituzione Mirata tramite Slicing*</h2>
+<p>*A volte è necessario sostituire una porzione specifica di una stringa senza utilizzare il metodo replace(), ma agendo direttamente sugli indici posizionali. Vediamo come inserire una parola dinamica al posto di un carattere segnaposto (es. il simbolo %).*</p>
+<h3> *Procedimento*</h3>
+<p>*Utilizziamo il metodo slice() per "tagliare" la stringa prima e dopo il simbolo desiderato, inserendo nel mezzo la nuova parola.*</p>
+<p>*JavaScript*</p>
+<p>*let str = "maestro % corso javascript su Udemy";*</p>
+<p>*let sostituisci = "Javascript"; // Parola da inserire*</p>
+<p>*// Individuiamo la posizione del simbolo percentuale*</p>
+<p>*let pos = str.indexOf("%");*</p>
+<p>*// Ricostruiamo la stringa concatenando tre parti:*</p>
+<p>*// 1\. La parte iniziale fino al simbolo (escluso)*</p>
+<p>*// 2\. La parola da sostituire*</p>
+<p>*// 3\. La parte finale partendo dal carattere successivo al simbolo (pos + 1\)*</p>
+<p>*str = str.slice(0, pos) + sostituisci + str.slice(pos + 1);*</p>
+<p>*console.log(str);*</p>
+<p>*// Output: "maestro Javascript corso javascript su Udemy"*</p>
+<h2> *3\. Troncamento di Stringhe (Text Truncation)*</h2>
+<p>*Nelle interfacce utente, spesso è necessario accorciare testi troppo lunghi aggiungendo dei puntini di sospensione (...) se superano una certa lunghezza.*</p>
+<p>*Utilizziamo l'operatore ternario per scrivere questa logica in modo conciso.*</p>
+<h3> *Esempio Pratico*</h3>
+<p>*Supponiamo di voler troncare una stringa se supera i 16 caratteri.*</p>
+<p>*JavaScript*</p>
+<p>*let str = "stringa da troncare dopo 16 caratteri";*</p>
+<p>*console.log(str.length); // Verifica lunghezza (es. 37 caratteri)*</p>
+<p>*// Sintassi: condizione ? vero : falso*</p>
+<p>*str = (str.length > 16)*</p>
+<p>*? str.substring(0, 16) + "..." // Se > 16, taglia e aggiungi puntini*</p>
+<p>*: str;                         // Altrimenti, mantieni originale*</p>
+<p>*console.log(str);*</p>
+<p>*// Output: "stringa da tronc..."*</p>
+<h2> *4\. Generazione di Numeri Casuali in un Range (Min-Max)*</h2>
+<p>*JavaScript fornisce Math.random() che genera un numero tra 0 e 1\. Per ottenere un numero intero all'interno di un intervallo specifico (con Minimo incluso e Massimo escluso), dobbiamo applicare una formula matematica.*</p>
+<h3> *La Formula*</h3>
+<p>*$$\\text{Random} = \\text{min} + \\lfloor \\text{Math.random()} \\times (\\text{max} - \\text{min}) \\rfloor$$*</p>
+<p>*Dove:*</p>
+<ul><li>*Math.abs(massimo - minimo): Calcola la differenza (lo spread) del range in valore assoluto.*</li><li>*Math.floor(): Arrotonda il risultato all'intero inferiore.*</li></ul>
+<h3> *Codice Completo*</h3>
+<p>*JavaScript*</p>
+<p>*// Richiesta input utente*</p>
+<p>*const minimo = Number(prompt("Inserisci il range minimo (incluso)")); // Coercizione esplicita*</p>
+<p>*const massimo = Number(prompt("Inserisci il range massimo (escluso)"));*</p>
+<p>*// Calcolo della differenza in valore assoluto*</p>
+<p>*const diff = Math.abs(massimo - minimo);*</p>
+<p>*// Generazione del numero casuale*</p>
+<p>*// Partiamo dal minimo e aggiungiamo un valore casuale basato sulla differenza*</p>
+<p>*const casuale = minimo + Math.floor(Math.random()  diff);**</p>
+<p>*console.log(casuale);*</p>
+<h3> *Analisi dei casi limite (Edge Cases)*</h3>
+<p>1. *Range 20 - 40: Il sistema può generare numeri come 39, 33, ecc. (il 40 è escluso).*</p>
+<p>2. *Range Ristretto (10 - 12): La differenza è 2\. Math.random()  2 genererà valori come 0.x o 1.x. Con Math.floor, otterremo solo 0 o 1\.**</p>
+<ul><li>*Risultato possibile: $10 + 0 = 10$ oppure $10 + 1 = 11$.*</li><li>*Il numero 12 non uscirà mai.*</li></ul></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 30 - Manipolazione Stringhe Avanzata</p>
+        </footer>
+    </div>
+</body>
+</html>

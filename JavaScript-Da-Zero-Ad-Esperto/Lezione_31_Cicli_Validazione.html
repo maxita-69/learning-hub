@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 31 - Cicli e Validazione</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cicli e Validazione</h1>
+            <p class="subtitle">Lezione 31 - Corso JavaScript</p>
+        </header>
+        <section><h2> *5\. Cicli while e Validazione Input*</h2>
+<p>*Utilizziamo il ciclo while per creare un flusso di interazione che continua a richiedere dati all'utente finché non viene soddisfatta una condizione specifica (in questo caso, l'inserimento di un numero pari).*</p>
+<h3> *Logica dell'algoritmo*</h3>
+<p>1. *Impostiamo una variabile di controllo (check) su true.*</p>
+<p>2. *Entriamo nel ciclo: chiediamo un numero e lo salviamo in un array.*</p>
+<p>3. *Controlliamo se il numero è pari (operatore modulo %).*</p>
+<p>4. *Se è pari, impostiamo check = false per terminare il ciclo.*</p>
+<p>5. *Stampiamo la lista completa dei numeri inseriti.*</p>
+<h3> *Codice Esemplicativo*</h3>
+<p>*JavaScript*</p>
+<p>*let check = true;*</p>
+<p>*let numeri = \[\]; // Array per accumulare gli input*</p>
+<p>*while (check === true) {*</p>
+<p>*// Richiesta input e coercizione a Intero*</p>
+<p>*let numero = parseInt(prompt("Inserisci un numero"), 10);*</p>
+<p>*// Aggiungiamo il numero all'array*</p>
+<p>*numeri.push(numero);*</p>
+<p>*// Verifica parità*</p>
+<p>*if (numero % 2 === 0) {*</p>
+<p>*check = false; // Condizione di uscita*</p>
+<p>*}*</p>
+<p>*}*</p>
+<p>*console.log("Uscita dal ciclo.");*</p>
+<p>*// Visualizzazione risultato con Template Literal e metodo join()*</p>
+<p>*console.log(\`Hai inserito i numeri: ${numeri.join(", ")}\`);*</p>
+<p>*Esempio di esecuzione:*</p>
+<ul><li>*Input: 3 (Dispari, continua)*</li><li>*Input: 7 (Dispari, continua)*</li><li>*Input: 10 (Pari, esce)*</li><li>*Output finale: Hai inserito i numeri: 3, 7, 10*</li></ul>
+<h3> *Step Successivo suggerito*</h3>
+<p>*Vuoi che prepari una serie di esercizi pratici basati su questo capitolo per testare la comprensione degli studenti su split, slice e logica matematica? 1*</p>
+<p># Funzioni</p>
+<p># *Funzioni in JavaScript: First-Class Citizens e Higher-Order Functions*</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 31 - Cicli e Validazione</p>
+        </footer>
+    </div>
+</body>
+</html>

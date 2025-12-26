@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 12 - Riepilogo JavaScript Fondamenti</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #7f8c8d; font-style: italic; }
+        h2 { font-size: 1.8em; color: #2c3e50; margin-top: 40px; margin-bottom: 20px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.3em; color: #34495e; margin-top: 25px; margin-bottom: 15px; }
+        h4 { font-size: 1.1em; color: #34495e; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 5px; margin: 20px 0; overflow-x: auto; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; border-left: 4px solid #3498db; }
+        .code-block pre { margin: 0; white-space: pre; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; font-style: italic; }
+        .inline-code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #e74c3c; font-size: 0.95em; }
+        .important { background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; }
+        footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #ecf0f1; text-align: center; color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Riepilogo JavaScript Fondamenti</h1>
+            <p class="subtitle">Lezione 12 - Corso JavaScript</p>
+        </header>
+        <section><p># Scheda 4</p>
+<p># *📘 Capitolo 1 – Introduzione a JavaScript*</p>
+<h2> *✅ Riepilogo e Chiusura*</h2>
+<p>Siamo giunti alla fine del *primo capitolo del nostro percorso. In queste prime lezioni abbiamo gettato le fondamenta per comprendere cos’è JavaScript*, come si colloca nel panorama dello sviluppo web e qual è la sua struttura di base.</p>
+<p>Vediamo insieme i punti chiave affrontati:</p>
+<h3> *🔹 1\. Che cos’è JavaScript?*</h3>
+<ul><li>È un *linguaggio di scripting orientato agli oggetti, progettato per rendere le pagine web interattive*.</li><li>È conforme allo standard *ECMAScript (ES)*, una specifica in continua evoluzione (ES5, ES6+, ecc.) che ne definisce la sintassi e le funzionalità.</li><li>Originariamente nato per l’*esecuzione lato client (nel browser), oggi viene eseguito anche lato server grazie a Node.js*.</li></ul>
+<p>💡 JavaScript oggi è onnipresente e fondamentale: browser, server, app mobile e strumenti di automazione.</p>
+<h3> *🔹 2\. I Mattoni Fondamentali: Valori e Variabili*</h3>
+<p>Ogni programma JavaScript si costruisce a partire dai *valori*, suddivisi in due grandi categorie:</p>
+<p>*</p>
+<p>I valori vengono *salvati in memoria e acceduti tramite le variabili, dichiarate utilizzando le parole chiave let e const* (e, storicamente, var).</p>
+<h3> *🔹 3\. Organizzare il Codice: Funzioni e Strutture Dati*</h3>
+<p>Per evitare codice disordinato e ripetitivo (il cosiddetto *DRY - Don't Repeat Yourself*), è essenziale strutturare il programma con logica.</p>
+<h4> *✅ Funzioni*</h4>
+<ul><li>Sono blocchi di codice *riutilizzabili*.</li><li>Consentono di *incapsulare la logica*, migliorano la leggibilità e facilitano il testing e la modularità.</li></ul>
+<h4> *✅ Strutture Dati Fondamentali*</h4>
+<p>🧠 Ricorda: gli oggetti modellano "cosa è" qualcosa; gli array organizzano "quante cose ci sono".</p>
+<h3> *🔹 4\. L'Evoluzione della Sintassi: Le Classi (ES2015+)*</h3>
+<ul><li>Con l'introduzione di *ECMAScript 2015 (ES6) è arrivata la parola chiave class*.</li><li>Una *classe è un modello astratto (blueprint) per creare oggetti specifici (istanze*) con proprietà e metodi predefiniti.</li><li>Offre una sintassi più *familiare (sintattica)* per chi proviene da linguaggi come Java o C++, pur mantenendo l'ereditarietà prototipale come meccanismo sottostante di JavaScript.</li></ul>
+<p>JavaScript</p>
+<p>class Persona {</p>
+<p>constructor(nome) {</p>
+<p>this.nome = nome;</p>
+<p>}</p>
+<p>saluta() {</p>
+<p>console.log(\`Ciao, sono ${this.nome}\`);</p>
+<p>}</p>
+<p>}</p>
+<h2> *🌟 Ora Cosa Succede?*</h2>
+<p>Nel *prossimo capitolo approfondiremo questi concetti in modo più dettagliato e strutturato*:</p>
+<ul><li>*Variabili:* scope, hoisting, differenze cruciali tra var, let, const.</li><li>*Tipi di Dato:* operatori, coercizione implicita/esplicita, confronti.</li><li>*Funzioni:* parametri, return, arrow function (=>), closure.</li><li>*Oggetti e Array:* metodi built-in essenziali, iterazione, mutabilità.</li><li>*Classi:* ereditarietà, metodi statici, uso di super.</li></ul>
+<p>🔑 La Nostra Filosofia Didattica:</p>
+<p>Prima la comprensione concettuale, poi la pratica.</p>
+<p>Quando capisci il perché qualcosa funziona, scrivere il codice diventa un processo naturale, non meccanico.</p>
+<p># *🛠️ Lezione: Strumenti di Debugging nella Console del Browser*</p></section>
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione:</strong> 12 - Riepilogo JavaScript Fondamenti</p>
+        </footer>
+    </div>
+</body>
+</html>
