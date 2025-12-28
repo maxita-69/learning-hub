@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classi ES6: Costruttore e Metodi in JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .keyword {
+            color: #ff79c6;
+        }
+        
+        .function {
+            color: #50fa7b;
+        }
+        
+        .string {
+            color: #f1fa8c;
+        }
+        
+        .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        
+        .operator {
+            color: #ff79c6;
+        }
+        
+        .property {
+            color: #8be9fd;
+        }
+        
+        .output {
+            background-color: #1e1e1e;
+            color: #4ec9b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 4px solid #4ec9b0;
+        }
+        
+        .inline-code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.95em;
+        }
+        
+        .important {
+            background-color: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .important strong {
+            color: #0c5460;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        .concept-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .concept-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .syntax-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .syntax-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Classi ES6 in JavaScript</h1>
+            <p class="subtitle">Definire una Classe, il Costruttore e i Metodi</p>
+        </header>
+
+        <section>
+            <h2>Introduzione alle Classi ES6</h2>
+            <p>
+                Le <strong>classi ES6</strong> rappresentano un'evoluzione sintattica per la creazione di oggetti 
+                in JavaScript, offrendo una sintassi più pulita e familiare per chi proviene da linguaggi 
+                orientati agli oggetti come Java o C++. Tuttavia, è fondamentale comprendere che sotto il cofano, 
+                le classi JavaScript continuano a utilizzare il sistema prototipale.
+            </p>
+            
+            <div class="concept-box">
+                <h4>💡 Concetto Fondamentale</h4>
+                <p>
+                    Le classi ES6 sono <strong>syntactic sugar</strong> (zucchero sintattico) per le 
+                    Constructor Functions e il sistema prototipale. Non introducono un nuovo modello di 
+                    ereditarietà, ma forniscono una sintassi più chiara e intuitiva per lavorare con 
+                    quello esistente.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Confronto: Constructor Function vs Classe ES6</h2>
+            
+            <p>
+                Prima di approfondire le classi ES6, vediamo come la stessa funzionalità può essere 
+                implementata con entrambi gli approcci.
+            </p>
+
+            <h3>Approccio Tradizionale: Constructor Function</h3>
+
+            <div class="code-block"><pre><span class="comment">// Definizione di una Constructor Function</span>
+<span class="keyword">function</span> <span class="function">User</span>(nome, anni) {
+    <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+    <span class="keyword">this</span>.<span class="property">anni</span> = anni;
+}
+
+<span class="comment">// Creazione di un oggetto</span>
+<span class="keyword">const</span> marco = <span class="keyword">new</span> <span class="function">User</span>(<span class="string">"Marco"</span>, <span class="string">39</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(marco);</pre>
+            </div>
+
+            <div class="output">Output: Object { nome: "Marco", anni: 39 }</div>
+
+            <h3>Approccio Moderno: Classe ES6</h3>
+
+            <div class="code-block"><pre><span class="comment">// Definizione di una Classe ES6</span>
+<span class="keyword">class</span> <span class="function">UserClass</span> {
+    <span class="function">constructor</span>(nome, anni) {
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">anni</span> = anni;
+    }
+}
+
+<span class="comment">// Creazione di un'istanza</span>
+<span class="keyword">const</span> michele = <span class="keyword">new</span> <span class="function">UserClass</span>(<span class="string">"Michele"</span>, <span class="string">29</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(michele);</pre>
+            </div>
+
+            <div class="output">Output: Object { nome: "Michele", anni: 29 }</div>
+
+            <div class="important">
+                <strong>Nota importante:</strong> Come puoi notare, <strong>la sostanza non cambia</strong>. 
+                Entrambi gli approcci creano oggetti con le stesse proprietà. La differenza principale 
+                risiede nella sintassi: le classi offrono una struttura più organizzata e leggibile.
+            </div>
+        </section>
+
+        <section>
+            <h2>Il Metodo constructor()</h2>
+            
+            <p>
+                Il <span class="inline-code">constructor()</span> è un <strong>metodo speciale</strong> 
+                all'interno di una classe che viene eseguito automaticamente quando creiamo una nuova 
+                istanza della classe con l'operatore <span class="inline-code">new</span>.
+            </p>
+
+            <div class="syntax-box">
+                <h4>📝 Sintassi del Constructor</h4>
+                <pre style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">class NomeClasse {
+    constructor(parametro1, parametro2, ...) {
+        this.proprietà1 = parametro1;
+        this.proprietà2 = parametro2;
+        // ... inizializzazione
+    }
+}</pre>
+            </div>
+
+            <h3>Funzionamento del Constructor</h3>
+
+            <p>Il constructor serve per:</p>
+
+            <ol>
+                <li><strong>Inizializzare le proprietà</strong> dell'oggetto con valori passati come parametri</li>
+                <li><strong>Configurare lo stato iniziale</strong> dell'istanza</li>
+                <li><strong>Eseguire operazioni di setup</strong> necessarie alla creazione dell'oggetto</li>
+            </ol>
+
+            <h3>Esempio Completo</h3>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">UserClass</span> {
+    <span class="comment">// Metodo constructor: eseguito automaticamente con 'new'</span>
+    <span class="function">constructor</span>(nome, anni) {
+        <span class="comment">// Inizializziamo le proprietà dell'istanza</span>
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">anni</span> = anni;
+    }
+}
+
+<span class="comment">// Quando scriviamo 'new UserClass()', il constructor viene invocato</span>
+<span class="keyword">const</span> michele = <span class="keyword">new</span> <span class="function">UserClass</span>(<span class="string">"Michele"</span>, <span class="string">29</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(michele);
+<span class="comment">// Output: UserClass { nome: "Michele", anni: 29 }</span>
+
+<span class="comment">// L'oggetto michele è un'ISTANZA di UserClass</span>
+<span class="function">console</span>.<span class="function">log</span>(michele <span class="keyword">instanceof</span> UserClass); <span class="comment">// true</span></pre>
+            </div>
+
+            <div class="concept-box">
+                <h4>🎯 Istanza vs Classe</h4>
+                <p>
+                    L'oggetto <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">michele</span> 
+                    si dice che è un'<strong>istanza di UserClass</strong>. La classe è il "modello" o 
+                    "template", mentre l'istanza è un oggetto concreto creato seguendo quel modello.
+                </p>
+            </div>
+
+            <h3>Il Prototipo nelle Classi</h3>
+
+            <p>
+                Il prototipo di un oggetto creato attraverso una classe è l'oggetto che si trova nella 
+                proprietà <span class="inline-code">prototype</span> della classe stessa.
+            </p>
+
+            <div class="code-block"><pre><span class="comment">// Il prototipo di michele è UserClass.prototype</span>
+<span class="function">console</span>.<span class="function">log</span>(<span class="function">Object</span>.<span class="function">getPrototypeOf</span>(michele) === UserClass.<span class="property">prototype</span>);
+<span class="comment">// Output: true</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Restrizioni nelle Classi</h2>
+            
+            <div class="warning">
+                <strong>⚠️ Importante:</strong> All'interno di una classe <strong>non possiamo definire 
+                variabili</strong> con <span class="inline-code">var</span>, <span class="inline-code">let</span> 
+                o <span class="inline-code">const</span> come possiamo fare in una Constructor Function.
+            </div>
+
+            <h3>Esempio di Errore</h3>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">UserClass</span> {
+    <span class="comment">// ❌ ERRORE: Non possiamo dichiarare variabili qui</span>
+    <span class="keyword">let</span> p1 = <span class="string">10</span>; <span class="comment">// SyntaxError: unexpected token: identifier</span>
+    
+    <span class="function">constructor</span>(nome, anni) {
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">anni</span> = anni;
+    }
+}</pre>
+            </div>
+
+            <div class="output" style="color: #e74c3c; border-left-color: #e74c3c;">SyntaxError: unexpected token: identifier</div>
+
+            <p>
+                Questo è un errore di sintassi. All'interno del corpo di una classe possiamo definire:
+            </p>
+
+            <ul>
+                <li>Il metodo <span class="inline-code">constructor()</span></li>
+                <li>Altri metodi della classe</li>
+                <li>Proprietà statiche (con <span class="inline-code">static</span>)</li>
+            </ul>
+
+            <p>
+                Ma <strong>NON</strong> possiamo dichiarare variabili con <span class="inline-code">let</span>, 
+                <span class="inline-code">const</span> o <span class="inline-code">var</span>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Definire Metodi nella Classe</h2>
+            
+            <p>
+                Oltre al constructor, possiamo definire altri metodi che saranno disponibili su tutte le 
+                istanze della classe. La sintassi è molto semplice e pulita.
+            </p>
+
+            <h3>Sintassi per Definire un Metodo</h3>
+
+            <div class="important">
+                <strong>📌 Regola importante:</strong> Quando definiamo un metodo all'interno di una classe, 
+                <strong>non dobbiamo utilizzare la parola chiave <span class="inline-code">function</span></strong>. 
+                Scriviamo semplicemente il nome del metodo seguito da parentesi tonde.
+            </div>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">UserClass</span> {
+    <span class="function">constructor</span>(nome, anni) {
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">anni</span> = anni;
+    }
+    
+    <span class="comment">// Definizione del metodo info()</span>
+    <span class="comment">// ✅ CORRETTO: senza la parola 'function'</span>
+    <span class="function">info</span>() {
+        <span class="keyword">return</span> <span class="string">`Nome: ${<span class="keyword">this</span>.<span class="property">nome</span>}. Età: ${<span class="keyword">this</span>.<span class="property">anni</span>}`</span>;
+    }
+}</pre>
+            </div>
+
+            <h3>Accesso alle Proprietà nei Metodi</h3>
+
+            <p>
+                Per accedere alle proprietà definite nel constructor, utilizziamo la sintassi 
+                <span class="inline-code">this.nomeProprietà</span>.
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">UserClass</span> {
+    <span class="function">constructor</span>(nome, anni) {
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">anni</span> = anni;
+    }
+    
+    <span class="function">info</span>() {
+        <span class="comment">// Accesso alle proprietà tramite this</span>
+        <span class="keyword">return</span> <span class="string">`Nome: ${<span class="keyword">this</span>.<span class="property">nome</span>}. Età: ${<span class="keyword">this</span>.<span class="property">anni</span>}`</span>;
+    }
+}
+
+<span class="comment">// Creiamo un'istanza</span>
+<span class="keyword">let</span> mirco = <span class="keyword">new</span> <span class="function">UserClass</span>(<span class="string">"Mirco"</span>, <span class="string">24</span>);
+
+<span class="comment">// Invochiamo il metodo sull'istanza</span>
+<span class="function">console</span>.<span class="function">log</span>(mirco.<span class="function">info</span>());</pre>
+            </div>
+
+            <div class="output">Output: "Nome: Mirco. Età: 24"</div>
+        </section>
+
+        <section>
+            <h2>Dove Vengono Inseriti i Metodi?</h2>
+            
+            <p>
+                I metodi definiti in una classe (ad eccezione del constructor) vengono automaticamente 
+                inseriti nell'<strong>oggetto prototype</strong> della classe. Questo è lo stesso 
+                meccanismo che avviene con le Constructor Functions.
+            </p>
+
+            <h3>Verifica con console.log</h3>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">UserClass</span> {
+    <span class="function">constructor</span>(nome, anni) {
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">anni</span> = anni;
+    }
+    
+    <span class="function">info</span>() {
+        <span class="keyword">return</span> <span class="string">`Nome: ${<span class="keyword">this</span>.<span class="property">nome</span>}. Età: ${<span class="keyword">this</span>.<span class="property">anni</span>}`</span>;
+    }
+}
+
+<span class="comment">// Visualizziamo la struttura della classe</span>
+<span class="function">console</span>.<span class="function">log</span>(UserClass);</pre>
+            </div>
+
+            <div class="output">▶ function UserClass(nome, anni) ⤚
+    arguments: null
+    caller: null
+    length: 2
+    name: "UserClass"
+  ▶ prototype: Object { … }
+      ▶ constructor: function UserClass(nome, anni) ⤚=
+      ▶ info: function info() ⤚=
+      ▶ &lt;prototype&gt;: Object { … }
+    ▶ &lt;prototype&gt;: function ()</div>
+
+            <div class="important">
+                <strong>🔍 Analisi:</strong> Come possiamo vedere, il metodo <span class="inline-code">info</span> 
+                è stato inserito all'interno dell'oggetto <span class="inline-code">prototype</span> della 
+                classe UserClass. Questo significa che tutte le istanze della classe avranno accesso a 
+                questo metodo attraverso la catena prototipale.
+            </div>
+
+            <h3>Equivalenza con Constructor Function</h3>
+
+            <p>
+                Questa sintassi della classe:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">UserClass</span> {
+    <span class="function">constructor</span>(nome, anni) {
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">anni</span> = anni;
+    }
+    
+    <span class="function">info</span>() {
+        <span class="keyword">return</span> <span class="string">`Nome: ${<span class="keyword">this</span>.<span class="property">nome</span>}. Età: ${<span class="keyword">this</span>.<span class="property">anni</span>}`</span>;
+    }
+}</pre>
+            </div>
+
+            <p>È equivalente a scrivere:</p>
+
+            <div class="code-block"><pre><span class="comment">// Constructor Function</span>
+<span class="keyword">function</span> <span class="function">UserClass2</span>(nome, anni) {
+    <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+    <span class="keyword">this</span>.<span class="property">anni</span> = anni;
+}
+
+<span class="comment">// Aggiunta del metodo al prototype</span>
+UserClass2.<span class="property">prototype</span>.<span class="function">info</span> = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="string">`Nome: ${<span class="keyword">this</span>.<span class="property">nome</span>}. Età: ${<span class="keyword">this</span>.<span class="property">anni</span>}`</span>;
+};
+
+<span class="comment">// Verifica</span>
+<span class="function">console</span>.<span class="function">log</span>(UserClass2);</pre>
+            </div>
+
+            <div class="output">▶ function UserClass2(nome, anni) ⤚=
+  ▶ prototype: Object { info: info() }
+      ▶ info: function info() ⤚=</div>
+
+            <div class="concept-box">
+                <h4>💡 Conclusione</h4>
+                <p>
+                    La sintassi delle classi ES6 è semplicemente un modo più elegante e leggibile per 
+                    scrivere lo stesso codice che scriveremmo con le Constructor Functions e il prototype. 
+                    Sotto il cofano, JavaScript continua a utilizzare il sistema prototipale.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Confronto Completo: Constructor Function vs Classe ES6</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspetto</th>
+                        <th>Constructor Function</th>
+                        <th>Classe ES6</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sintassi</strong></td>
+                        <td>function NomeCostruttore() { }</td>
+                        <td>class NomeClasse { }</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Inizializzazione</strong></td>
+                        <td>Nel corpo della funzione</td>
+                        <td>Nel metodo constructor()</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aggiunta metodi</strong></td>
+                        <td>Funzione.prototype.metodo = ...</td>
+                        <td>Direttamente nel corpo della classe</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parola chiave function</strong></td>
+                        <td>Richiesta per ogni metodo</td>
+                        <td>Non richiesta</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Variabili locali</strong></td>
+                        <td>Possibile con var/let/const</td>
+                        <td>Non possibile</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hoisting</strong></td>
+                        <td>Sì (function hoisting)</td>
+                        <td>No (devono essere dichiarate prima dell'uso)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Uso di new</strong></td>
+                        <td>Opzionale (ma raccomandato)</td>
+                        <td>Obbligatorio</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Metodi nel prototype</strong></td>
+                        <td>Sì</td>
+                        <td>Sì</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Esempi Pratici Completi</h2>
+            
+            <h3>Esempio 1: Classe User con Metodi Multipli</h3>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">User</span> {
+    <span class="function">constructor</span>(nome, cognome, età) {
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">cognome</span> = cognome;
+        <span class="keyword">this</span>.<span class="property">età</span> = età;
+    }
+    
+    <span class="function">nomeCompleto</span>() {
+        <span class="keyword">return</span> <span class="string">`${<span class="keyword">this</span>.<span class="property">nome</span>} ${<span class="keyword">this</span>.<span class="property">cognome</span>}`</span>;
+    }
+    
+    <span class="function">descrizione</span>() {
+        <span class="keyword">return</span> <span class="string">`${<span class="keyword">this</span>.<span class="function">nomeCompleto</span>()} ha ${<span class="keyword">this</span>.<span class="property">età</span>} anni`</span>;
+    }
+    
+    <span class="function">compieAnni</span>() {
+        <span class="keyword">this</span>.<span class="property">età</span>++;
+        <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Auguri! Ora hai ${<span class="keyword">this</span>.<span class="property">età</span>} anni`</span>);
+    }
+}
+
+<span class="comment">// Utilizzo della classe</span>
+<span class="keyword">const</span> persona = <span class="keyword">new</span> <span class="function">User</span>(<span class="string">"Mario"</span>, <span class="string">"Rossi"</span>, <span class="string">30</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(persona.<span class="function">nomeCompleto</span>()); <span class="comment">// "Mario Rossi"</span>
+<span class="function">console</span>.<span class="function">log</span>(persona.<span class="function">descrizione</span>()); <span class="comment">// "Mario Rossi ha 30 anni"</span>
+persona.<span class="function">compieAnni</span>(); <span class="comment">// "Auguri! Ora hai 31 anni"</span>
+<span class="function">console</span>.<span class="function">log</span>(persona.<span class="function">descrizione</span>()); <span class="comment">// "Mario Rossi ha 31 anni"</span></pre>
+            </div>
+
+            <h3>Esempio 2: Classe Prodotto per E-commerce</h3>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">Prodotto</span> {
+    <span class="function">constructor</span>(nome, prezzo, quantità) {
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">prezzo</span> = prezzo;
+        <span class="keyword">this</span>.<span class="property">quantità</span> = quantità;
+    }
+    
+    <span class="function">valoreInventario</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.<span class="property">prezzo</span> * <span class="keyword">this</span>.<span class="property">quantità</span>;
+    }
+    
+    <span class="function">aggiungiStock</span>(quantità) {
+        <span class="keyword">this</span>.<span class="property">quantità</span> += quantità;
+        <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Aggiunti ${quantità} pezzi. Stock totale: ${<span class="keyword">this</span>.<span class="property">quantità</span>}`</span>);
+    }
+    
+    <span class="function">rimuoviStock</span>(quantità) {
+        <span class="keyword">if</span> (<span class="keyword">this</span>.<span class="property">quantità</span> >= quantità) {
+            <span class="keyword">this</span>.<span class="property">quantità</span> -= quantità;
+            <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Rimossi ${quantità} pezzi. Stock rimanente: ${<span class="keyword">this</span>.<span class="property">quantità</span>}`</span>);
+        } <span class="keyword">else</span> {
+            <span class="function">console</span>.<span class="function">log</span>(<span class="string">"Stock insufficiente!"</span>);
+        }
+    }
+    
+    <span class="function">info</span>() {
+        <span class="keyword">return</span> <span class="string">`${<span class="keyword">this</span>.<span class="property">nome</span>}: €${<span class="keyword">this</span>.<span class="property">prezzo</span>} - ${<span class="keyword">this</span>.<span class="property">quantità</span>} pezzi disponibili`</span>;
+    }
+}
+
+<span class="comment">// Utilizzo</span>
+<span class="keyword">const</span> laptop = <span class="keyword">new</span> <span class="function">Prodotto</span>(<span class="string">"Laptop XYZ"</span>, <span class="string">899</span>, <span class="string">15</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(laptop.<span class="function">info</span>());
+<span class="comment">// "Laptop XYZ: €899 - 15 pezzi disponibili"</span>
+
+<span class="function">console</span>.<span class="function">log</span>(<span class="string">`Valore inventario: €${laptop.<span class="function">valoreInventario</span>()}`</span>);
+<span class="comment">// "Valore inventario: €13485"</span>
+
+laptop.<span class="function">aggiungiStock</span>(<span class="string">5</span>);
+<span class="comment">// "Aggiunti 5 pezzi. Stock totale: 20"</span>
+
+laptop.<span class="function">rimuoviStock</span>(<span class="string">3</span>);
+<span class="comment">// "Rimossi 3 pezzi. Stock rimanente: 17"</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Best Practices e Convenzioni</h2>
+            
+            <h3>1. Nomenclatura delle Classi</h3>
+
+            <div class="important">
+                <strong>📌 Convenzione:</strong> I nomi delle classi dovrebbero iniziare con la lettera 
+                maiuscola (PascalCase) per distinguerle dalle funzioni normali.
+            </div>
+
+            <div class="code-block"><pre><span class="comment">// ✅ CORRETTO</span>
+<span class="keyword">class</span> <span class="function">UserAccount</span> { }
+<span class="keyword">class</span> <span class="function">ShoppingCart</span> { }
+<span class="keyword">class</span> <span class="function">ProductManager</span> { }
+
+<span class="comment">// ❌ NON CONSIGLIATO</span>
+<span class="keyword">class</span> <span class="function">userAccount</span> { }
+<span class="keyword">class</span> <span class="function">shopping_cart</span> { }</pre>
+            </div>
+
+            <h3>2. Utilizzo di this</h3>
+
+            <p>
+                Usa sempre <span class="inline-code">this</span> per accedere alle proprietà e ai metodi 
+                dell'istanza all'interno dei metodi della classe.
+            </p>
+
+            <h3>3. Separazione delle Responsabilità</h3>
+
+            <p>
+                Ogni classe dovrebbe avere una responsabilità chiara e ben definita. Evita di creare 
+                "classi dio" che fanno troppe cose.
+            </p>
+
+            <h3>4. Documenta il Constructor</h3>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">User</span> {
+    <span class="comment">/**
+     * Crea una nuova istanza di User
+     * @param {string} nome - Il nome dell'utente
+     * @param {number} età - L'età dell'utente
+     */</span>
+    <span class="function">constructor</span>(nome, età) {
+        <span class="keyword">this</span>.<span class="property">nome</span> = nome;
+        <span class="keyword">this</span>.<span class="property">età</span> = età;
+    }
+}</pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Riepilogo dei Concetti Chiave</h2>
+            
+            <div class="concept-box">
+                <h4>🎯 Punti Fondamentali</h4>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Le classi ES6 sono <strong>syntactic sugar</strong> per le Constructor Functions</li>
+                    <li>Il metodo <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">constructor()</span> viene eseguito automaticamente con <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">new</span></li>
+                    <li>Non usare <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">function</span> per definire metodi nelle classi</li>
+                    <li>I metodi vengono inseriti automaticamente nel <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">prototype</span></li>
+                    <li>Non si possono dichiarare variabili con <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">let/const/var</span> nel corpo della classe</li>
+                    <li>Usa <span class="inline-code" style="background-color: rgba(255,255,255,0.2);">this</span> per accedere a proprietà e metodi dell'istanza</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Conclusioni</h2>
+            
+            <p>
+                Le classi ES6 rappresentano un'evoluzione importante nella sintassi JavaScript, rendendo 
+                il codice più leggibile e organizzato, specialmente per chi proviene da linguaggi con 
+                OOP classica. Tuttavia, è fondamentale ricordare che:
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Non sono un nuovo paradigma:</strong> Le classi sono solo una sintassi più 
+                    pulita per il sistema prototipale già esistente
+                </li>
+                <li>
+                    <strong>Il constructor è il cuore della classe:</strong> Qui inizializziamo lo stato 
+                    di ogni istanza
+                </li>
+                <li>
+                    <strong>I metodi vanno nel prototype:</strong> Questo garantisce efficienza di memoria
+                </li>
+                <li>
+                    <strong>La sintassi è più pulita:</strong> Non serve più assegnare funzioni al prototype 
+                    manualmente
+                </li>
+            </ul>
+
+            <p>
+                Comprendere come funzionano le classi ES6 e la loro relazione con il sistema prototipale 
+                è essenziale per scrivere codice JavaScript moderno ed efficace. Nelle prossime lezioni 
+                approfondiremo altri aspetti delle classi, come l'ereditarietà, i metodi statici e le 
+                proprietà private.
+            </p>
+        </section>
+
+        <footer>
+            <p><strong>Lezione:</strong> Classi ES6 - Costruttore e Metodi</p>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Manuale creato il 28 Dicembre 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
