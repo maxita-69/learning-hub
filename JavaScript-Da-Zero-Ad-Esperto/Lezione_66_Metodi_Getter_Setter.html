@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodi Getter e Setter in JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .keyword {
+            color: #ff79c6;
+        }
+        
+        .function {
+            color: #50fa7b;
+        }
+        
+        .string {
+            color: #f1fa8c;
+        }
+        
+        .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        
+        .operator {
+            color: #ff79c6;
+        }
+        
+        .output {
+            background-color: #1e1e1e;
+            color: #4ec9b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 4px solid #4ec9b0;
+        }
+        
+        .inline-code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.95em;
+        }
+        
+        .important {
+            background-color: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .important strong {
+            color: #0c5460;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        .getter-box {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .getter-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .setter-box {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .setter-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .syntax-box {
+            background: #f8f9fa;
+            border: 2px solid #e74c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Metodi Getter e Setter in JavaScript</h1>
+            <p class="subtitle">Accesso Controllato alle Proprietà delle Classi</p>
+        </header>
+
+        <section>
+            <h2>Introduzione</h2>
+            <p>
+                All'interno di una classe JavaScript possiamo definire metodi speciali chiamati 
+                <strong>getter</strong> e <strong>setter</strong>. Questi metodi permettono di 
+                accedere e modificare le proprietà di una classe utilizzando una sintassi che 
+                <strong>sembra quella di una proprietà</strong>, pur mantenendo il controllo 
+                attraverso la logica di un metodo.
+            </p>
+            
+            <div class="important">
+                <strong>Caratteristica fondamentale:</strong> Gli oggetti della classe si interfacciano 
+                ai metodi getter e setter <strong>come se fossero proprietà</strong>, senza utilizzare 
+                le parentesi tonde tipiche dell'invocazione di metodi.
+            </div>
+        </section>
+
+        <section>
+            <h2>Cosa Sono Getter e Setter?</h2>
+            
+            <div class="getter-box">
+                <h4>📤 Metodo Getter</h4>
+                <p>
+                    Un <strong>getter</strong> è un metodo che <strong>restituisce un valore</strong>. 
+                    Viene utilizzato per leggere o calcolare il valore di una proprietà. 
+                    Si definisce con la keyword <code style="background-color: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 3px;">get</code>.
+                </p>
+            </div>
+
+            <div class="setter-box">
+                <h4>📥 Metodo Setter</h4>
+                <p>
+                    Un <strong>setter</strong> è un metodo che <strong>assegna un valore</strong> 
+                    a una proprietà. Viene utilizzato per modificare o validare dati prima di 
+                    memorizzarli. Si definisce con la keyword <code style="background-color: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 3px;">set</code>.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Classe di Esempio</h2>
+            
+            <p>
+                Per comprendere il funzionamento di getter e setter, utilizziamo una classe 
+                <span class="inline-code">User</span> con le proprietà di base:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">User</span> {
+    <span class="function">constructor</span>(nome, anni, altezza) {
+        <span class="keyword">this</span>.nome = nome;
+        <span class="keyword">this</span>.anni = anni;
+        <span class="keyword">this</span>.altezza = altezza;
+        <span class="keyword">this</span>.titoloDiStudio = <span class="string">''</span>;
+    }
+}</pre>
+            </div>
+
+            <p>
+                Questa classe rappresenta un utente con nome, età, altezza e titolo di studio. 
+                Ora aggiungeremo getter e setter per gestire queste proprietà in modo più sofisticato.
+            </p>
+        </section>
+
+        <section>
+            <h2>Definire un Metodo Getter</h2>
+            
+            <h3>Sintassi del Getter</h3>
+
+            <div class="syntax-box">
+get nomeMetodo() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return valoreCalcolato;<br>
+}
+            </div>
+
+            <h3>Esempio Pratico - Getter pesoIdeale</h3>
+
+            <p>
+                Definiamo un getter che calcola il peso ideale basandosi sull'altezza:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">User</span> {
+    <span class="function">constructor</span>(nome, anni, altezza) {
+        <span class="keyword">this</span>.nome = nome;
+        <span class="keyword">this</span>.anni = anni;
+        <span class="keyword">this</span>.altezza = altezza;
+        <span class="keyword">this</span>.titoloDiStudio = <span class="string">''</span>;
+    }
+    
+    <span class="comment">//getter</span>
+    <span class="keyword">get</span> <span class="function">pesoIdeale</span>() {
+        <span class="keyword">return</span> (<span class="keyword">this</span>.altezza - <span class="string">100</span>) * <span class="string">0.9</span>;
+    }
+}</pre>
+            </div>
+
+            <div class="important">
+                <strong>Nota importante:</strong> Il metodo getter <strong>deve sempre restituire un valore</strong> 
+                utilizzando <span class="inline-code">return</span>. La formula utilizzata 
+                <span class="inline-code">(altezza - 100) * 0.9</span> è una formula semplificata 
+                per calcolare il peso ideale.
+            </div>
+
+            <h3>Come Usare un Getter</h3>
+
+            <p>
+                Ecco la particolarità: <strong>non usiamo le parentesi tonde</strong> quando accediamo 
+                a un getter. Lo trattiamo come una proprietà:
+            </p>
+
+            <div class="code-block"><pre><span class="comment">// Istanziamo un oggetto</span>
+<span class="keyword">const</span> maria = <span class="keyword">new</span> <span class="function">User</span>(<span class="string">"Maria"</span>, <span class="string">29</span>, <span class="string">170</span>);
+
+<span class="comment">// Accediamo al getter SENZA parentesi (come fosse una proprietà)</span>
+<span class="function">console</span>.<span class="function">log</span>(maria.pesoIdeale);</pre>
+            </div>
+
+            <div class="output">Output: 63</div>
+
+            <p>
+                <strong>Attenzione:</strong> Abbiamo scritto <span class="inline-code">maria.pesoIdeale</span> 
+                e NON <span class="inline-code">maria.pesoIdeale()</span>. Questa è la sintassi 
+                caratteristica dei getter: si accede come a una proprietà, non come a un metodo.
+            </p>
+        </section>
+
+        <section>
+            <h2>Tentativo di Assegnamento a un Getter</h2>
+            
+            <p>
+                Cosa succede se proviamo ad assegnare un valore direttamente a un getter?
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> maria = <span class="keyword">new</span> <span class="function">User</span>(<span class="string">"Maria"</span>, <span class="string">29</span>, <span class="string">170</span>);
+
+<span class="comment">// Tentativo di assegnamento con sintassi di proprietà</span>
+maria.pesoIdeale = <span class="string">59</span>;
+
+<span class="comment">// Verifichiamo il valore</span>
+<span class="function">console</span>.<span class="function">log</span>(maria.pesoIdeale);</pre>
+            </div>
+
+            <div class="output">Output: 63</div>
+
+            <div class="warning">
+                <strong>⚠️ Il valore non cambia!</strong> Anche se abbiamo scritto 
+                <span class="inline-code">maria.pesoIdeale = 59</span>, il valore rimane 63. 
+                Questo perché <span class="inline-code">pesoIdeale</span> è un getter: restituisce 
+                un valore calcolato e <strong>non può essere modificato direttamente</strong> con 
+                un assegnamento.
+            </div>
+
+            <p>
+                Per permettere l'assegnamento di valori, dobbiamo utilizzare un <strong>setter</strong>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Definire un Metodo Setter</h2>
+            
+            <h3>Sintassi del Setter</h3>
+
+            <div class="syntax-box">
+set nomeMetodo(valore) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;this.proprietà = valore;<br>
+}
+            </div>
+
+            <div class="important">
+                <strong>Caratteristica del setter:</strong> Un metodo setter <strong>riceve sempre 
+                un parametro</strong> che rappresenta il valore da assegnare. Questo parametro viene 
+                poi utilizzato all'interno del metodo per assegnare il valore a una proprietà.
+            </div>
+
+            <h3>Esempio Pratico - Setter titolo</h3>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">User</span> {
+    <span class="function">constructor</span>(nome, anni, altezza) {
+        <span class="keyword">this</span>.nome = nome;
+        <span class="keyword">this</span>.anni = anni;
+        <span class="keyword">this</span>.altezza = altezza;
+        <span class="keyword">this</span>.titoloDiStudio = <span class="string">''</span>;
+    }
+    
+    <span class="comment">//getter</span>
+    <span class="keyword">get</span> <span class="function">pesoIdeale</span>() {
+        <span class="keyword">return</span> (<span class="keyword">this</span>.altezza - <span class="string">100</span>) * <span class="string">0.9</span>;
+    }
+    
+    <span class="comment">//setter</span>
+    <span class="keyword">set</span> <span class="function">titolo</span>(val) {
+        <span class="keyword">this</span>.titoloDiStudio = val;
+    }
+}</pre>
+            </div>
+
+            <p>
+                Il setter <span class="inline-code">titolo</span> riceve un valore in input 
+                (<span class="inline-code">val</span>) e lo assegna alla proprietà 
+                <span class="inline-code">this.titoloDiStudio</span>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Come Usare un Setter</h2>
+            
+            <p>
+                Anche i setter si utilizzano con la sintassi di assegnamento, come se fossero proprietà:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> maria = <span class="keyword">new</span> <span class="function">User</span>(<span class="string">"Maria"</span>, <span class="string">29</span>, <span class="string">170</span>);
+
+<span class="comment">// Utilizziamo il setter con sintassi di assegnamento</span>
+maria.titolo = <span class="string">"Diploma Liceo Scientifico"</span>;
+
+<span class="comment">// Verifichiamo il valore della proprietà</span>
+<span class="function">console</span>.<span class="function">log</span>(maria.titoloDiStudio);</pre>
+            </div>
+
+            <div class="output">Output: "Diploma Liceo Scientifico"</div>
+
+            <div class="important">
+                <strong>Come funziona:</strong>
+                <ol>
+                    <li>Scriviamo <span class="inline-code">maria.titolo = "Diploma Liceo Scientifico"</span></li>
+                    <li>JavaScript riconosce che <span class="inline-code">titolo</span> è un setter</li>
+                    <li>Invoca automaticamente il metodo setter passando il valore assegnato</li>
+                    <li>Il setter assegna il valore a <span class="inline-code">this.titoloDiStudio</span></li>
+                </ol>
+            </div>
+
+            <p>
+                Anche se stiamo usando la sintassi di assegnamento 
+                (<span class="inline-code">maria.titolo = ...</span>), JavaScript 
+                <strong>sta effettivamente invocando un metodo</strong>. Questa è la "magia" dei setter!
+            </p>
+        </section>
+
+        <section>
+            <h2>Esempio Completo con Getter e Setter</h2>
+            
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">User</span> {
+    <span class="function">constructor</span>(nome, anni, altezza) {
+        <span class="keyword">this</span>.nome = nome;
+        <span class="keyword">this</span>.anni = anni;
+        <span class="keyword">this</span>.altezza = altezza;
+        <span class="keyword">this</span>.titoloDiStudio = <span class="string">''</span>;
+    }
+    
+    <span class="comment">// Getter - restituisce un valore calcolato</span>
+    <span class="keyword">get</span> <span class="function">pesoIdeale</span>() {
+        <span class="keyword">return</span> (<span class="keyword">this</span>.altezza - <span class="string">100</span>) * <span class="string">0.9</span>;
+    }
+    
+    <span class="comment">// Setter - assegna un valore a una proprietà</span>
+    <span class="keyword">set</span> <span class="function">titolo</span>(val) {
+        <span class="keyword">this</span>.titoloDiStudio = val;
+    }
+}
+
+<span class="comment">// Creazione oggetto</span>
+<span class="keyword">const</span> maria = <span class="keyword">new</span> <span class="function">User</span>(<span class="string">"Maria"</span>, <span class="string">29</span>, <span class="string">170</span>);
+
+<span class="comment">// Uso del GETTER (lettura, come una proprietà)</span>
+<span class="function">console</span>.<span class="function">log</span>(maria.pesoIdeale);  <span class="comment">// 63</span>
+
+<span class="comment">// Uso del SETTER (scrittura, come un assegnamento)</span>
+maria.titolo = <span class="string">"Diploma Liceo Scientifico"</span>;
+
+<span class="comment">// Verifica del valore assegnato</span>
+<span class="function">console</span>.<span class="function">log</span>(maria.titoloDiStudio);  <span class="comment">// "Diploma Liceo Scientifico"</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Confronto: Metodi Normali vs Getter/Setter</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspetto</th>
+                        <th>Metodo Normale</th>
+                        <th>Getter</th>
+                        <th>Setter</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Definizione</strong></td>
+                        <td><code>metodo() { }</code></td>
+                        <td><code>get metodo() { }</code></td>
+                        <td><code>set metodo(val) { }</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sintassi di uso</strong></td>
+                        <td><code>obj.metodo()</code></td>
+                        <td><code>obj.metodo</code></td>
+                        <td><code>obj.metodo = valore</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parentesi</strong></td>
+                        <td>Obbligatorie</td>
+                        <td>NO parentesi</td>
+                        <td>NO parentesi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scopo</strong></td>
+                        <td>Eseguire azioni</td>
+                        <td>Restituire valore</td>
+                        <td>Assegnare valore</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Return</strong></td>
+                        <td>Opzionale</td>
+                        <td>Obbligatorio</td>
+                        <td>Non usato</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parametri</strong></td>
+                        <td>0 o più</td>
+                        <td>Nessuno</td>
+                        <td>Esattamente 1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Vantaggi di Getter e Setter</h2>
+            
+            <h3>1. Sintassi Più Naturale</h3>
+            <p>
+                L'accesso sembra quello di una proprietà normale, rendendo il codice più leggibile:
+            </p>
+            <div class="code-block"><pre><span class="comment">// Con getter - naturale e intuitivo</span>
+<span class="keyword">let</span> peso = maria.pesoIdeale;
+
+<span class="comment">// Senza getter - sintassi di metodo</span>
+<span class="keyword">let</span> peso = maria.<span class="function">calcolaPesoIdeale</span>();</pre>
+            </div>
+
+            <h3>2. Validazione dei Dati</h3>
+            <p>
+                I setter permettono di validare i dati prima di assegnarli:
+            </p>
+            <div class="code-block"><pre><span class="keyword">set</span> <span class="function">eta</span>(valore) {
+    <span class="keyword">if</span> (valore < <span class="string">0</span> || valore > <span class="string">150</span>) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">"Età non valida"</span>);
+    }
+    <span class="keyword">this</span>._eta = valore;
+}</pre>
+            </div>
+
+            <h3>3. Valori Calcolati Dinamicamente</h3>
+            <p>
+                I getter possono calcolare valori al momento dell'accesso:
+            </p>
+            <div class="code-block"><pre><span class="keyword">get</span> <span class="function">nomeCompleto</span>() {
+    <span class="keyword">return</span> <span class="string">`${<span class="keyword">this</span>.nome} ${<span class="keyword">this</span>.cognome}`</span>;
+}</pre>
+            </div>
+
+            <h3>4. Incapsulamento</h3>
+            <p>
+                Possiamo nascondere l'implementazione interna e modificarla senza impattare il codice esterno:
+            </p>
+            <div class="code-block"><pre><span class="comment">// Proprietà privata (ES2019)</span>
+#temperatura;
+
+<span class="keyword">get</span> <span class="function">temperatura</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.#temperatura;
+}
+
+<span class="keyword">set</span> <span class="function">temperatura</span>(celsius) {
+    <span class="keyword">this</span>.#temperatura = celsius;
+}</pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Pattern Comuni con Getter e Setter</h2>
+            
+            <h3>Pattern 1: Proprietà di Sola Lettura</h3>
+            <p>
+                Definendo solo un getter (senza setter), creiamo una proprietà di sola lettura:
+            </p>
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">Prodotto</span> {
+    <span class="function">constructor</span>(prezzo, iva) {
+        <span class="keyword">this</span>._prezzo = prezzo;
+        <span class="keyword">this</span>._iva = iva;
+    }
+    
+    <span class="comment">// Solo getter - proprietà di sola lettura</span>
+    <span class="keyword">get</span> <span class="function">prezzoFinale</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._prezzo * (<span class="string">1</span> + <span class="keyword">this</span>._iva);
+    }
+}
+
+<span class="keyword">const</span> libro = <span class="keyword">new</span> <span class="function">Prodotto</span>(<span class="string">10</span>, <span class="string">0.22</span>);
+<span class="function">console</span>.<span class="function">log</span>(libro.prezzoFinale);  <span class="comment">// 12.2</span>
+libro.prezzoFinale = <span class="string">15</span>;  <span class="comment">// Non ha effetto (nessun setter)</span></pre>
+            </div>
+
+            <h3>Pattern 2: Getter e Setter Abbinati</h3>
+            <p>
+                Spesso getter e setter lavorano insieme sulla stessa proprietà:
+            </p>
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">Persona</span> {
+    <span class="function">constructor</span>() {
+        <span class="keyword">this</span>._nome = <span class="string">''</span>;
+    }
+    
+    <span class="comment">// Getter per leggere</span>
+    <span class="keyword">get</span> <span class="function">nome</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._nome;
+    }
+    
+    <span class="comment">// Setter per scrivere con validazione</span>
+    <span class="keyword">set</span> <span class="function">nome</span>(valore) {
+        <span class="keyword">if</span> (valore.length > <span class="string">0</span>) {
+            <span class="keyword">this</span>._nome = valore;
+        }
+    }
+}</pre>
+            </div>
+
+            <h3>Pattern 3: Conversione Automatica</h3>
+            <p>
+                I setter possono convertire automaticamente i valori:
+            </p>
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">Config</span> {
+    <span class="function">constructor</span>() {
+        <span class="keyword">this</span>._attivo = <span class="keyword">false</span>;
+    }
+    
+    <span class="keyword">set</span> <span class="function">attivo</span>(valore) {
+        <span class="comment">// Converte qualsiasi valore in booleano</span>
+        <span class="keyword">this</span>._attivo = <span class="function">Boolean</span>(valore);
+    }
+    
+    <span class="keyword">get</span> <span class="function">attivo</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._attivo;
+    }
+}
+
+<span class="keyword">const</span> config = <span class="keyword">new</span> <span class="function">Config</span>();
+config.attivo = <span class="string">"sì"</span>;  <span class="comment">// Viene convertito in true</span>
+<span class="function">console</span>.<span class="function">log</span>(config.attivo);  <span class="comment">// true</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Errori Comuni da Evitare</h2>
+            
+            <h3>Errore 1: Usare Parentesi con Getter</h3>
+            <div class="warning">
+                <strong>❌ SBAGLIATO:</strong>
+                <div class="code-block"><pre><span class="function">console</span>.<span class="function">log</span>(maria.<span class="function">pesoIdeale</span>());  <span class="comment">// TypeError!</span></pre></div>
+                
+                <strong>✅ CORRETTO:</strong>
+                <div class="code-block"><pre><span class="function">console</span>.<span class="function">log</span>(maria.pesoIdeale);  <span class="comment">// 63</span></pre></div>
+            </div>
+
+            <h3>Errore 2: Chiamare il Setter come Funzione</h3>
+            <div class="warning">
+                <strong>❌ SBAGLIATO:</strong>
+                <div class="code-block"><pre>maria.<span class="function">titolo</span>(<span class="string">"Laurea"</span>);  <span class="comment">// TypeError!</span></pre></div>
+                
+                <strong>✅ CORRETTO:</strong>
+                <div class="code-block"><pre>maria.titolo = <span class="string">"Laurea"</span>;  <span class="comment">// Assegnamento</span></pre></div>
+            </div>
+
+            <h3>Errore 3: Creare Loop Infiniti</h3>
+            <div class="warning">
+                <strong>❌ ATTENZIONE - Loop infinito:</strong>
+                <div class="code-block"><pre><span class="keyword">get</span> <span class="function">nome</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.nome;  <span class="comment">// Chiama se stesso all'infinito!</span>
+}
+
+<span class="comment">// Usa una proprietà diversa:</span>
+<span class="keyword">get</span> <span class="function">nome</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>._nome;  <span class="comment">// ✅ Corretto</span>
+}</pre></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Riepilogo</h2>
+            
+            <div class="important">
+                <h3>📝 Concetti Chiave</h3>
+                <ul>
+                    <li><strong>Getter:</strong> Metodo che <strong>restituisce un valore</strong>, 
+                        definito con <span class="inline-code">get</span></li>
+                    <li><strong>Setter:</strong> Metodo che <strong>assegna un valore</strong>, 
+                        definito con <span class="inline-code">set</span></li>
+                    <li><strong>Sintassi:</strong> Si usano come proprietà, <strong>senza parentesi</strong></li>
+                    <li><strong>Getter:</strong> Accesso in lettura → <span class="inline-code">obj.proprieta</span></li>
+                    <li><strong>Setter:</strong> Accesso in scrittura → <span class="inline-code">obj.proprieta = valore</span></li>
+                    <li><strong>Vantaggi:</strong> Sintassi naturale, validazione, incapsulamento</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Conclusioni</h2>
+            
+            <p>
+                I metodi getter e setter rappresentano un potente strumento per creare interfacce 
+                pulite e intuitive per le classi JavaScript. Permettono di:
+            </p>
+
+            <ul>
+                <li>Mantenere una sintassi semplice e leggibile</li>
+                <li>Implementare logica di validazione e controllo</li>
+                <li>Calcolare valori dinamicamente</li>
+                <li>Proteggere l'implementazione interna delle classi</li>
+                <li>Creare proprietà di sola lettura o sola scrittura</li>
+            </ul>
+
+            <p>
+                La combinazione di <strong>proprietà private</strong> (viste nella lezione precedente) 
+                con <strong>getter e setter pubblici</strong> rappresenta uno dei pilastri 
+                dell'<strong>incapsulamento</strong> nella programmazione orientata agli oggetti.
+            </p>
+        </section>
+
+        <footer>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p><strong>Lezione 66:</strong> Metodi Getter e Setter</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Manuale creato il 28 Dicembre 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
