@@ -227,38 +227,75 @@
             font-weight: 600;
         }
         
-        /* Subcourse Container */
-        .subcourse-container {
-            margin-bottom: 40px;
+        /* Accordion Section */
+        .accordion-section {
+            margin-bottom: 20px;
         }
         
-        .subcourse-header {
+        .accordion-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+            padding: 20px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding: 15px 20px;
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
         }
         
-        .subcourse-title {
+        .accordion-header:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+            border-color: #667eea;
+        }
+        
+        .accordion-header.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .accordion-title-container {
+            flex: 1;
+        }
+        
+        .accordion-title {
+            font-size: 1.4em;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #2c3e50;
+            gap: 12px;
+            margin-bottom: 5px;
         }
         
-        .subcourse-badge {
-            background: #667eea;
+        .accordion-header.active .accordion-title {
             color: white;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.85em;
-            font-weight: 600;
+        }
+        
+        .accordion-meta {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .accordion-arrow {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-header.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 25px;
+        }
+        
+        .accordion-content.active {
+            max-height: 5000px;
+            padding: 25px;
         }
         
         /* Lessons Grid */
@@ -349,16 +386,16 @@
         
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number">55</div>
+                <div class="stat-number">64</div>
                 <div class="stat-label">Lezioni Completate</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">1</div>
-                <div class="stat-label">Corsi Attivi</div>
+                <div class="stat-number">5</div>
+                <div class="stat-label">Sezioni Corso</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Progresso Corso</div>
+                <div class="stat-number">68%</div>
+                <div class="stat-label">Progresso Totale</div>
             </div>
         </div>
         
@@ -385,590 +422,728 @@
         <section class="course-section" id="javascript">
             <div class="section-header">
                 <span class="section-icon">📘</span>
-                <h2 class="section-title">JavaScript Mastery</h2>
-                <span class="section-count">1 Corso</span>
+                <h2 class="section-title">JavaScript: Da Zero ad Esperto</h2>
+                <span class="section-count">64 Lezioni • 5 Sezioni</span>
             </div>
             
-            <!-- CORSO: Da zero ad esperto -->
-            <div class="subcourse-container">
-                <div class="subcourse-header">
-                    <div class="subcourse-title">
-                        <span>📚</span>
-                        <span>JavaScript: Da Zero ad Esperto</span>
+            <!-- SEZIONE 1: Introduzione (1-18) -->
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-container">
+                        <div class="accordion-title">
+                            <span>📚</span>
+                            <span>Sezione 1: Introduzione</span>
+                        </div>
+                        <div class="accordion-meta">Lezioni 1-18 • Console, Numeri, Stringhe, Boolean, Operatori</div>
                     </div>
-                    <span class="subcourse-badge">57 Lezioni</span>
+                    <span class="accordion-arrow">▼</span>
                 </div>
-                
-                <div class="lessons-grid" id="lessonsGrid">
-                    <!-- Lezioni 01-10: Fondamenti -->
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_01_Console_Debug.html" class="lesson-card">
-                        <span class="lesson-number">01</span>
-                        <h3>Console e Metodi di Debug</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Console</span>
-                            <span class="topic-tag">#Debug</span>
-                            <span class="topic-tag">#Fondamenti</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_02_Numeri_IEEE754.html" class="lesson-card">
-                        <span class="lesson-number">02</span>
-                        <h3>Numeri e Precisione IEEE 754</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Number</span>
-                            <span class="topic-tag">#IEEE754</span>
-                            <span class="topic-tag">#Precisione</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_03_Operatori_Aritmetici.html" class="lesson-card">
-                        <span class="lesson-number">03</span>
-                        <h3>Operatori Aritmetici e Math</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Operatori</span>
-                            <span class="topic-tag">#Math</span>
-                            <span class="topic-tag">#Calcoli</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_04_BigInt.html" class="lesson-card">
-                        <span class="lesson-number">04</span>
-                        <h3>BigInt</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#BigInt</span>
-                            <span class="topic-tag">#GrandiNumeri</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_05_Stringhe_Natura.html" class="lesson-card">
-                        <span class="lesson-number">05</span>
-                        <h3>Stringhe: Natura e Proprietà</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#String</span>
-                            <span class="topic-tag">#Immutabilità</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_06_Template_Literals.html" class="lesson-card">
-                        <span class="lesson-number">06</span>
-                        <h3>Template Literals</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Template</span>
-                            <span class="topic-tag">#Interpolazione</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_07_String_Metodi.html" class="lesson-card">
-                        <span class="lesson-number">07</span>
-                        <h3>Oggetto String e Metodi</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#String</span>
-                            <span class="topic-tag">#Metodi</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_08_Boolean_Truthy_Falsy.html" class="lesson-card">
-                        <span class="lesson-number">08</span>
-                        <h3>Boolean e Truthy/Falsy</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Boolean</span>
-                            <span class="topic-tag">#Truthy</span>
-                            <span class="topic-tag">#Falsy</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_09_Null_Undefined.html" class="lesson-card">
-                        <span class="lesson-number">09</span>
-                        <h3>null e undefined</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#null</span>
-                            <span class="topic-tag">#undefined</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_10_Variabili.html" class="lesson-card">
-                        <span class="lesson-number">10</span>
-                        <h3>Variabili: var, let, const</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Variabili</span>
-                            <span class="topic-tag">#let</span>
-                            <span class="topic-tag">#const</span>
-                        </div>
-                    </a>
-                    
-                    <!-- Lezioni 11-20 -->
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_11_Identificatori.html" class="lesson-card">
-                        <span class="lesson-number">11</span>
-                        <h3>Identificatori e Case Sensitivity</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Identificatori</span>
-                            <span class="topic-tag">#Naming</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_12_Riepilogo_Fondamenti.html" class="lesson-card">
-                        <span class="lesson-number">12</span>
-                        <h3>Riepilogo Fondamenti</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Riepilogo</span>
-                            <span class="topic-tag">#Fondamenti</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_13_Console_Avanzata.html" class="lesson-card">
-                        <span class="lesson-number">13</span>
-                        <h3>Console Avanzata</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Console</span>
-                            <span class="topic-tag">#Debug</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_14_IEEE754_Approfondito.html" class="lesson-card">
-                        <span class="lesson-number">14</span>
-                        <h3>IEEE 754 Approfondito</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#IEEE754</span>
-                            <span class="topic-tag">#FloatingPoint</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_15_Operatori_Precedenze.html" class="lesson-card">
-                        <span class="lesson-number">15</span>
-                        <h3>Operatori e Precedenze</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Operatori</span>
-                            <span class="topic-tag">#Precedenza</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_16_Numeri_Casuali.html" class="lesson-card">
-                        <span class="lesson-number">16</span>
-                        <h3>Numeri Casuali</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Random</span>
-                            <span class="topic-tag">#Math</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_17_Operatori_Completi.html" class="lesson-card">
-                        <span class="lesson-number">17</span>
-                        <h3>Operatori Completi</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Operatori</span>
-                            <span class="topic-tag">#Incremento</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_18_Uguaglianza_Stretta.html" class="lesson-card">
-                        <span class="lesson-number">18</span>
-                        <h3>Uguaglianza Stretta (===)</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#===</span>
-                            <span class="topic-tag">#Confronti</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_19_Uguaglianza_Debole.html" class="lesson-card">
-                        <span class="lesson-number">19</span>
-                        <h3>Uguaglianza Debole (==)</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#==</span>
-                            <span class="topic-tag">#Coercizione</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_20_Null_Undefined_Avanzato.html" class="lesson-card">
-                        <span class="lesson-number">20</span>
-                        <h3>null e undefined Avanzato</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#null</span>
-                            <span class="topic-tag">#undefined</span>
-                        </div>
-                    </a>
-                    
-                    <!-- Lezioni 21-30 -->
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_21_Null_vs_Undefined.html" class="lesson-card">
-                        <span class="lesson-number">21</span>
-                        <h3>null vs undefined</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#null</span>
-                            <span class="topic-tag">#undefined</span>
-                            <span class="topic-tag">#Differenze</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_22_Operatori_Confronto.html" class="lesson-card">
-                        <span class="lesson-number">22</span>
-                        <h3>Operatori di Confronto</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Confronti</span>
-                            <span class="topic-tag">#Relazionali</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_23_Type_Coercion_1.html" class="lesson-card">
-                        <span class="lesson-number">23</span>
-                        <h3>Type Coercion - Parte 1</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Coercizione</span>
-                            <span class="topic-tag">#Conversioni</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_24_Type_Coercion_2.html" class="lesson-card">
-                        <span class="lesson-number">24</span>
-                        <h3>Type Coercion - Parte 2</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Coercizione</span>
-                            <span class="topic-tag">#Implicita</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_25_Coercizione_Completa.html" class="lesson-card">
-                        <span class="lesson-number">25</span>
-                        <h3>Coercizione Completa</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Coercizione</span>
-                            <span class="topic-tag">#TypeSystem</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_26_Edge_Cases.html" class="lesson-card">
-                        <span class="lesson-number">26</span>
-                        <h3>Edge Cases</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#EdgeCases</span>
-                            <span class="topic-tag">#NaN</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_27_Conversioni_Esplicite.html" class="lesson-card">
-                        <span class="lesson-number">27</span>
-                        <h3>Conversioni Esplicite</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Conversioni</span>
-                            <span class="topic-tag">#Casting</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_28_Operatori_Logici.html" class="lesson-card">
-                        <span class="lesson-number">28</span>
-                        <h3>Operatori Logici</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#AND</span>
-                            <span class="topic-tag">#OR</span>
-                            <span class="topic-tag">#NOT</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_29_Valore_Riferimento.html" class="lesson-card">
-                        <span class="lesson-number">29</span>
-                        <h3>Valore vs Riferimento</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#PassByValue</span>
-                            <span class="topic-tag">#PassByReference</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_30_Stringhe_Avanzate.html" class="lesson-card">
-                        <span class="lesson-number">30</span>
-                        <h3>Manipolazione Stringhe</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#String</span>
-                            <span class="topic-tag">#Manipolazione</span>
-                        </div>
-                    </a>
-                    
-                    <!-- Lezioni 31-40 -->
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_31_Cicli_Validazione.html" class="lesson-card">
-                        <span class="lesson-number">31</span>
-                        <h3>Cicli e Validazione</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#while</span>
-                            <span class="topic-tag">#Validazione</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_32_Funzioni_Base.html" class="lesson-card">
-                        <span class="lesson-number">32</span>
-                        <h3>Funzioni Base</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Functions</span>
-                            <span class="topic-tag">#FirstClass</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_33_Function_Expressions.html" class="lesson-card">
-                        <span class="lesson-number">33</span>
-                        <h3>Function Expressions</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Functions</span>
-                            <span class="topic-tag">#Callback</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_34_Arguments.html" class="lesson-card">
-                        <span class="lesson-number">34</span>
-                        <h3>Arguments Object</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#arguments</span>
-                            <span class="topic-tag">#Parameters</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_35_Rest_Spread.html" class="lesson-card">
-                        <span class="lesson-number">35</span>
-                        <h3>Rest e Spread</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Rest</span>
-                            <span class="topic-tag">#Spread</span>
-                            <span class="topic-tag">#...</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_36_IIFE_Modules.html" class="lesson-card">
-                        <span class="lesson-number">36</span>
-                        <h3>IIFE e Module Pattern</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#IIFE</span>
-                            <span class="topic-tag">#Modules</span>
-                            <span class="topic-tag">#Privacy</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_37_Arrow_Functions.html" class="lesson-card">
-                        <span class="lesson-number">37</span>
-                        <h3>Arrow Functions</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Arrow</span>
-                            <span class="topic-tag">#ES6</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_38_Constructor_Functions.html" class="lesson-card">
-                        <span class="lesson-number">38</span>
-                        <h3>Constructor Functions</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Constructor</span>
-                            <span class="topic-tag">#new</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_39_Prototype_Istanze.html" class="lesson-card">
-                        <span class="lesson-number">39</span>
-                        <h3>Prototype e Istanze</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Prototype</span>
-                            <span class="topic-tag">#Instances</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_40_Funzioni_Pure.html" class="lesson-card">
-                        <span class="lesson-number">40</span>
-                        <h3>Funzioni Pure</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Pure</span>
-                            <span class="topic-tag">#Immutability</span>
-                        </div>
-                    </a>
-                    
-                    <!-- Lezioni 41-50: OOP e Prototipi -->
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_41_OOP_Pilastri.html" class="lesson-card">
-                        <span class="lesson-number">41</span>
-                        <h3>OOP: I Quattro Pilastri</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#OOP</span>
-                            <span class="topic-tag">#Pilastri</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_42_Accesso_Proprieta.html" class="lesson-card">
-                        <span class="lesson-number">42</span>
-                        <h3>Accesso Proprietà Oggetti</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Oggetti</span>
-                            <span class="topic-tag">#Proprietà</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_43_OOP_Completo.html" class="lesson-card">
-                        <span class="lesson-number">43</span>
-                        <h3>OOP Completo</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#OOP</span>
-                            <span class="topic-tag">#Paradigma</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_44_Dot_Bracket.html" class="lesson-card">
-                        <span class="lesson-number">44</span>
-                        <h3>Dot e Bracket Notation</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Notation</span>
-                            <span class="topic-tag">#Accesso</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_45_Factory_Constructor.html" class="lesson-card">
-                        <span class="lesson-number">45</span>
-                        <h3>Factory vs Constructor</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Factory</span>
-                            <span class="topic-tag">#Constructor</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_46_Astrazione_Privacy.html" class="lesson-card">
-                        <span class="lesson-number">46</span>
-                        <h3>Astrazione e Privacy</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Astrazione</span>
-                            <span class="topic-tag">#Privacy</span>
-                            <span class="topic-tag">#Closure</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_47_Prototype_Chain.html" class="lesson-card">
-                        <span class="lesson-number">47</span>
-                        <h3>Prototype Chain</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Prototype</span>
-                            <span class="topic-tag">#Inheritance</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_48_Object_Prototype.html" class="lesson-card">
-                        <span class="lesson-number">48</span>
-                        <h3>Object.prototype</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Prototype</span>
-                            <span class="topic-tag">#Object</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_49_Proto_Access.html" class="lesson-card">
-                        <span class="lesson-number">49</span>
-                        <h3>__proto__ e Accesso Prototipi</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#__proto__</span>
-                            <span class="topic-tag">#Prototype</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_50_Metodi_Prototype.html" class="lesson-card">
-                        <span class="lesson-number">50</span>
-                        <h3>Metodi Prototype</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Prototype</span>
-                            <span class="topic-tag">#Methods</span>
-                        </div>
-                    </a>
-                    
-                    <!-- Lezioni 51-55: this -->
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_51_Create_SetPrototype.html" class="lesson-card">
-                        <span class="lesson-number">51</span>
-                        <h3>Object.create e setPrototypeOf</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#Object.create</span>
-                            <span class="topic-tag">#Prototype</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_52_This_Contesto.html" class="lesson-card">
-                        <span class="lesson-number">52</span>
-                        <h3>this: Contesto</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#this</span>
-                            <span class="topic-tag">#Context</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_53_This_Binding.html" class="lesson-card">
-                        <span class="lesson-number">53</span>
-                        <h3>this: Binding Rules</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#this</span>
-                            <span class="topic-tag">#Binding</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_54_This_Arrow.html" class="lesson-card">
-                        <span class="lesson-number">54</span>
-                        <h3>this: Arrow Functions</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#this</span>
-                            <span class="topic-tag">#Arrow</span>
-                        </div>
-                    </a>
-                    
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_55_this.html" class="lesson-card">
-                        <span class="lesson-number">55</span>
-                        <h3>this: Keyword Completa</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#this</span>
-                            <span class="topic-tag">#Keyword</span>
-                        </div>
-                    </a>
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_56_Binding_Esplicito_JavaScript.html" class="lesson-card">
-                        <span class="lesson-number">56</span>
-                        <h3>Binding Esplicito: call, apply, bind</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#call</span>
-                            <span class="topic-tag">#apply</span>
-                            <span class="topic-tag">#bind</span>
-                            <span class="topic-tag">#this</span>
-                        </div>
-                    </a>
-                                 <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_57_Arrow_Functions_This_JavaScript.html" class="lesson-card">
-                        <span class="lesson-number">57</span>
-                        <h3>Arrow Functions e this</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#arrow</span>
-                            <span class="topic-tag">#this</span>
-                            <span class="topic-tag">#context</span>
-                            <span class="topic-tag">#lexical</span>
-                        </div>
-                    </a>
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_58_Iterare_Oggetti_JavaScript" class="lesson-card">
-                        <span class="lesson-number">58</span>
-                        <h3>Iterare gli oggetti</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#????</span>
-                        </div>
-                    </a>
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_59_Object_defineProperty_JavaScript" class="lesson-card">
-                        <span class="lesson-number">59</span>
-                        <h3>defineProperty</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#????</span>
-                        </div>
-                    </a>
-                    <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_60_Object_PreventExtensions_JavaScript" class="lesson-card">
-                        <span class="lesson-number">60</span>
-                        <h3>PreventExtensions</h3>
-                        <div class="topic-tags">
-                            <span class="topic-tag">#????</span>
-                        </div>
-                    </a>
+                <div class="accordion-content">
+                    <div class="lessons-grid">
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_01_Console_Debug.html" class="lesson-card">
+                            <span class="lesson-number">01</span>
+                            <h3>Console e Metodi di Debug</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Console</span>
+                                <span class="topic-tag">#Debug</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_02_Numeri_IEEE754.html" class="lesson-card">
+                            <span class="lesson-number">02</span>
+                            <h3>Numeri e Precisione IEEE 754</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Number</span>
+                                <span class="topic-tag">#IEEE754</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_03_Operatori_Aritmetici.html" class="lesson-card">
+                            <span class="lesson-number">03</span>
+                            <h3>Operatori Aritmetici e Math</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Operatori</span>
+                                <span class="topic-tag">#Math</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_04_BigInt.html" class="lesson-card">
+                            <span class="lesson-number">04</span>
+                            <h3>BigInt</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#BigInt</span>
+                                <span class="topic-tag">#GrandiNumeri</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_05_Stringhe_Natura.html" class="lesson-card">
+                            <span class="lesson-number">05</span>
+                            <h3>Stringhe: Natura e Proprietà</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#String</span>
+                                <span class="topic-tag">#Immutabilità</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_06_Template_Literals.html" class="lesson-card">
+                            <span class="lesson-number">06</span>
+                            <h3>Template Literals</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Template</span>
+                                <span class="topic-tag">#Interpolazione</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_07_String_Metodi.html" class="lesson-card">
+                            <span class="lesson-number">07</span>
+                            <h3>Oggetto String e Metodi</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#String</span>
+                                <span class="topic-tag">#Metodi</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_08_Boolean_Truthy_Falsy.html" class="lesson-card">
+                            <span class="lesson-number">08</span>
+                            <h3>Boolean e Truthy/Falsy</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Boolean</span>
+                                <span class="topic-tag">#Truthy</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_09_Null_Undefined.html" class="lesson-card">
+                            <span class="lesson-number">09</span>
+                            <h3>null e undefined</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#null</span>
+                                <span class="topic-tag">#undefined</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_10_Variabili.html" class="lesson-card">
+                            <span class="lesson-number">10</span>
+                            <h3>Variabili: var, let, const</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Variabili</span>
+                                <span class="topic-tag">#let</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_11_Identificatori.html" class="lesson-card">
+                            <span class="lesson-number">11</span>
+                            <h3>Identificatori e Case Sensitivity</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Identificatori</span>
+                                <span class="topic-tag">#Naming</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_12_Riepilogo_Fondamenti.html" class="lesson-card">
+                            <span class="lesson-number">12</span>
+                            <h3>Riepilogo Fondamenti</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Riepilogo</span>
+                                <span class="topic-tag">#Fondamenti</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_13_Console_Avanzata.html" class="lesson-card">
+                            <span class="lesson-number">13</span>
+                            <h3>Console Avanzata</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Console</span>
+                                <span class="topic-tag">#Debug</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_14_IEEE754_Approfondito.html" class="lesson-card">
+                            <span class="lesson-number">14</span>
+                            <h3>IEEE 754 Approfondito</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#IEEE754</span>
+                                <span class="topic-tag">#FloatingPoint</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_15_Operatori_Precedenze.html" class="lesson-card">
+                            <span class="lesson-number">15</span>
+                            <h3>Operatori e Precedenze</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Operatori</span>
+                                <span class="topic-tag">#Precedenza</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_16_Numeri_Casuali.html" class="lesson-card">
+                            <span class="lesson-number">16</span>
+                            <h3>Numeri Casuali</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Random</span>
+                                <span class="topic-tag">#Math</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_17_Operatori_Completi.html" class="lesson-card">
+                            <span class="lesson-number">17</span>
+                            <h3>Operatori Completi</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Operatori</span>
+                                <span class="topic-tag">#Incremento</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_18_Uguaglianza_Stretta.html" class="lesson-card">
+                            <span class="lesson-number">18</span>
+                            <h3>Uguaglianza Stretta (===)</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#===</span>
+                                <span class="topic-tag">#Confronti</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
+            
+            <!-- SEZIONE 2: Valori primitivi, operatori e coercizione (19-34) -->
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-container">
+                        <div class="accordion-title">
+                            <span>🔄</span>
+                            <span>Sezione 2: Valori Primitivi, Operatori e Coercizione</span>
+                        </div>
+                        <div class="accordion-meta">Lezioni 19-34 • Confronti, Type Coercion, Conversioni, Logica</div>
+                    </div>
+                    <span class="accordion-arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="lessons-grid">
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_19_Uguaglianza_Debole.html" class="lesson-card">
+                            <span class="lesson-number">19</span>
+                            <h3>Uguaglianza Debole (==)</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#==</span>
+                                <span class="topic-tag">#Coercizione</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_20_Null_Undefined_Avanzato.html" class="lesson-card">
+                            <span class="lesson-number">20</span>
+                            <h3>null e undefined Avanzato</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#null</span>
+                                <span class="topic-tag">#undefined</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_21_Null_vs_Undefined.html" class="lesson-card">
+                            <span class="lesson-number">21</span>
+                            <h3>null vs undefined</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#null</span>
+                                <span class="topic-tag">#Differenze</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_22_Operatori_Confronto.html" class="lesson-card">
+                            <span class="lesson-number">22</span>
+                            <h3>Operatori di Confronto</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Confronti</span>
+                                <span class="topic-tag">#Relazionali</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_23_Type_Coercion_1.html" class="lesson-card">
+                            <span class="lesson-number">23</span>
+                            <h3>Type Coercion - Parte 1</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Coercizione</span>
+                                <span class="topic-tag">#Conversioni</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_24_Type_Coercion_2.html" class="lesson-card">
+                            <span class="lesson-number">24</span>
+                            <h3>Type Coercion - Parte 2</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Coercizione</span>
+                                <span class="topic-tag">#Implicita</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_25_Coercizione_Completa.html" class="lesson-card">
+                            <span class="lesson-number">25</span>
+                            <h3>Coercizione Completa</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Coercizione</span>
+                                <span class="topic-tag">#TypeSystem</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_26_Edge_Cases.html" class="lesson-card">
+                            <span class="lesson-number">26</span>
+                            <h3>Edge Cases</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#EdgeCases</span>
+                                <span class="topic-tag">#NaN</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_27_Conversioni_Esplicite.html" class="lesson-card">
+                            <span class="lesson-number">27</span>
+                            <h3>Conversioni Esplicite</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Conversioni</span>
+                                <span class="topic-tag">#Casting</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_28_Operatori_Logici.html" class="lesson-card">
+                            <span class="lesson-number">28</span>
+                            <h3>Operatori Logici</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#AND</span>
+                                <span class="topic-tag">#OR</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_29_Valore_Riferimento.html" class="lesson-card">
+                            <span class="lesson-number">29</span>
+                            <h3>Valore vs Riferimento</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#PassByValue</span>
+                                <span class="topic-tag">#PassByReference</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_30_Stringhe_Avanzate.html" class="lesson-card">
+                            <span class="lesson-number">30</span>
+                            <h3>Manipolazione Stringhe</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#String</span>
+                                <span class="topic-tag">#Manipolazione</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_31_Cicli_Validazione.html" class="lesson-card">
+                            <span class="lesson-number">31</span>
+                            <h3>Cicli e Validazione</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#while</span>
+                                <span class="topic-tag">#Validazione</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_32_Funzioni_Base.html" class="lesson-card">
+                            <span class="lesson-number">32</span>
+                            <h3>Funzioni Base</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Functions</span>
+                                <span class="topic-tag">#FirstClass</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_33_Function_Expressions.html" class="lesson-card">
+                            <span class="lesson-number">33</span>
+                            <h3>Function Expressions</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Functions</span>
+                                <span class="topic-tag">#Callback</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_34_Arguments.html" class="lesson-card">
+                            <span class="lesson-number">34</span>
+                            <h3>Arguments Object</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#arguments</span>
+                                <span class="topic-tag">#Parameters</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEZIONE 3: Funzioni (35-46) -->
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-container">
+                        <div class="accordion-title">
+                            <span>⚡</span>
+                            <span>Sezione 3: Funzioni</span>
+                        </div>
+                        <div class="accordion-meta">Lezioni 35-46 • Rest, Spread, IIFE, Arrow, Constructors, Prototypes</div>
+                    </div>
+                    <span class="accordion-arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="lessons-grid">
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_35_Rest_Spread.html" class="lesson-card">
+                            <span class="lesson-number">35</span>
+                            <h3>Rest e Spread</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Rest</span>
+                                <span class="topic-tag">#Spread</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_36_IIFE_Modules.html" class="lesson-card">
+                            <span class="lesson-number">36</span>
+                            <h3>IIFE e Module Pattern</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#IIFE</span>
+                                <span class="topic-tag">#Modules</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_37_Arrow_Functions.html" class="lesson-card">
+                            <span class="lesson-number">37</span>
+                            <h3>Arrow Functions</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Arrow</span>
+                                <span class="topic-tag">#ES6</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_38_Constructor_Functions.html" class="lesson-card">
+                            <span class="lesson-number">38</span>
+                            <h3>Constructor Functions</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Constructor</span>
+                                <span class="topic-tag">#new</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_39_Prototype_Istanze.html" class="lesson-card">
+                            <span class="lesson-number">39</span>
+                            <h3>Prototype e Istanze</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Prototype</span>
+                                <span class="topic-tag">#Instances</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_40_Funzioni_Pure.html" class="lesson-card">
+                            <span class="lesson-number">40</span>
+                            <h3>Funzioni Pure</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Pure</span>
+                                <span class="topic-tag">#Immutability</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_41_OOP_Pilastri.html" class="lesson-card">
+                            <span class="lesson-number">41</span>
+                            <h3>OOP: I Quattro Pilastri</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#OOP</span>
+                                <span class="topic-tag">#Pilastri</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_42_Accesso_Proprieta.html" class="lesson-card">
+                            <span class="lesson-number">42</span>
+                            <h3>Accesso Proprietà Oggetti</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Oggetti</span>
+                                <span class="topic-tag">#Proprietà</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_43_OOP_Completo.html" class="lesson-card">
+                            <span class="lesson-number">43</span>
+                            <h3>OOP Completo</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#OOP</span>
+                                <span class="topic-tag">#Paradigma</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_44_Dot_Bracket.html" class="lesson-card">
+                            <span class="lesson-number">44</span>
+                            <h3>Dot e Bracket Notation</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Notation</span>
+                                <span class="topic-tag">#Accesso</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_45_Factory_Constructor.html" class="lesson-card">
+                            <span class="lesson-number">45</span>
+                            <h3>Factory vs Constructor</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Factory</span>
+                                <span class="topic-tag">#Constructor</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_46_Astrazione_Privacy.html" class="lesson-card">
+                            <span class="lesson-number">46</span>
+                            <h3>Astrazione e Privacy</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Astrazione</span>
+                                <span class="topic-tag">#Privacy</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEZIONE 4: OOP (47-61) -->
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-container">
+                        <div class="accordion-title">
+                            <span>🏗️</span>
+                            <span>Sezione 4: La Programmazione Orientata agli Oggetti</span>
+                        </div>
+                        <div class="accordion-meta">Lezioni 47-61 • Prototypes, this, Binding, Object Methods</div>
+                    </div>
+                    <span class="accordion-arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="lessons-grid">
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_47_Prototype_Chain.html" class="lesson-card">
+                            <span class="lesson-number">47</span>
+                            <h3>Prototype Chain</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Prototype</span>
+                                <span class="topic-tag">#Inheritance</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_48_Object_Prototype.html" class="lesson-card">
+                            <span class="lesson-number">48</span>
+                            <h3>Object.prototype</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Prototype</span>
+                                <span class="topic-tag">#Object</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_49_Proto_Access.html" class="lesson-card">
+                            <span class="lesson-number">49</span>
+                            <h3>__proto__ e Accesso Prototipi</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#__proto__</span>
+                                <span class="topic-tag">#Prototype</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_50_Metodi_Prototype.html" class="lesson-card">
+                            <span class="lesson-number">50</span>
+                            <h3>Metodi Prototype</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Prototype</span>
+                                <span class="topic-tag">#Methods</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_51_Create_SetPrototype.html" class="lesson-card">
+                            <span class="lesson-number">51</span>
+                            <h3>Object.create e setPrototypeOf</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#Object.create</span>
+                                <span class="topic-tag">#Prototype</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_52_This_Contesto.html" class="lesson-card">
+                            <span class="lesson-number">52</span>
+                            <h3>this: Contesto</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#this</span>
+                                <span class="topic-tag">#Context</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_53_This_Binding.html" class="lesson-card">
+                            <span class="lesson-number">53</span>
+                            <h3>this: Binding Rules</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#this</span>
+                                <span class="topic-tag">#Binding</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_54_This_Arrow.html" class="lesson-card">
+                            <span class="lesson-number">54</span>
+                            <h3>this: Arrow Functions</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#this</span>
+                                <span class="topic-tag">#Arrow</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_55_this.html" class="lesson-card">
+                            <span class="lesson-number">55</span>
+                            <h3>this: Keyword Completa</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#this</span>
+                                <span class="topic-tag">#Keyword</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_56_Binding_Esplicito_JavaScript.html" class="lesson-card">
+                            <span class="lesson-number">56</span>
+                            <h3>Binding Esplicito: call, apply, bind</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#call</span>
+                                <span class="topic-tag">#apply</span>
+                                <span class="topic-tag">#bind</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_57_Arrow_Functions_This_JavaScript.html" class="lesson-card">
+                            <span class="lesson-number">57</span>
+                            <h3>Arrow Functions e this</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#arrow</span>
+                                <span class="topic-tag">#this</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_58_Iterare_Oggetti_JavaScript.html" class="lesson-card">
+                            <span class="lesson-number">58</span>
+                            <h3>Iterare gli Oggetti</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#for-in</span>
+                                <span class="topic-tag">#Object.keys</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_59_Object_defineProperty_JavaScript.html" class="lesson-card">
+                            <span class="lesson-number">59</span>
+                            <h3>Object.defineProperty</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#defineProperty</span>
+                                <span class="topic-tag">#descriptors</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_60_Object_PreventExtensions_JavaScript.html" class="lesson-card">
+                            <span class="lesson-number">60</span>
+                            <h3>Object.preventExtensions</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#preventExtensions</span>
+                                <span class="topic-tag">#seal</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_61_Getter_Setter_JavaScript.html" class="lesson-card">
+                            <span class="lesson-number">61</span>
+                            <h3>Getter e Setter</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#getter</span>
+                                <span class="topic-tag">#setter</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEZIONE 5: Classi ES6 (62-64) -->
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-container">
+                        <div class="accordion-title">
+                            <span>🎓</span>
+                            <span>Sezione 5: Classi ES6</span>
+                            <span style="background: #ffd700; color: #333; padding: 2px 8px; border-radius: 8px; font-size: 0.7em; margin-left: 10px;">IN CORSO</span>
+                        </div>
+                        <div class="accordion-meta">Lezioni 62-64 • Syntactic Sugar, Constructor, Metodi</div>
+                    </div>
+                    <span class="accordion-arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="lessons-grid">
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_62_Introduzione_Classi_ES6.html" class="lesson-card">
+                            <span class="lesson-number">62</span>
+                            <h3>Introduzione alle Classi ES6</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#class</span>
+                                <span class="topic-tag">#ES6</span>
+                                <span class="topic-tag">#syntactic-sugar</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_63_Classi_Constructor_Metodi.html" class="lesson-card">
+                            <span class="lesson-number">63</span>
+                            <h3>Constructor e Metodi</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#constructor</span>
+                                <span class="topic-tag">#methods</span>
+                            </div>
+                        </a>
+                        
+                        <a href="JavaScript-Da-Zero-Ad-Esperto/Lezione_64_Classi_ES6_Costruttore_Metodi.html" class="lesson-card">
+                            <span class="lesson-number">64</span>
+                            <h3>Definire Classi: Costruttore e Metodi</h3>
+                            <div class="topic-tags">
+                                <span class="topic-tag">#class</span>
+                                <span class="topic-tag">#prototype</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
         </section>
         
         <footer>
             <p>📚 My Learning Hub - JavaScript Mastery</p>
-            <p style="margin-top: 10px;">✨ 57 Lezioni • 1 Corso Completo • Aggiornato: Dicembre 2025</p>
+            <p style="margin-top: 10px;">✨ 64 Lezioni • 5 Sezioni • Aggiornato: Dicembre 2025</p>
         </footer>
     </div>
     
     <script>
+        // Accordion toggle function
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const allHeaders = document.querySelectorAll('.accordion-header');
+            const allContents = document.querySelectorAll('.accordion-content');
+            
+            // Close all other accordions
+            allHeaders.forEach(h => {
+                if (h !== header) {
+                    h.classList.remove('active');
+                }
+            });
+            
+            allContents.forEach(c => {
+                if (c !== content) {
+                    c.classList.remove('active');
+                }
+            });
+            
+            // Toggle current accordion
+            header.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+        
         // Search functionality
         const searchBox = document.getElementById('searchBox');
         const lessonCards = document.querySelectorAll('.lesson-card');
+        const accordionSections = document.querySelectorAll('.accordion-section');
         
         searchBox.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
             
+            if (searchTerm === '') {
+                // Reset: close all sections and show all cards
+                lessonCards.forEach(card => card.style.display = 'block');
+                document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+                document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('active'));
+                return;
+            }
+            
+            // Open all sections when searching
+            document.querySelectorAll('.accordion-header').forEach(h => h.classList.add('active'));
+            document.querySelectorAll('.accordion-content').forEach(c => c.classList.add('active'));
+            
+            // Filter lessons
             lessonCards.forEach(card => {
                 const title = card.querySelector('h3').textContent.toLowerCase();
                 const tags = Array.from(card.querySelectorAll('.topic-tag'))
