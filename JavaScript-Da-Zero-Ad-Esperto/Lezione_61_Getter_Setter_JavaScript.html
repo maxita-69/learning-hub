@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getter e Setter in JavaScript - Proprietà di Accesso</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .keyword {
+            color: #ff79c6;
+        }
+        
+        .function {
+            color: #50fa7b;
+        }
+        
+        .string {
+            color: #f1fa8c;
+        }
+        
+        .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        
+        .operator {
+            color: #ff79c6;
+        }
+        
+        .output {
+            background-color: #1e1e1e;
+            color: #4ec9b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 4px solid #4ec9b0;
+        }
+        
+        .inline-code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.95em;
+        }
+        
+        .important {
+            background-color: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .important strong {
+            color: #0c5460;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            border-left: 4px solid #155724;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .success strong {
+            color: #155724;
+        }
+        
+        .concept-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .concept-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Getter e Setter in JavaScript</h1>
+            <p class="subtitle">Proprietà di Accesso e Proprietà Calcolate</p>
+        </header>
+
+        <section>
+            <h2>Introduzione: Proprietà Dati vs Proprietà di Accesso</h2>
+            
+            <p>
+                In JavaScript esistono due tipi principali di proprietà:
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Proprietà dati (Data Properties):</strong> Proprietà normali che 
+                    contengono direttamente un valore
+                </li>
+                <li>
+                    <strong>Proprietà di accesso (Accessor Properties):</strong> Proprietà che 
+                    usano funzioni <span class="inline-code">get</span> e 
+                    <span class="inline-code">set</span> per leggere e scrivere valori
+                </li>
+            </ul>
+
+            <div class="concept-box">
+                <h4>Cosa sono Getter e Setter?</h4>
+                <p>
+                    I <strong>getter</strong> e <strong>setter</strong> sono metodi speciali 
+                    che permettono di definire come accedere e modificare le proprietà di un 
+                    oggetto. Dall'esterno sembrano proprietà normali, ma internamente eseguono 
+                    del codice quando vengono lette o modificate.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Sintassi Base: get e set</h2>
+            
+            <h3>Definizione con Sintassi Letterale</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> person = {
+    firstName: <span class="string">"Mario"</span>,
+    lastName: <span class="string">"Rossi"</span>,
+    
+    <span class="comment">// Getter: si usa come una proprietà normale</span>
+    <span class="keyword">get</span> <span class="function">fullName</span>() {
+        <span class="keyword">return</span> <span class="string">`${<span class="keyword">this</span>.firstName} ${<span class="keyword">this</span>.lastName}`</span>;
+    },
+    
+    <span class="comment">// Setter: si usa come assegnazione normale</span>
+    <span class="keyword">set</span> <span class="function">fullName</span>(name) {
+        <span class="keyword">const</span> parts = name.<span class="function">split</span>(<span class="string">' '</span>);
+        <span class="keyword">this</span>.firstName = parts[<span class="string">0</span>];
+        <span class="keyword">this</span>.lastName = parts[<span class="string">1</span>];
+    }
+};
+
+<span class="comment">// Utilizzo del GETTER (sembra una proprietà)</span>
+<span class="function">console</span>.<span class="function">log</span>(person.fullName); <span class="comment">// "Mario Rossi"</span>
+
+<span class="comment">// Utilizzo del SETTER (sembra un'assegnazione)</span>
+person.fullName = <span class="string">"Luigi Verdi"</span>;
+
+<span class="function">console</span>.<span class="function">log</span>(person.firstName); <span class="comment">// "Luigi"</span>
+<span class="function">console</span>.<span class="function">log</span>(person.lastName);  <span class="comment">// "Verdi"</span>
+<span class="function">console</span>.<span class="function">log</span>(person.fullName);  <span class="comment">// "Luigi Verdi"</span></pre>
+            </div>
+
+            <div class="important">
+                <strong>Nota chiave:</strong> Anche se <span class="inline-code">fullName</span> 
+                è tecnicamente un metodo, lo usiamo come se fosse una proprietà normale:
+                <ul>
+                    <li><span class="inline-code">person.fullName</span> (non 
+                        <span class="inline-code">person.fullName()</span>)</li>
+                    <li><span class="inline-code">person.fullName = "..."</span> (assegnazione diretta)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Getter: Proprietà Calcolate</h2>
+            
+            <p>
+                I <strong>getter</strong> sono particolarmente utili per creare 
+                <strong>proprietà calcolate</strong> che dipendono da altri valori.
+            </p>
+
+            <h3>Esempio: Cerchio con Raggio e Area</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> circle = {
+    radius: <span class="string">5</span>,
+    
+    <span class="keyword">get</span> <span class="function">area</span>() {
+        <span class="keyword">return</span> <span class="function">Math</span>.<span class="function">PI</span> * <span class="keyword">this</span>.radius ** <span class="string">2</span>;
+    },
+    
+    <span class="keyword">get</span> <span class="function">circumference</span>() {
+        <span class="keyword">return</span> <span class="string">2</span> * <span class="function">Math</span>.<span class="function">PI</span> * <span class="keyword">this</span>.radius;
+    }
+};
+
+<span class="function">console</span>.<span class="function">log</span>(circle.area);          <span class="comment">// 78.53981633974483</span>
+<span class="function">console</span>.<span class="function">log</span>(circle.circumference); <span class="comment">// 31.41592653589793</span>
+
+<span class="comment">// Se cambiamo il raggio, area e circonferenza vengono ricalcolate automaticamente</span>
+circle.radius = <span class="string">10</span>;
+
+<span class="function">console</span>.<span class="function">log</span>(circle.area);          <span class="comment">// 314.1592653589793</span>
+<span class="function">console</span>.<span class="function">log</span>(circle.circumference); <span class="comment">// 62.83185307179586</span></pre>
+            </div>
+
+            <div class="success">
+                <strong>✅ Vantaggi:</strong> Non dobbiamo memorizzare area e circonferenza 
+                come proprietà separate che potrebbero diventare obsolete. Vengono sempre 
+                ricalcolate al momento dell'accesso!
+            </div>
+        </section>
+
+        <section>
+            <h2>Setter: Validazione e Trasformazione</h2>
+            
+            <p>
+                I <strong>setter</strong> permettono di controllare e validare i valori 
+                prima che vengano assegnati alle proprietà.
+            </p>
+
+            <h3>Esempio: Validazione Età</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> user = {
+    _age: <span class="string">0</span>, <span class="comment">// Proprietà "privata" (convenzione con underscore)</span>
+    
+    <span class="keyword">get</span> <span class="function">age</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._age;
+    },
+    
+    <span class="keyword">set</span> <span class="function">age</span>(value) {
+        <span class="keyword">if</span> (value < <span class="string">0</span>) {
+            <span class="function">console</span>.<span class="function">error</span>(<span class="string">"L'età non può essere negativa!"</span>);
+            <span class="keyword">return</span>;
+        }
+        
+        <span class="keyword">if</span> (value > <span class="string">150</span>) {
+            <span class="function">console</span>.<span class="function">error</span>(<span class="string">"Età non valida!"</span>);
+            <span class="keyword">return</span>;
+        }
+        
+        <span class="keyword">this</span>._age = value;
+    }
+};
+
+user.age = <span class="string">25</span>;
+<span class="function">console</span>.<span class="function">log</span>(user.age); <span class="comment">// 25</span>
+
+user.age = -<span class="string">5</span>;  <span class="comment">// Error: L'età non può essere negativa!</span>
+<span class="function">console</span>.<span class="function">log</span>(user.age); <span class="comment">// 25 (valore non cambiato)</span>
+
+user.age = <span class="string">200</span>; <span class="comment">// Error: Età non valida!</span>
+<span class="function">console</span>.<span class="function">log</span>(user.age); <span class="comment">// 25 (valore non cambiato)</span></pre>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Convenzione Underscore:</strong> L'underscore 
+                (<span class="inline-code">_age</span>) è una convenzione per indicare 
+                che una proprietà dovrebbe essere considerata "privata". Non è una vera 
+                protezione (chiunque può ancora accedervi), ma comunica l'intenzione.
+            </div>
+        </section>
+
+        <section>
+            <h2>Getter e Setter nelle Classi</h2>
+            
+            <p>
+                La sintassi è identica quando usiamo le classi ES6:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">class</span> <span class="function">Rectangle</span> {
+    <span class="function">constructor</span>(width, height) {
+        <span class="keyword">this</span>.width = width;
+        <span class="keyword">this</span>.height = height;
+    }
+    
+    <span class="comment">// Getter per calcolare l'area</span>
+    <span class="keyword">get</span> <span class="function">area</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.width * <span class="keyword">this</span>.height;
+    }
+    
+    <span class="comment">// Getter per calcolare il perimetro</span>
+    <span class="keyword">get</span> <span class="function">perimeter</span>() {
+        <span class="keyword">return</span> <span class="string">2</span> * (<span class="keyword">this</span>.width + <span class="keyword">this</span>.height);
+    }
+    
+    <span class="comment">// Setter per ridimensionare mantenendo le proporzioni</span>
+    <span class="keyword">set</span> <span class="function">area</span>(value) {
+        <span class="keyword">const</span> scale = <span class="function">Math</span>.<span class="function">sqrt</span>(value / <span class="keyword">this</span>.area);
+        <span class="keyword">this</span>.width *= scale;
+        <span class="keyword">this</span>.height *= scale;
+    }
+}
+
+<span class="keyword">const</span> rect = <span class="keyword">new</span> <span class="function">Rectangle</span>(<span class="string">4</span>, <span class="string">5</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(rect.area);      <span class="comment">// 20</span>
+<span class="function">console</span>.<span class="function">log</span>(rect.perimeter); <span class="comment">// 18</span>
+
+<span class="comment">// Ridimensioniamo a area 80 (4x l'originale)</span>
+rect.area = <span class="string">80</span>;
+
+<span class="function">console</span>.<span class="function">log</span>(rect.width);  <span class="comment">// 8</span>
+<span class="function">console</span>.<span class="function">log</span>(rect.height); <span class="comment">// 10</span>
+<span class="function">console</span>.<span class="function">log</span>(rect.area);   <span class="comment">// 80</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Object.defineProperty con Getter/Setter</h2>
+            
+            <p>
+                Possiamo anche definire getter e setter usando 
+                <span class="inline-code">Object.defineProperty()</span>:
+            </p>
+
+            <div class="code-block"><pre><span class="keyword">const</span> product = {
+    name: <span class="string">"Laptop"</span>,
+    _price: <span class="string">1000</span>
+};
+
+<span class="function">Object</span>.<span class="function">defineProperty</span>(product, <span class="string">'price'</span>, {
+    <span class="keyword">get</span>() {
+        <span class="keyword">return</span> <span class="string">`€${<span class="keyword">this</span>._price.toFixed(2)}`</span>;
+    },
+    
+    <span class="keyword">set</span>(value) {
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> value !== <span class="string">'number'</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">TypeError</span>(<span class="string">'Il prezzo deve essere un numero'</span>);
+        }
+        
+        <span class="keyword">if</span> (value < <span class="string">0</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">RangeError</span>(<span class="string">'Il prezzo non può essere negativo'</span>);
+        }
+        
+        <span class="keyword">this</span>._price = value;
+    },
+    
+    enumerable: <span class="keyword">true</span>,
+    configurable: <span class="keyword">true</span>
+});
+
+<span class="function">console</span>.<span class="function">log</span>(product.price); <span class="comment">// "€1000.00"</span>
+
+product.price = <span class="string">1500</span>;
+<span class="function">console</span>.<span class="function">log</span>(product.price); <span class="comment">// "€1500.00"</span>
+
+<span class="comment">// Errori di validazione</span>
+<span class="comment">// product.price = "abc";  // TypeError</span>
+<span class="comment">// product.price = -100;   // RangeError</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Casi d'Uso Pratici</h2>
+            
+            <h3>1. Temperature Converter</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> temperature = {
+    _celsius: <span class="string">0</span>,
+    
+    <span class="keyword">get</span> <span class="function">celsius</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._celsius;
+    },
+    
+    <span class="keyword">set</span> <span class="function">celsius</span>(value) {
+        <span class="keyword">this</span>._celsius = value;
+    },
+    
+    <span class="keyword">get</span> <span class="function">fahrenheit</span>() {
+        <span class="keyword">return</span> (<span class="keyword">this</span>._celsius * <span class="string">9</span>/<span class="string">5</span>) + <span class="string">32</span>;
+    },
+    
+    <span class="keyword">set</span> <span class="function">fahrenheit</span>(value) {
+        <span class="keyword">this</span>._celsius = (value - <span class="string">32</span>) * <span class="string">5</span>/<span class="string">9</span>;
+    },
+    
+    <span class="keyword">get</span> <span class="function">kelvin</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._celsius + <span class="string">273.15</span>;
+    },
+    
+    <span class="keyword">set</span> <span class="function">kelvin</span>(value) {
+        <span class="keyword">this</span>._celsius = value - <span class="string">273.15</span>;
+    }
+};
+
+temperature.celsius = <span class="string">25</span>;
+<span class="function">console</span>.<span class="function">log</span>(temperature.fahrenheit); <span class="comment">// 77</span>
+<span class="function">console</span>.<span class="function">log</span>(temperature.kelvin);     <span class="comment">// 298.15</span>
+
+temperature.fahrenheit = <span class="string">68</span>;
+<span class="function">console</span>.<span class="function">log</span>(temperature.celsius); <span class="comment">// 20</span></pre>
+            </div>
+
+            <h3>2. Array-like Object</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> collection = {
+    _items: [],
+    
+    <span class="keyword">get</span> <span class="function">length</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._items.length;
+    },
+    
+    <span class="keyword">get</span> <span class="function">first</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._items[<span class="string">0</span>];
+    },
+    
+    <span class="keyword">get</span> <span class="function">last</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._items[<span class="keyword">this</span>._items.length - <span class="string">1</span>];
+    },
+    
+    <span class="function">add</span>(item) {
+        <span class="keyword">this</span>._items.<span class="function">push</span>(item);
+    }
+};
+
+collection.<span class="function">add</span>(<span class="string">"apple"</span>);
+collection.<span class="function">add</span>(<span class="string">"banana"</span>);
+collection.<span class="function">add</span>(<span class="string">"cherry"</span>);
+
+<span class="function">console</span>.<span class="function">log</span>(collection.length); <span class="comment">// 3</span>
+<span class="function">console</span>.<span class="function">log</span>(collection.first);  <span class="comment">// "apple"</span>
+<span class="function">console</span>.<span class="function">log</span>(collection.last);   <span class="comment">// "cherry"</span></pre>
+            </div>
+
+            <h3>3. Date Formatting</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> event = {
+    _date: <span class="keyword">new</span> <span class="function">Date</span>(<span class="string">"2025-12-28"</span>),
+    
+    <span class="keyword">get</span> <span class="function">date</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._date;
+    },
+    
+    <span class="keyword">set</span> <span class="function">date</span>(value) {
+        <span class="keyword">this</span>._date = <span class="keyword">new</span> <span class="function">Date</span>(value);
+    },
+    
+    <span class="keyword">get</span> <span class="function">formattedDate</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._date.<span class="function">toLocaleDateString</span>(<span class="string">'it-IT'</span>);
+    },
+    
+    <span class="keyword">get</span> <span class="function">dayOfWeek</span>() {
+        <span class="keyword">const</span> days = [<span class="string">'Domenica'</span>, <span class="string">'Lunedì'</span>, <span class="string">'Martedì'</span>, <span class="string">'Mercoledì'</span>, 
+                       <span class="string">'Giovedì'</span>, <span class="string">'Venerdì'</span>, <span class="string">'Sabato'</span>];
+        <span class="keyword">return</span> days[<span class="keyword">this</span>._date.<span class="function">getDay</span>()];
+    }
+};
+
+<span class="function">console</span>.<span class="function">log</span>(event.formattedDate); <span class="comment">// "28/12/2025"</span>
+<span class="function">console</span>.<span class="function">log</span>(event.dayOfWeek);     <span class="comment">// "Domenica"</span></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Getter/Setter vs Metodi Normali</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspetto</th>
+                        <th>Getter/Setter</th>
+                        <th>Metodi Normali</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sintassi d'uso</strong></td>
+                        <td><span class="inline-code">obj.property</span></td>
+                        <td><span class="inline-code">obj.getProperty()</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Assegnazione</strong></td>
+                        <td><span class="inline-code">obj.property = value</span></td>
+                        <td><span class="inline-code">obj.setProperty(value)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Semantica</strong></td>
+                        <td>Sembrano proprietà</td>
+                        <td>Chiaramente metodi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quando usare</strong></td>
+                        <td>Valori calcolati, validazione trasparente</td>
+                        <td>Operazioni complesse, azioni evidenti</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performance</strong></td>
+                        <td>Calcolato ogni accesso</td>
+                        <td>Controllo esplicito</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Vantaggi e Svantaggi</h2>
+            
+            <h3>✅ Vantaggi</h3>
+
+            <ul>
+                <li>
+                    <strong>Sintassi più pulita:</strong> L'uso è identico alle proprietà normali
+                </li>
+                <li>
+                    <strong>Validazione trasparente:</strong> Possiamo validare i valori senza 
+                    che l'utente debba chiamare metodi espliciti
+                </li>
+                <li>
+                    <strong>Proprietà calcolate:</strong> Valori sempre aggiornati senza 
+                    memorizzazione ridondante
+                </li>
+                <li>
+                    <strong>Compatibilità retroattiva:</strong> Possiamo trasformare una proprietà 
+                    in getter/setter senza cambiare il codice che la usa
+                </li>
+                <li>
+                    <strong>Incapsulamento:</strong> Controlliamo l'accesso alle proprietà interne
+                </li>
+            </ul>
+
+            <h3>⚠️ Svantaggi e Considerazioni</h3>
+
+            <ul>
+                <li>
+                    <strong>Performance:</strong> I getter vengono eseguiti ogni volta che 
+                    accediamo alla proprietà
+                </li>
+                <li>
+                    <strong>Debug più difficile:</strong> Non è ovvio che del codice viene 
+                    eseguito durante l'accesso
+                </li>
+                <li>
+                    <strong>Side effects nascosti:</strong> Un setter potrebbe fare operazioni 
+                    complesse non evidenti
+                </li>
+                <li>
+                    <strong>Naming conflicts:</strong> Il getter/setter e la proprietà interna 
+                    devono avere nomi diversi
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Best Practices</h2>
+            
+            <div class="concept-box">
+                <h4>📋 Linee Guida</h4>
+                <ol>
+                    <li>
+                        <strong>Usa getter per valori calcolati</strong> che dipendono da altre 
+                        proprietà
+                    </li>
+                    <li>
+                        <strong>Usa setter per validazione</strong> quando vuoi controllare i 
+                        valori assegnati
+                    </li>
+                    <li>
+                        <strong>Mantieni i getter veloci</strong> - evita operazioni costose
+                    </li>
+                    <li>
+                        <strong>I getter non dovrebbero avere side effects</strong> - non 
+                        modificare lo stato dell'oggetto
+                    </li>
+                    <li>
+                        <strong>Usa underscore per proprietà interne</strong> 
+                        (<span class="inline-code">_property</span>)
+                    </li>
+                    <li>
+                        <strong>Non lanciare errori nei getter</strong> - preferisci 
+                        restituire valori di default
+                    </li>
+                    <li>
+                        <strong>Documenta i setter complessi</strong> - spiega cosa fanno oltre 
+                        alla semplice assegnazione
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2>Esempi di Errori Comuni</h2>
+            
+            <h3>❌ Errore 1: Chiamare il getter come funzione</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> obj = {
+    <span class="keyword">get</span> <span class="function">value</span>() {
+        <span class="keyword">return</span> <span class="string">42</span>;
+    }
+};
+
+<span class="comment">// ❌ SBAGLIATO</span>
+<span class="function">console</span>.<span class="function">log</span>(obj.<span class="function">value</span>()); <span class="comment">// TypeError: obj.value is not a function</span>
+
+<span class="comment">// ✅ CORRETTO</span>
+<span class="function">console</span>.<span class="function">log</span>(obj.value); <span class="comment">// 42</span></pre>
+            </div>
+
+            <h3>❌ Errore 2: Ricorsione infinita</h3>
+
+            <div class="code-block"><pre><span class="keyword">const</span> bad = {
+    <span class="keyword">get</span> <span class="function">value</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.value; <span class="comment">// ❌ Chiama sé stesso all'infinito!</span>
+    }
+};
+
+<span class="comment">// console.log(bad.value); // RangeError: Maximum call stack size exceeded</span>
+
+<span class="comment">// ✅ CORRETTO - usa una proprietà diversa</span>
+<span class="keyword">const</span> good = {
+    _value: <span class="string">10</span>,
+    
+    <span class="keyword">get</span> <span class="function">value</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>._value;
+    }
+};</pre>
+            </div>
+
+            <h3>❌ Errore 3: Setter senza parametro</h3>
+
+            <div class="code-block"><pre><span class="comment">// ❌ SBAGLIATO - il setter deve avere esattamente 1 parametro</span>
+<span class="keyword">const</span> wrong = {
+    <span class="keyword">set</span> <span class="function">value</span>() { <span class="comment">// Manca il parametro!</span>
+        <span class="keyword">this</span>._value = <span class="string">0</span>;
+    }
+};
+
+<span class="comment">// ✅ CORRETTO</span>
+<span class="keyword">const</span> correct = {
+    <span class="keyword">set</span> <span class="function">value</span>(val) {
+        <span class="keyword">this</span>._value = val;
+    }
+};</pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Conclusioni</h2>
+            
+            <p>
+                I getter e setter sono strumenti potenti in JavaScript che permettono di:
+            </p>
+
+            <ul>
+                <li>Creare <strong>proprietà calcolate</strong> che si aggiornano automaticamente</li>
+                <li>Implementare <strong>validazione trasparente</strong> dei valori</li>
+                <li>Mantenere l'<strong>incapsulamento</strong> nascondendo i dettagli implementativi</li>
+                <li>Fornire un'<strong>interfaccia pulita</strong> simile alle proprietà normali</li>
+            </ul>
+
+            <div class="important">
+                <strong>Ricorda:</strong> Usa getter e setter quando vuoi che una proprietà 
+                si comporti come tale, ma con logica aggiuntiva. Per operazioni complesse o 
+                evidenti, preferisci metodi normali con nomi espliciti.
+            </div>
+
+            <p>
+                Questi concetti sono fondamentali nella programmazione orientata agli oggetti 
+                moderna e vengono usati estensivamente nelle classi ES6 e nei framework moderni 
+                come Vue.js e React.
+            </p>
+        </section>
+
+        <footer>
+            <p><strong>Lezione:</strong> Getter e Setter in JavaScript</p>
+            <p><strong>Corso:</strong> JavaScript - Da Zero ad Esperto</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Manuale creato il 28 Dicembre 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
